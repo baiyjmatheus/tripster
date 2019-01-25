@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ChatBar from './ChatBar.jsx';
+import ChatBar from './Chatbar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatHeader from './ChatHeader.jsx';
 
