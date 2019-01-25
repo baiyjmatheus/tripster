@@ -11,7 +11,7 @@ const knexLogger = require('knex-logger');
 app.use(knexLogger(knex));
 
 app.get("/", (req, res) => {
-  res.send('Hello server');
+  res.render('../login.html');
 });
 
 app.listen(PORT, () => {
