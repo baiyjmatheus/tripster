@@ -9,10 +9,17 @@ const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
 
-app.use(knexLogger(knex));
+const path = require('path');
 
-app.get("/", (req, res) => {
-  res.send('Hello server');
+app.use(knexLogger(knex));
+app.use(express.static('public'));
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname + '/login.html'));
+});
+
+app.post('/login', (req, res) => {
+  res.redirect('http://localhost:3000');
 });
 
 app.listen(PORT, () => {
