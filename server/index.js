@@ -2,12 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const io = require('socket.io')(server);
 
 const PORT = 8080;
 const ENV = process.env.ENV || "development";
+
+const io = require('socket.io')(app.listen(PORT, () => {
+  console.log(`Server is listening to ${PORT}`);
+}));
 
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
@@ -30,8 +31,4 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log('user disconnected')
   });
-});
-
-server.listen(PORT, () => {
-  console.log(`Server is listening to ${PORT}`);
 });
