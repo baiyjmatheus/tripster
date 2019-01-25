@@ -20,7 +20,12 @@ app.get("/", (req, res) => {
 });
 
 io.on('connection', socket => {
-	console.log('user connected:', socket);
+	console.log('user connected');
+
+  socket.on('test', msg => {
+    console.log('server revcieved msg: ', msg);
+    io.sockets.emit('test', msg);
+  });
 
   socket.on('disconnect', () => {
     console.log('user disconnected')
