@@ -45,7 +45,7 @@ aside#info p {
 /* Login */
 
 section#login {
-  color:  #ff9900;
+  color:  #71b1df;
   background: #23272a;
   width: 50%;
   padding: 120px;
@@ -59,7 +59,7 @@ section#login h1 {
 
 section#login input,
 section#login button {
-  color: #ff9900;
+  color: #71b1df;
   background: transparent; 
   font-weight: 100;
   border-radius: 32px;
@@ -68,7 +68,7 @@ section#login button {
   outline: none;
   margin-bottom: 32px;
   padding: 16px 16px 16px 32px;
-  border: 1px solid #ff9900;
+  border: 1px solid #71b1df;
 }
 
 section#login button {
