@@ -20,15 +20,11 @@ app.get("/", (req, res) => {
   res.send('Hello server');
 });
 
+// on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-	console.log('user connected');
-
-  socket.on('test', msg => {
-    console.log('server revcieved msg: ', msg);
-    io.sockets.emit('test', msg);
-  });
+	console.log('user connect', socket.id);
 
   socket.on('disconnect', () => {
-    console.log('user disconnected')
+    console.log('user disconnect', socket.id);
   });
 });
