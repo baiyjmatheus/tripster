@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chatbar from './Chatbar.jsx';
+import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import ChatHeader from './ChatHeader.jsx';
 
@@ -9,7 +9,7 @@ class Chat extends Component {
       <aside id="chat">
         <ChatHeader />
         <MessageList />
-        <Chatbar />
+        <ChatBar />
       </aside>
     );
   }
