@@ -4,6 +4,10 @@ exports.seed = function(knex, Promise) {
     return knex("users_trips").del()
   }
 
+  function deleteTrips() {
+    return knex("trips").del()
+  }
+
   function deleteAttractions() {
     return knex("attractions").del()
   }
@@ -12,19 +16,15 @@ exports.seed = function(knex, Promise) {
     return knex("events").del()
   }
 
-  function deleteTrips() {
-    return knex("trips").del()
-  }
-
     function deleteHotels() {
     return knex("hotels").del()
   }
 
-    function deleteFlights() {
+  function deleteFlights() {
     return knex("flights").del()
   }
 
-    function deleteUsers() {
+  function deleteUsers() {
     return knex("users").del()
   }
 
@@ -45,19 +45,19 @@ exports.seed = function(knex, Promise) {
 
   function insertFlights() {
     return knex("flights").insert([
-      {quality: "778.532437", price: "694.0", route: [
+      {quality: "778.532437", price: "694.0", route: { "route": [
         {"cityTo":"BEL", "cityFrom":"GRU", "dTime":"1551792000", "aTime":"1551804600"},
         {"cityTo":"FLL", "cityFrom":"BEL", "dTime":"1551886800", "aTime":"1551903300"},
         {"cityTo":"YYZ", "cityFrom":"FLL", "dTime":"1551911400", "aTime":"1551922740"}
-      ]},
-      {quality: "874.065699", price: "734.0", route: {route: [
+      ]}, trip_id: "1"},
+      {quality: "874.065699", price: "734.0", route: { "route": [
         {"cityTo":"BOG", "cityFrom":"GRU", "dTime":"1551886800", "aTime":"1551901500"},
         {"cityTo":"BOS", "cityFrom":"BOG", "dTime":"1551964620", "aTime":"1551986460"},
         {"cityTo":"YYZ", "cityFrom":"BOS", "dTime":"1552040700", "aTime":"1552048380"}
-      ]},
-      {quality: "778.532437", price: "694.0", route:[
+      ]}, trip_id: "1"},
+      {quality: "778.532437", price: "694.0", route: { "route": [
         {"cityTo":"YYZ", "cityFrom":"GRU", "dTime":"1551792000", "aTime":"1551903300"}
-      ]}
+      ]}, trip_id: "1"}
     ]).returning("*");
   }
 
@@ -65,27 +65,30 @@ exports.seed = function(knex, Promise) {
     return knex("hotels").insert([
       {
         name: "Sheraton Centre", 
-        latt: 43.6511, 
-        long: -79.3843, 
-        rating: 4.3, 
+        latt: "43.6511", 
+        long: "-79.3843", 
+        rating: "4.3", 
         address: "123 Queen St W", 
-        photo_reference: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Downtown_toronto.jpg/240px-Downtown_toronto.jpg"
+        photo_reference: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Downtown_toronto.jpg/240px-Downtown_toronto.jpg",
+        trip_id: "1"
       },
       {
         name: "Chelsea Hotel", 
-        latt: 43.6585, 
-        long: -79.3831, 
-        rating: 3.9, 
+        latt: "43.6585", 
+        long: "-79.3831", 
+        rating: "3.9", 
         address: "33 Gerrard St W", 
-        photo_reference: "http://www.cfmedia.vfmleonardo.com/imageRepo/2/0/67/391/865/Chelsea_Hotel_Exterior_S.jpg"
+        photo_reference: "http://www.cfmedia.vfmleonardo.com/imageRepo/2/0/67/391/865/Chelsea_Hotel_Exterior_S.jpg",
+        trip_id: "1"
       },
       {
         name: "The Ritz-Carlton", 
-        latt: 43.6455, 
-        long: -79.3872, 
-        rating: 4.6, 
+        latt: "43.6455", 
+        long: "-79.3872", 
+        rating: "4.6", 
         address: "181 Wellington St W", 
-        photo_reference: "https://ritzcarlton-h.assetsadobe.com/is/image/content/dam/the-ritz-carlton/hotels/usa-and-canada/ontario/toronto/property/282614_extracted.png"
+        photo_reference: "https://ritzcarlton-h.assetsadobe.com/is/image/content/dam/the-ritz-carlton/hotels/usa-and-canada/ontario/toronto/property/282614_extracted.png",
+        trip_id: "1"
       }
     ]).returning("*");
   }
@@ -97,9 +100,7 @@ exports.seed = function(knex, Promise) {
         origin: "Sao Paulo", 
         destination: "Toronto", 
         start_date: "2019-02-10", 
-        end_date: "2019-02-12", 
-        flight_id: '1', 
-        hotel_id: 2
+        end_date: "2019-02-12"
       }
     ]).returning("*");
   }
@@ -112,12 +113,12 @@ exports.seed = function(knex, Promise) {
         url: "https://www.eventbrite.com", 
         start_time: "2019-02-12", 
         end_time: "2019-02-12", 
-        price: 90,
+        price: "90",
         venue:  {"name": "Sheraton Centre Toronto Hotel",
                   "latitude": "43.6511753",
                   "longitude": "-79.38423769999997"
         },
-        trip_id: 1
+        trip_id: "1"
       },
       {
         name: "event2", 
@@ -125,25 +126,25 @@ exports.seed = function(knex, Promise) {
         url: "https://www.eventbrite.com", 
         start_time: "2019-02-20", 
         end_time: "2019-02-20", 
-        price: "",
+        price: "124",
         venue:  {"name": "Ralph Thornton Community Centre",
                   "latitude": "43.659115",
                   "longitude": "-79.34754499999997"
         }, 
-        trip_id: 1
+        trip_id: "1"
       },
       {
         name: "event3", 
         description: "description event3", 
         url: "https://www.eventbrite.com", 
-        start_time: "2019-02-30", 
+        start_time: "2019-02-14", 
         end_time: "2019-02-15", 
-        price: 482.29,
+        price: "482.29",
         venue:  { "name": "Ralph Thornton Community Centre",
                   "latitude": "43.659115",
                   "longitude": "-79.34754499999997"
         }, 
-        trip_id: 1
+        trip_id: "1"
       },
       {
         name: "event4", 
@@ -151,12 +152,12 @@ exports.seed = function(knex, Promise) {
         url: "https://www.eventbrite.ca/e/raising-our-voices-sharing-black-canadian-stories-tickets-54710607901?aff=ebapi", 
         start_time: "2019-02-14", 
         end_time: "2019-02-14", 
-        price: 111.04, 
+        price: "111.04", 
         venue: {"name": "This is an Online Event",
                 "latitude": "43.653226",
                 "longitude": "-79.38318429999998"
         }, 
-        trip_id: 1
+        trip_id: "1"
       }
     ]).returning("*");
   }
@@ -165,62 +166,62 @@ exports.seed = function(knex, Promise) {
     return knex("attractions").insert([
       {
         name: "Brickworks", 
-        latt: 43.6847, 
-        long: -79.3654, 
-        rating: 9.0, 
-        trip_id: 1
+        latt: "43.6847", 
+        long: "-79.3654", 
+        rating: "9.0", 
+        trip_id: "1"
       },
       {
         name: "CN Tower", 
-        latt: 43.6426, 
-        long: -79.3871, 
-        rating: 5.5, 
-        trip_id: 1
+        latt: "43.6426", 
+        long: "-79.3871", 
+        rating: "5.5", 
+        trip_id: "1"
       },
       {
         name: "Ripley\"s Aquarium", 
-        latt: 43.6424, 
-        long: -79.3860, 
-        rating: 6.3, 
-        trip_id: 1
+        latt: "43.6424", 
+        long: "-79.3860", 
+        rating: "6.3", 
+        trip_id: "1"
       },
       {
         name: "Roger\"s Centre", 
-        latt: 43.6414, 
-        long: 79.3894, 
-        rating: 4.3, 
-        trip_id: 1
+        latt: "43.6414", 
+        long: "79.3894", 
+        rating: "4.3", 
+        trip_id: "1"
       }
     ]).returning("*");
   }
 
   function insertUsersTrips() {
     return knex("users_trips").insert([
-      {user_id: 1, trip_id: 1},
-      {user_id: 2, trip_id: 1},
-      {user_id: 3, trip_id: 1},
-      {user_id: 4, trip_id: 1},
-      {user_id: 5, trip_id: 1},
-      {user_id: 6, trip_id: 1},
-      {user_id: 7, trip_id: 1},
-      {user_id: 8, trip_id: 1}
+      {user_id: "1", trip_id: "1"},
+      {user_id: "2", trip_id: "1"},
+      {user_id: "3", trip_id: "1"},
+      {user_id: "4", trip_id: "1"},
+      {user_id: "5", trip_id: "1"},
+      {user_id: "6", trip_id: "1"},
+      {user_id: "7", trip_id: "1"},
+      {user_id: "8", trip_id: "1"}
     ]).returning("*");
   }
 
-  return deleteUsersTrips()
+  return deleteUsers()
     .then(deleteAttractions)
     .then(deleteEvents)
-    .then(deleteTrips)
     .then(deleteHotels)
     .then(deleteFlights)
-    .then(deleteUsers)
+    .then(deleteTrips)
+    .then(deleteUsersTrips)
 
-    .then(insertUsers)
-    .then(insertHotels)
-    .then(insertFlights)
     .then(insertTrips)
+    .then(insertUsers)
+    .then(insertUsersTrips)
+    .then(insertFlights)
+    .then(insertHotels)
     .then(insertEvents)
     .then(insertAttractions)
-    .then(insertUsersTrips)
 };
 
