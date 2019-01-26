@@ -13,11 +13,11 @@ const io = require('socket.io')(app.listen(PORT, () => {
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
-const path = require('path'); //added this package b/c matt said it wouldnt work otherwise
 
-const path = require('path');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+
+app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(knexLogger(knex));
@@ -28,12 +28,12 @@ app.use(cookieSession({
 }));
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname + '/login.html'));
+  res.render('login');
 });
 
-app.get("/summary", (req, res) => {
-  res.sendFile(path.join(__dirname + '/summary.html'))
-})
+app.get("/trips/:id", (req, res) => {
+  res.render('summary');
+});
 
 app.post('/login', (req, res) => {
   const { email, name } = req.body;
@@ -48,9 +48,7 @@ app.post('/login', (req, res) => {
         req.session.id = existingUser.id;
       }
       res.redirect('http://localhost:3000');
-    })
-
-
+    });
 });
 
 // on client connect/disconnect, socket is created/destroyed
