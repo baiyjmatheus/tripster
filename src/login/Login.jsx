@@ -13,7 +13,7 @@ class Login extends Component {
             <input type="email" name="email" placeholder="Email"/>
             <input type="text" name="name" placeholder="Name"/>
     
-            <button><Link to='/location'>Login</Link></button>
+            <Link to='/planner'><button>Login</button></Link>
           </form>
         </section>
     
