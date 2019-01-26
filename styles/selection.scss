@@ -1,0 +1,37 @@
+main#selection-container {
+  display: flex;
+  height: 100vh; 
+  margin: 0;
+  width: 100%;
+}
+
+aside#selection-create, 
+section#selection-join {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  height: 100vh;
+  padding: 120px;
+}
+
+aside#selection-create {
+  background: lightgoldenrodyellow;
+}
+
+section#selection-join {
+  background: lightblue;
+}
+
+main#selection-container button {
+  color: #71b1df;
+  background: transparent; 
+  font-weight: 100;
+  border-radius: 32px;
+  width: 100%;
+  font-size: 2em;
+  outline: none;
+  margin-bottom: 32px;
+  padding: 16px 16px 16px 32px;
+  border: 1px solid #71b1df;
+}

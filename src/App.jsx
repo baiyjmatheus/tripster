@@ -5,6 +5,7 @@ import { HashRouter, Route, Link } from 'react-router-dom';
 
 import Login from './login/Login.jsx';
 import Planner from './planner/Planner.jsx';
+import Selection from './selection/Selection.jsx';
 
 class App extends Component {
 
@@ -25,6 +26,7 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route exact path='/' component={ Login } />
+          <Route path='/trips' component={ Selection }/>
           <Route path='/planner' component={ Planner }/>
         </div>
       </HashRouter>
