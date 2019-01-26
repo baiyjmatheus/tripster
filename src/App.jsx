@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
-import Overview from './Overview.jsx';
-import Whiteboard from './Whiteboard.jsx';
-import Chat from './Chat.jsx';
+
+import { HashRouter, Route, Link } from 'react-router-dom';
+
+import Login from './login/Login.jsx';
+import Planner from './planner/Planner.jsx';
 
 class App extends Component {
 
@@ -20,11 +22,13 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app" className="full-height">
-        <Overview />
-        <Whiteboard />
-        <Chat />
-      </div>
+      <HashRouter>
+        <div>
+          <Route exact path='/' component={ Login } />
+          <Route path='/planner' component={ Planner }/>
+        </div>
+      </HashRouter>
+      
     );
   }
 }
