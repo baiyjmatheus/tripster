@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js",
+    "local": "./node_modules/.bin/nodemon --watch server -e js ./index.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "express": "^4.16.4",
     "knex": "^0.16.3",
     "knex-logger": "^0.1.0",
+    "nodemon": "^1.18.9",
     "path": "^0.12.7",
     "pg": "^7.8.0",
     "socket.io": "^2.2.0"
