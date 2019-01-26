@@ -4,6 +4,9 @@ import Overview from './Overview.jsx';
 import Whiteboard from './Whiteboard.jsx';
 import Chat from './Chat.jsx';
 
+import { HashRouter, Route, Link } from 'react-router-dom';
+import Login from './login/Login.jsx';
+
 class App extends Component {
 
   componentDidMount() {
@@ -20,11 +23,26 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app" className="full-height">
-        <Overview />
-        <Whiteboard />
-        <Chat />
-      </div>
+      <HashRouter>
+        <div>
+          <Route exact path='/' render={() => (
+            <div id="app" className="full-height">
+              <Overview />
+              <Whiteboard />
+              <Chat />
+            </div>
+          )}/>
+          <Route path='/login' component={ Login }/>
+          <Route path='/location' render={ () => (
+            <div>
+              <h2 style={{color: 'black'}}>Enter Location</h2>
+              <Link to='/date'>Enter Date</Link>
+            </div>
+          )}/>
+          <Route path='/date' render={ () => (<h2 style={{color: 'black'}}>Enter Date</h2>) } />
+        </div>
+      </HashRouter>
+      
     );
   }
 }
