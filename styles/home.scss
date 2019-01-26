@@ -145,17 +145,12 @@ img.avatar {
 
 // Login
 
-*, *:before, *:after {
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
-}
-
-html, body, aside#info, section#login {
+aside#info, section#login {
   height: 100vh; 
   margin: 0;
 }
 
-main {
+main#login-container {
   display: flex;
   width: 100%;
 }

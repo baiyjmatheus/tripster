@@ -5,7 +5,7 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <main>
+        <main id="login-container">
       
         <section id="login">
           <h1>Get started</h1>
@@ -13,7 +13,7 @@ class Login extends Component {
             <input type="email" name="email" placeholder="Email"/>
             <input type="text" name="name" placeholder="Name"/>
     
-            <Link to='/planner'><button>Login</button></Link>
+            <Link to='/selection'><button>Login</button></Link>
           </form>
         </section>
     
