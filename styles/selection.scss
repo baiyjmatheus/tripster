@@ -15,23 +15,33 @@ section#selection-join {
   padding: 120px;
 }
 
-aside#selection-create {
-  background: lightgoldenrodyellow;
-}
-
-section#selection-join {
-  background: lightblue;
-}
-
-main#selection-container button {
-  color: #71b1df;
-  background: transparent; 
-  font-weight: 100;
+main#selection-container button,
+main#selection-container input {
+  color: #fff;
+  background: #bca482de; 
+  font-weight: 300;
   border-radius: 32px;
   width: 100%;
   font-size: 2em;
   outline: none;
   margin-bottom: 32px;
   padding: 16px 16px 16px 32px;
-  border: 1px solid #71b1df;
+  border: 1px solid #fff;
+}
+
+main#selection-container input {
+  color: black;
+  background: rgba(245, 245, 245, 0.776);
+  border: 1px solid #bca482b8;
+}
+
+div#date-selection {
+  display: flex;
+  justify-content: space-between;
+  font-size: .70em;
+
+  input[type="date"] {
+    width: 45%;
+  }
+
 }
