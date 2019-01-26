@@ -12,7 +12,7 @@ class App extends Component {
     this.socket = io('http://localhost:8080');
     // check for connection --temp err handling
     if (this.socket) {
-      console.log('Socket successfully established');
+      console.log('Socket successfully established', this.socket);
     } else {
       console.log('Socket failed to connect')
     }
