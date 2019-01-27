@@ -51,7 +51,10 @@ app.post('/login', (req, res) => {
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
 	console.log('user connect', socket.id);
-
+  socket.on('new message', msg => {
+    console.log(msg)
+    socket.emit('new message', msg)
+  })
   socket.on('disconnect', () => {
     console.log('user disconnect', socket.id);
   });
