@@ -5,11 +5,12 @@ import Chat from './Chat.jsx';
 
 class Planner extends Component {
   render() {
+    console.log("from planner", this.props)
     return (
       <div id="app" className="full-height">
         <Overview />
         <Whiteboard />
-        <Chat />
+        <Chat socket={ this.props.socket } />
       </div>
     );
   }

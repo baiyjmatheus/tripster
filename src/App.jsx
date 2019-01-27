@@ -8,6 +8,12 @@ import Planner from './planner/Planner.jsx';
 import Selection from './selection/Selection.jsx';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+
+    }
+  }
 
   componentDidMount() {
     console.log("componentDidMount <App />");
@@ -15,7 +21,9 @@ class App extends Component {
     this.socket = io('http://localhost:8080');
     // check for connection --temp err handling
     if (this.socket) {
-      console.log('Socket successfully established', this.socket);
+      this.setState({socket: this.socket}, () => {
+        console.log("from app", this.state.socket)
+      })
     } else {
       console.log('Socket failed to connect')
     }
@@ -27,7 +35,7 @@ class App extends Component {
         <div>
           <Route exact path='/' component={ Login } />
           <Route path='/trips' component={ Selection }/>
-          <Route path='/planner' component={ Planner }/>
+          <Route path='/planner'  render = {() => <Planner socket={this.socket} />}/>
         </div>
       </HashRouter>
       

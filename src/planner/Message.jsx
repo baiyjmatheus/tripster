@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 class Message extends Component {
   render() {
+  	console.log('from message', this.props)
     return (
       <div>
         <p>
