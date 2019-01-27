@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
+import Planner from '../planner/Planner.jsx';
 import axios from 'axios';
 
 class Selection extends Component {
@@ -48,7 +49,8 @@ class Selection extends Component {
 
     axios.post('http://localhost:8080/trips', newTrip)
     .then((res) => {
-      console.log(res.data);
+      window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`);
+      window.location.href(`http://localhost:3000/#/trips/${res.data.id}`);
     });
   }
 }

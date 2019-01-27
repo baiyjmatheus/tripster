@@ -60,7 +60,7 @@ app.post('/trips', (req, res) => {
       end_date: newTrip.end_date
     })
     .then((tripId) => {
-      res.send(tripId[0]);
+      res.send({id: tripId[0]});
     });
 });
 
