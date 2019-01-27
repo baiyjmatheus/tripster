@@ -4,7 +4,13 @@ class ChatBar extends Component {
 
   handleNewMessage = (e) => {
     if (e.key == 'Enter') {
-      this.props.sendNewMessage(e.target.value)
+      e.preventDefault();
+      const msg = {
+        name: this.props.currentUser.name,
+        color: this.props.currentUser.color,
+        content: e.target.value
+      }
+      this.props.sendNewMessage(msg)
       e.target.value = ''
     }
   }
@@ -14,7 +20,7 @@ class ChatBar extends Component {
     return (
       <footer id="chatbar">
         <textarea onKeyPress={ this.handleNewMessage } cols="20" rows="2"></textarea>
-        <button><i className="fab fa-telegram-plane"></i></button>
+        <button onClick= { this.handleNewMessage } ><i className="fab fa-telegram-plane"></i></button>
       </footer>
     );
   }

@@ -67,9 +67,9 @@ app.post('/trips', (req, res) => {
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
 	console.log('user connect', socket.id);
+  // console.log('session:', session)
   // temp chat msg route
   socket.on('new message', msg => {
-    console.log(msg)
     socket.emit('new message', msg)
   })
   
