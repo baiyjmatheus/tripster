@@ -34,8 +34,8 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route exact path='/' component={ Login } />
+          <Route path='/trips/:trip_id' component={ Planner }/>
           <Route path='/trips' component={ Selection }/>
-          <Route path='/planner'  render = {() => <Planner socket={this.socket} />}/>
         </div>
       </HashRouter>
       

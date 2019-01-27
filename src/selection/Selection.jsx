@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
+import Planner from '../planner/Planner.jsx';
+import axios from 'axios';
 
 class Selection extends Component {
   render() {
@@ -15,17 +17,17 @@ class Selection extends Component {
 
       <main id="selection-container" style={backgroundStyle('https://images.unsplash.com/photo-1484544808355-8ec84e534d75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1966&q=80')}>
         <aside id="selection-create" style={{backgroundColor: 'transparent'}}>
-          <form action="">
+          <form action="/trips" method="POST" onSubmit={this.createTrip}>
 
             <div id="date-selection">
-              <input type="date" placeholder='Start Date'/>
-              <input type="date" placeholder='End Date'/>
+              <input type="date" name="start" placeholder='Start Date'/>
+              <input type="date" name="end" placeholder='End Date'/>
             </div>
 
-            <input type="text" placeholder='Origin'/>
-            <input type="text" placeholder='Destination'/>
+            <input type="text" name="origin" placeholder='Origin'/>
+            <input type="text" name="destination" placeholder='Destination'/>
+            <button>Create</button>
           </form>
-          <Link to='/trips/create'><button>Create</button></Link>
         </aside>
         
         <section id="selection-join" style={{backgroundColor: 'transparent'}}>
@@ -34,6 +36,22 @@ class Selection extends Component {
         </section>
       </main>
     );
+  }
+
+  createTrip = (evt) => {
+    evt.preventDefault();
+    const newTrip = {
+      start_date: evt.target.start.value,
+      end_date: evt.target.end.value,
+      origin: evt.target.origin.value,
+      destination: evt.target.destination.value
+    }
+
+    axios.post('http://localhost:8080/trips', newTrip)
+    .then((res) => {
+      window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`);
+      window.location.href(`http://localhost:3000/#/trips/${res.data.id}`);
+    });
   }
 }
 
