@@ -7,11 +7,6 @@ class Chat extends Component {
 	 constructor() {
     super()
     this.state = {
-      currentUser: {
-        id: 1,
-        name: 'test_name',
-        color: 'blue'
-      },
       messages: []
     }
   }
@@ -30,7 +25,7 @@ class Chat extends Component {
       <aside id="chat">
         <ChatHeader />
         <MessageList messages = { this.state.messages } />
-        <ChatBar sendNewMessage = { this.sendNewMessage } currentUser = { this.state.currentUser }/>
+        <ChatBar sendNewMessage = { this.sendNewMessage } currentUser = { this.props.currentUser }/>
       </aside>
     );
   }
