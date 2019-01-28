@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Login extends Component {
   render() {
@@ -9,11 +10,10 @@ class Login extends Component {
       
         <section id="login">
           <h1>Get started</h1>
-          <form action="/login" method="POST">
+          <form action="/login" method="POST" onSubmit={ this.handleLogin } >
             <input type="email" name="email" placeholder="Email"/>
             <input type="text" name="name" placeholder="Name"/>
-    
-            <Link to='/trips'><button>Login</button></Link>
+            <button>Login</button>
           </form>
         </section>
     
@@ -34,6 +34,18 @@ class Login extends Component {
       </div>
     );
   }
+
+  handleLogin = (e) => {
+    e.preventDefault()
+    const user = {
+      name: e.target.name.value,
+      email: e.target.email.value
+    }
+    axios.post('http://localhost:8080/login', user)
+      .then((res) => {
+        window.location.replace(`http://localhost:3000/#/trips/`);
+      })
+  }  
 }
 
 export default Login;
