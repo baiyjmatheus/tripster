@@ -67,17 +67,16 @@ app.post('/trips', (req, res) => {
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-  let colorsIncrement = 0
 	console.log('new socket established', socket.id);
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
       const userData = {
         id: user[0].id,
         name: user[0].name,
-        color: setUserColor(colorsIncrement)
+        color: setUserColor(socket.conn.server.clientsCount % 3)
       }
       socket.emit('new user', userData)
-      colorsIncrement == 2 ? colorsIncrement = 0 : colorsIncrement++
+      // colorsIncrement == 2 ? colorsIncrement = 0 : colorsIncrement++
     })
   })
   // console.log('session:', session)
