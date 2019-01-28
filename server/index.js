@@ -67,16 +67,15 @@ app.post('/trips', (req, res) => {
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-	console.log('user connect', socket.id);
+	console.log('new socket established', socket.id);
   // console.log('session:', session)
-  // temp chat msg route
-  // socket.on('new message', msg => {
-  // 	socket.nsp.sockets.forEach( (sock) => {
-  // 		sock.emit('new message', msg)
-  // 	})
-  // })
+  // emit to current user, broadcast to all others (broadcast does not send to current)
+  socket.on('new message', msg => {
+  	socket.emit('new message', msg)
+  	socket.broadcast.emit('new message', msg)
+  })
   
   socket.on('disconnect', () => {
-    console.log('user disconnect', socket.id);
+    console.log('socket disconnected', socket.id);
   });
 });
