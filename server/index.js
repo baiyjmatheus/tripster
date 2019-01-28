@@ -46,11 +46,9 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Create new trip
+// Create new trip (adds trip to DB)
 app.post('/trips/create', (req, res) => {
   const newTrip = req.body;
-
-  console.log("trip created")
 
   knex('trips')
     .returning('id')
@@ -66,26 +64,21 @@ app.post('/trips/create', (req, res) => {
     });
 });
 
-// join trip
+// join trip - queries DB to see if trip exists and returns true or false to client
 app.post('/trips/join', (req, res) => {
- // const tripCode = req.params
- const tripCode = req.body
 
- console.log( "trip join", tripCode )
+ const tripCode = req.body.trip_id
 
- // console.log("request sent")
+  knex('trips')
+    .where('id', tripCode)
+    .then((response) =>{
+      if(response.length){
+        res.send({exists: true})
+      } else {
+        res.send({exists:false})
+      }
+    })
 
-  // knex('trips')
-  //   .where('id', tripCode)
-  //   .then((res) =>{
-  //   // .then((trips) => {
-  //   //   if (.length !== 0){
-  //       // res.send(res)
-  //       console.log(res)
-  //   //   } else {
-  //   //     res.send({exists: false})
-  //     })
-    // })
 });
 
 

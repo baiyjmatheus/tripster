@@ -33,7 +33,6 @@ class Selection extends Component {
         <section id="selection-join" style={{backgroundColor: 'transparent'}}>
           <form action="/trips/join"  method= "POST" onSubmit={this.joinTrip}>
             <input type="text" name="code" placeholder='Trip Code'/>
-            {/*<Link to='/trips/join'><button>Join</button></Link> */}
             <button> Join </button>
           </form>
         </section>
@@ -41,6 +40,7 @@ class Selection extends Component {
     );
   }
 
+  //function to handle creating a new trip on selection page
   createTrip = (evt) => {
     evt.preventDefault();
     const newTrip = {
@@ -53,32 +53,22 @@ class Selection extends Component {
     axios.post('http://localhost:8080/trips/create', newTrip)
     .then((res) => {
       window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`);
-      // window.location.href(`http://localhost:3000/#/trips/${res.data.id}`);
     });
   }
 
-
+//function to handle joining an exisiting trip on selection page
   joinTrip = (evt) => {
     evt.preventDefault();
     const tripCode = {trip_id: evt.target.code.value} ;
 
-
-     axios.post(`http://localhost:8080/trips/join`, tripCode )
+     axios.post(`http://localhost:8080/trips/join`, tripCode ) //should only redirect if trip exists
       .then((res) => {
-
-
-
-        // console.log("res " , res)
-      // if(res.data.exists){
-      window.location.replace(`http://localhost:3000/#/trips/${tripCode}`);
-      window.location.href(`http://localhost:3000/#/trips/${tripCode}`);
-      // } else {
-      // window.location.replace(`http://localhost:3000/#/trips`);
-      // window.location.href(`http://localhost:3000/#/trips`);
-      // }
+        if(res.data.exists){
+          window.location.replace(`http://localhost:3000/#/trips/${tripCode.trip_id}`);
+        } else {
+          window.location.replace(`http://localhost:3000/#/trips`);
+        }
     });
-
-
   }
 }
 
