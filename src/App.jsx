@@ -26,11 +26,11 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route exact path='/' component={ Login } />
-          <Route path='/trips/:trip_id' component={ Planner }/>
-          <Route path='/trips' component={ Selection }/>
+          <Route exact path='/trips/:trip_id' component={ Planner }/>
+          <Route exact path='/trips' component={ Selection }/>
         </div>
       </HashRouter>
-      
+
     );
   }
 }
