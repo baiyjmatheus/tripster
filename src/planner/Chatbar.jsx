@@ -16,7 +16,6 @@ class ChatBar extends Component {
   }
 
   render() {
-    console.log('from chatbar', this.props)
     return (
       <footer id="chatbar">
         <textarea onKeyPress={ this.handleNewMessage } cols="20" rows="2"></textarea>

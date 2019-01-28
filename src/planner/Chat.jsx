@@ -16,8 +16,16 @@ class Chat extends Component {
     }
   }
   
+  componentDidMount() {
+    this.props.socket.on('new message', msg => {
+      this.setState({ messages: [...this.state.messages, msg] }, () => {
+        console.log('from sendNewMessage', this.state.messages)
+      })
+    })
+  }
+
+
   render() {
-  	console.log('from chat', this.props)
     return (
       <aside id="chat">
         <ChatHeader />
@@ -25,14 +33,6 @@ class Chat extends Component {
         <ChatBar sendNewMessage = { this.sendNewMessage } currentUser = { this.state.currentUser }/>
       </aside>
     );
-  }
-
-  handleNewMessage = () => {
-    this.props.socket.on('new message', msg => {
-      this.setState({ messages: [...this.state.messages, msg] }, () => {
-        console.log('from sendNewMessage', this.state.messages)
-      })
-    })
   }
 
   sendNewMessage = msg => {

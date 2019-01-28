@@ -3,7 +3,6 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
   render() {
-  	console.log('from msg list', this.props)
     return (
       <section id="message-list"> 
         <Message color={"tomato"} name={"Mike"} content={"JUSTIFY MORE CONTENT!"}/>
