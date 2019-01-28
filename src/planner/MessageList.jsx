@@ -11,7 +11,7 @@ class MessageList extends Component {
         <Message color={"yellow"} name={"Mariam"} content={"WHAT? I DON'T KNOW"}/>
 
 		{              	
-      		this.props.messages.map(msg => <Message color={"green"} name={"Mike"} content={msg}/> )
+      		this.props.messages.map(msg => <Message color={ msg.color } name= { msg.name } content={msg.content}/> )
       	}
       </section>
     );
