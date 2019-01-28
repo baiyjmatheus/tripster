@@ -16,8 +16,9 @@ class Planner extends Component {
     const userId = cookies.get('user_id')
     // connect new websocket
     const socket = io('http://localhost:8080');
+    // send userId from cookie to server
     socket.emit('new user', userId)
-
+    // recieves currentUser obj from server and concats to state
     socket.on('new user', user => {
       this.setState({ currentUser: user }, () => {
         console.log(this.state.currentUser)
@@ -25,6 +26,7 @@ class Planner extends Component {
     })
     // check for connection --temp err handling
     if (socket) {
+      // concat socket to state
       this.setState({ socket: socket }, () => {
         console.log("Socket set to state", this.state.socket)
       })
