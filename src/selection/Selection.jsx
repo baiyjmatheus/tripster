@@ -49,7 +49,6 @@ class Selection extends Component {
 
     axios.post('http://localhost:8080/trips', newTrip)
     .then((res) => {
-      console.log(res)
       window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`);
     });
   }
