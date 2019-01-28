@@ -38,12 +38,12 @@ app.post('/login', (req, res) => {
       if (existingUser.length === 0) {
         knex('users').returning('id').insert({email, name})
         .then((newUserId) => {
-          req.session.id = newUserId[0];
+          res.send({id: newUserId[0]});
         });
       } else {
-        req.session.id = existingUser.id;
+        res.send({id: existingUser[0].id});
       }
-      res.send(req.session.id)
+        
     });
 });
 
