@@ -47,8 +47,10 @@ app.post('/login', (req, res) => {
 });
 
 // Create new trip
-app.post('/trips', (req, res) => {
+app.post('/trips/create', (req, res) => {
   const newTrip = req.body;
+
+  console.log("trip created")
 
   knex('trips')
     .returning('id')
@@ -63,6 +65,29 @@ app.post('/trips', (req, res) => {
       res.send({id: tripId[0]});
     });
 });
+
+// join trip
+app.post('/trips/join', (req, res) => {
+ // const tripCode = req.params
+ const tripCode = req.body
+
+ console.log( "trip join", tripCode )
+
+ // console.log("request sent")
+
+  // knex('trips')
+  //   .where('id', tripCode)
+  //   .then((res) =>{
+  //   // .then((trips) => {
+  //   //   if (.length !== 0){
+  //       // res.send(res)
+  //       console.log(res)
+  //   //   } else {
+  //   //     res.send({exists: false})
+  //     })
+    // })
+});
+
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
