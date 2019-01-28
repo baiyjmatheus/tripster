@@ -4,7 +4,18 @@ import Planner from '../planner/Planner.jsx';
 import axios from 'axios';
 
 class Selection extends Component {
+  constructor() {
+    super();
+    this.state = {
+      redirect: false,
+      id: 0
+    }
+  }
+
   render() {
+    const { redirect } = this.state;
+    // const id = this.state.id
+
     const backgroundStyle = (url) => {
         return {
           backgroundImage: `url(${url})`,
@@ -12,6 +23,11 @@ class Selection extends Component {
           backgroundRepeat: 'no-repeat'
         }
     }
+
+    if (redirect) {
+      return (<Redirect to={"/trips/"+ this.state.id} />);
+    } else {
+
     return (
 
 
@@ -38,6 +54,7 @@ class Selection extends Component {
         </section>
       </main>
     );
+    }
   }
 
   //function to handle creating a new trip on selection page
@@ -52,7 +69,8 @@ class Selection extends Component {
 
     axios.post('http://localhost:8080/trips/create', newTrip)
     .then((res) => {
-      window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`);
+      // window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`)
+      this.setState({ redirect: true, id: res.data.id });;
     });
   }
 
@@ -64,9 +82,11 @@ class Selection extends Component {
      axios.post(`http://localhost:8080/trips/join`, tripCode ) //should only redirect if trip exists
       .then((res) => {
         if(res.data.exists){
-          window.location.replace(`http://localhost:3000/#/trips/${tripCode.trip_id}`);
+          // window.location.replace(`http://localhost:3000/#/trips/${tripCode.trip_id}`);
+          this.setState({ redirect: true, id: tripCode.trip_id });
         } else {
-          window.location.replace(`http://localhost:3000/#/trips`);
+          // window.location.replace(`http://localhost:3000/#/trips`);
+          this.setState({ redirect: false });
         }
     });
   }
