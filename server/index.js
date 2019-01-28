@@ -27,6 +27,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ['final']
 }));
+
 app.use(cors());
 
 // Create new user and set session cookie
@@ -42,7 +43,7 @@ app.post('/login', (req, res) => {
       } else {
         req.session.id = existingUser.id;
       }
-      res.redirect('http://localhost:3000');
+      res.send(req.session.id)
     });
 });
 
