@@ -46,7 +46,7 @@ class Login extends Component {
       .then((res) => {
         const cookies = new Cookies();
         cookies.set('user_id', res.data.id);
-        window.location.replace(`http://localhost:3000/#/trips/`);
+        window.location.replace(`/trips/`)
       })
   }  
 }
