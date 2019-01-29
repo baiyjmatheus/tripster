@@ -4,8 +4,12 @@ import {
   Link,
   Route,
   Switch
-} from 'react-router-dom'
-
+} from 'react-router-dom';
+import Start from './whiteboard-components/Start.jsx';
+import Flight from './whiteboard-components/Flight.jsx';
+import Hotel from './whiteboard-components/Hotel.jsx';
+import Event from './whiteboard-components/Event.jsx';
+import Attraction from './whiteboard-components/Attraction.jsx'
 
 class Whiteboard extends Component {
   render() {
@@ -30,7 +34,7 @@ class Whiteboard extends Component {
         </div>
         <div>
         <Switch>
-
+          <Route  exact path={`${url}/`} component={Start}/>
           <Route  path={`${url}/flight`} component={Flight}/>
           <Route  path={`${url}/hotel`}  component={Hotel}/>
           <Route  path={`${url}/event`} component={Event}/>
@@ -43,54 +47,54 @@ class Whiteboard extends Component {
   }
 }
 
-class Home extends Component {
-  render(){
-    return (
-      <div>
-        <h1> this is the home page </h1>
-      </div>
-    )
-  }
-}
+// class Home extends Component {
+//   render(){
+//     return (
+//       <div>
+//         <h1> this is the home page </h1>
+//       </div>
+//     )
+//   }
+// }
 
-class Flight  extends Component {
-  render () {
-    return (
-      <div>
-        <h1> this is the flights page </h1>
-      </div>
-    )
-  }
-}
+// class Flight  extends Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1> this is the flights page </h1>
+//       </div>
+//     )
+//   }
+// }
 
-class Hotel  extends Component {
-  render () {
-    return (
-      <div>
-        <h1> this is the hotels page </h1>
-      </div>
-    )
-  }
-}
+// class Hotel  extends Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1> this is the hotels page </h1>
+//       </div>
+//     )
+//   }
+// }
 
-class Event  extends Component {
-  render () {
-    return (
-      <div>
-        <h1> this is the event page </h1>
-      </div>
-    )
-  }
-}
+// class Event  extends Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1> this is the event page </h1>
+//       </div>
+//     )
+//   }
+// }
 
-class Attraction  extends Component {
-  render () {
-    return (
-      <div>
-        <h1> this is the attractions page </h1>
-      </div>
-    )
-  }
-}
+// class Attraction  extends Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1> this is the attractions page </h1>
+//       </div>
+//     )
+//   }
+// }
 
 export default Whiteboard;

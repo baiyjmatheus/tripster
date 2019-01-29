@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-class Flight extends Component {
-  render(){
+class Flight  extends Component {
+  render () {
     return (
       <div>
-        <h1> flight </h1>
+        <h1> this is the flights page </h1>
       </div>
     )
   }
