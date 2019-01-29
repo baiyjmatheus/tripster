@@ -20,8 +20,10 @@ class Whiteboard extends Component {
     return (
     <Router>
       <main id="whiteboard" className="full-height">
-        <div id="plan-status">
-          <h1>Status bar</h1>
+        <div id="trip-header">
+          <h1>Amazing trip</h1>
+          <h4>Location: Paris</h4>
+        </div>
           {/* <ul>
             <li><Link to={`${url}`}>start </Link></li>
             <li><Link to={`${url}/flights`} > flight</Link></li>
@@ -29,8 +31,6 @@ class Whiteboard extends Component {
              <li><Link to={`${url}/event`} > event</Link></li>
             <li><Link to={`${url}/attraction`} > attraction</Link></li>
           </ul> */}
-        </div>
-        <hr />
          <div id="suggestion-container">
           <Switch>
             <Route exact path={`${url}`} render={() => <Start url={url} socket={this.props.socket} />}/>

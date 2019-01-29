@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import Card from './Card.jsx';
 
 class Start extends Component {
   constructor() {
@@ -22,8 +23,14 @@ class Start extends Component {
       return (<Redirect to={`${this.props.url}/flights`} />);
     } else {
       return (
-        <div id="start-plan-container">
-          <button onClick={this.ready} style={buttonStyle}>Start</button>
+        <div id="start-plan-container" >
+          {/* <button onClick={this.ready} style={buttonStyle}>Start</button> */}
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
         </div>
       )
     }
