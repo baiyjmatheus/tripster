@@ -9,6 +9,8 @@ import {
 
 class Whiteboard extends Component {
   render() {
+    const url = this.props.tripURL
+    console.log("params: ", this.props.tripURL)
     return (
     <Router>
       <main id="whiteboard" className="full-height">
@@ -19,16 +21,16 @@ class Whiteboard extends Component {
          <div>
           <ul>
             <li><Link to="/">About Us </Link></li>
-            <li><Link to="/flight"> flight</Link></li>
-            <li><Link to="/hotel"> hotel</Link></li>
+            <li><Link to={`${url}/flight`} > flight</Link></li>
+            <li><Link to={`${url}/hotel`} > hotel</Link></li>
 
           </ul>
         </div>
         <div>
         <Switch>
 
-          <Route  path='/flight' component={Flight}/>
-          <Route  path='/hotel' component={Hotel}/>
+          <Route  path={`${url}/flight`} component={Flight}/>
+          <Route  path={`${url}/hotel`}  component={Hotel}/>
          </Switch>
         </div>
       </main>
