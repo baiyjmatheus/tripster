@@ -20,9 +20,11 @@ class Whiteboard extends Component {
         <hr />
          <div>
           <ul>
-            <li><Link to="/">About Us </Link></li>
+            <li><Link to={`${url}`}>start </Link></li>
             <li><Link to={`${url}/flight`} > flight</Link></li>
             <li><Link to={`${url}/hotel`} > hotel</Link></li>
+             <li><Link to={`${url}/event`} > event</Link></li>
+            <li><Link to={`${url}/attraction`} > attraction</Link></li>
 
           </ul>
         </div>
@@ -31,6 +33,8 @@ class Whiteboard extends Component {
 
           <Route  path={`${url}/flight`} component={Flight}/>
           <Route  path={`${url}/hotel`}  component={Hotel}/>
+          <Route  path={`${url}/event`} component={Event}/>
+          <Route  path={`${url}/attraction`}  component={Attraction}/>
          </Switch>
         </div>
       </main>
@@ -64,6 +68,26 @@ class Hotel  extends Component {
     return (
       <div>
         <h1> this is the hotels page </h1>
+      </div>
+    )
+  }
+}
+
+class Event  extends Component {
+  render () {
+    return (
+      <div>
+        <h1> this is the event page </h1>
+      </div>
+    )
+  }
+}
+
+class Attraction  extends Component {
+  render () {
+    return (
+      <div>
+        <h1> this is the attractions page </h1>
       </div>
     )
   }
