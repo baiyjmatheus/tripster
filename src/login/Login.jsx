@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -58,7 +58,6 @@ class Login extends Component {
       .then((res) => {
         const cookies = new Cookies();
         cookies.set('user_id', res.data.id);
-        // <Route exact path="/" render={() => (<Redirect to="/trips"/>)} />
         this.setState({ redirect: true});
       });
   }
