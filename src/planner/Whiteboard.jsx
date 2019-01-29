@@ -4,7 +4,8 @@ import {
   Link,
   Route,
   Switch
-} from 'react-router-dom'
+} from 'react-router-dom';
+import Start from './Start.jsx';
 
 
 class Whiteboard extends Component {
@@ -30,7 +31,7 @@ class Whiteboard extends Component {
         </div>
         <div>
         <Switch>
-
+          <Route  exact path={`${url}/`} component={Start}/>
           <Route  path={`${url}/flight`} component={Flight}/>
           <Route  path={`${url}/hotel`}  component={Hotel}/>
           <Route  path={`${url}/event`} component={Event}/>
@@ -43,15 +44,15 @@ class Whiteboard extends Component {
   }
 }
 
-class Home extends Component {
-  render(){
-    return (
-      <div>
-        <h1> this is the home page </h1>
-      </div>
-    )
-  }
-}
+// class Home extends Component {
+//   render(){
+//     return (
+//       <div>
+//         <h1> this is the home page </h1>
+//       </div>
+//     )
+//   }
+// }
 
 class Flight  extends Component {
   render () {

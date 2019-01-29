@@ -4,7 +4,7 @@ class Start extends Component {
   render(){
     return (
       <div>
-        <h1> start </h1>
+        <h1> this is the home page </h1>
       </div>
     )
   }
