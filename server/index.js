@@ -106,7 +106,6 @@ io.on('connection', socket => {
 
   socket.on('startReady', startReady => {
     socket.startReady = socket.startReady ? !socket.startReady: startReady;
-    console.log(socket.startReady);
     const socketsId = Object.keys(io.sockets.sockets);
     let startReadyCounter = 0;
     socketsId.forEach((socketId) => {
@@ -116,8 +115,7 @@ io.on('connection', socket => {
     });
 
     if (startReadyCounter === socketsId.length) {
-      console.log('go to next step');
-      // io.emit('next-step', true);
+      io.emit('next step', 'flights');
     }
   });
   
