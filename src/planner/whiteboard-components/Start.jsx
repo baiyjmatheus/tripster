@@ -31,6 +31,7 @@ class Start extends Component {
 
   componentDidMount() {
     this.props.socket.on('next step', (step) => {
+      // Save state info to database then redirect
       this.setState({redirect: true});
     });
   }
