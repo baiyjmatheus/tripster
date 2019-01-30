@@ -105,16 +105,18 @@ div#plan-status {
 }
 
 div#suggestion-container {
-  height: 81%;
-  // display: flex;
-  // justify-content: space-between;
+  padding-top: 77px;
 }
 
 div#start-plan-container {
-  padding-top: 80px;
+  height: 78vh;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+
+  button {
+    margin: 0 auto;
+  }
 }
 
 /* CHAT */

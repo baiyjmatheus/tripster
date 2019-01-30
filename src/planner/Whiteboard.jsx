@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 
 import Start from './whiteboard-components/Start.jsx';
-// import Flight from './whiteboard-components/Flight.jsx';
+import Flight from './whiteboard-components/Flight.jsx';
 import Hotel from './whiteboard-components/Hotel.jsx';
 import Event from './whiteboard-components/Event.jsx';
 import Attraction from './whiteboard-components/Attraction.jsx'
@@ -56,15 +56,15 @@ class Whiteboard extends Component {
 //   }
 // }
 
-class Flight extends Component {
-  render () {
-    return (
-      <div>
-        <h1> IT WOOOORKS</h1>
-      </div>
-    )
-  }
-}
+// class Flight extends Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1> IT WOOOORKS</h1>
+//       </div>
+//     )
+//   }
+// }
 
 // class Hotel  extends Component {
 //   render () {

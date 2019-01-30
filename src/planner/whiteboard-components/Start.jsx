@@ -24,19 +24,7 @@ class Start extends Component {
     } else {
       return (
         <div id="start-plan-container" >
-          {/* <button onClick={this.ready} style={buttonStyle}>Start</button> */}
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          <button onClick={this.ready} style={buttonStyle}>Start</button>
         </div>
       )
     }
