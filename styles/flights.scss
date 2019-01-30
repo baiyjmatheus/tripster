@@ -1,5 +1,5 @@
 div#flights-container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }

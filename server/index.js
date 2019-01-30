@@ -82,6 +82,11 @@ app.post('/trips/join', (req, res) => {
 
 });
 
+app.get('/trips/:trip_id/flights', (req, res) => {
+  const tripId = req.params.trip_id;
+  console.log(tripId);
+});
+
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
