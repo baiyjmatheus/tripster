@@ -20,7 +20,7 @@ class Start extends Component {
     }
     if (this.state.redirect) {
       // Render loading animation before redirect (timeout)
-      return (<Redirect to={`${this.props.url}/flights`} />);
+      return (<Redirect to={`${this.props.url}/${this.props.next}`} />);
     } else {
       return (
         <div id="start-plan-container" >

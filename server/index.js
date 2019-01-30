@@ -91,7 +91,7 @@ app.get('/trips/:trip_id/flights', (req, res) => {
     .where('id', req.params.trip_id)
     .then((dbTrip) => {
       const [trip] = dbTrip;
-      // console.log(moment(trip.start_date).format('L'));
+
       if (trip) {
         // Get flights from flight API
         request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
@@ -100,6 +100,7 @@ app.get('/trips/:trip_id/flights', (req, res) => {
           }
         });
       }
+
     });
 });
 
