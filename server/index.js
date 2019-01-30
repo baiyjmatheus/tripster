@@ -83,8 +83,10 @@ app.post('/trips/join', (req, res) => {
 });
 
 app.get('/trips/:trip_id/flights', (req, res) => {
-  const tripId = req.params.trip_id;
-  console.log(tripId);
+  // Get flights from flight API
+
+
+  res.send('Server msg to client');
 });
 
 
