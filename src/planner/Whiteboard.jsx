@@ -33,8 +33,8 @@ class Whiteboard extends Component {
           </ul> */}
          <div id="suggestion-container">
           <Switch>
-            <Route exact path={`${url}`} render={() => <Start url={url} socket={this.props.socket} />}/>
-            <Route path={`${url}/flights`} component={Flight}/>
+            <Route exact path={`${url}`} render={() => <Start url={url} socket={this.props.socket} next={'flights'} />}/>
+            <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} />}/>
             <Route path={`${url}/hotel`}  component={Hotel}/>
             <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} />}/>
           {/* <Route path={`${url}/event`} component={Event}/> */}

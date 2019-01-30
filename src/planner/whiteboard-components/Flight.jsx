@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
+import axios from 'axios';
 
 class Flight  extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      flights: []
+    };
+  }
+
+  componentWillMount() {
+    this.props.socket.emit('flightReady', this.props.tripId);
+    this.props.socket.on('flights', (flights) => {
+      this.setState({flights});
+    });
+  }
+
   render () {
+    const flightCards = this.state.flights.map((flight) => {
+          return  <Card title={`${flight.route.length - 1} stops`} rating={((flight.quality / 100) / 2).toPrecision(2)} address={`From: ${flight.flyFrom} \t To: ${flight.flyTo}`} price={flight.price} imgSrc={'https://images.pexels.com/photos/674783/pexels-photo-674783.jpeg?cs=srgb&dl=aerial-air-air-traffic-674783.jpg&fm=jpg'}/>
+    });
     return (
       <div id="flights-container">
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
-        <Card title={'Eiffel Tower'} rating={'4.2'} address={'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France'} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'}/>
+        { flightCards }
       </div>
     )
   }
