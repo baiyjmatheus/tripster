@@ -18,6 +18,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const cors = require('cors');
+const request = require('request');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
