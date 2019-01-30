@@ -1,0 +1,37 @@
+div.card {
+  border-radius: 8px;
+}
+
+div.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+
+  h4.card-title {
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+div.card-body {
+  img {
+    width: 100%;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+div.card-footer {
+  display: flex;
+  justify-content: space-around;
+
+  p {
+    margin: 0;
+  }
+}

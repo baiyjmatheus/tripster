@@ -102,6 +102,21 @@ io.on('connection', socket => {
   socket.on('new message', msg => {
   	io.emit('new message', msg)
   })
+
+  socket.on('startReady', startReady => {
+    socket.startReady = socket.startReady ? !socket.startReady: startReady;
+    const socketsId = Object.keys(io.sockets.sockets);
+    let startReadyCounter = 0;
+    socketsId.forEach((socketId) => {
+      if (io.sockets.sockets[socketId].startReady) {
+        startReadyCounter++;
+      }
+    });
+
+    if (startReadyCounter === socketsId.length) {
+      io.emit('next step', 'flights');
+    }
+  });
   
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);

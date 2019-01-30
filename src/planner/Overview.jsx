@@ -4,56 +4,17 @@ class Overview extends Component {
   render() {
     return (
       <aside id="summary" className="full-height">
-        <h4><i className="fas fa-map-marker-alt"></i>Location: Paris</h4>
-        <hr />
-        
-        <p>Step 1</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
-        <hr />
-        <p>Step 2</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
-        <hr />
-        <p>Step 3</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
-        <hr />
-        <p>Step 4</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
-        <hr />
-        <p>Step 5</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
-        <hr />
-        <p>Step 6</p>
-        <hr />
-        <ul>
-          <li>Thing is indeed a thing</li>
-          <li>Stuff is indeed a thing</li>
-          <li>Thing is indeed a thing</li>
-        </ul>
+        <i className="fas fa-map-marker-alt"></i>
+
+        <div id="progress">
+          <ul id="steps">
+            <li><i className="fas fa-user-friends"></i></li>
+            <li><i className="fas fa-plane-departure"></i></li>
+            <li><i className="fas fa-bed"></i></li>
+            <li><i className="fas fa-dungeon"></i></li>
+            <li><i className="fas fa-ticket-alt"></i></li>
+          </ul>
+        </div>
       </aside>
     );
   }
