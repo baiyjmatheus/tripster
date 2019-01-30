@@ -19,6 +19,9 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const cors = require('cors');
 const request = require('request');
+const moment = require('moment');
+
+moment.locale('br');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -84,12 +87,20 @@ app.post('/trips/join', (req, res) => {
 });
 
 app.get('/trips/:trip_id/flights', (req, res) => {
-  // Get flights from flight API
-  request('https://api.skypicker.com/flights?flyFrom=toronto&to=barcelona&dateFrom=01/03/2019&dateTo=07/03/2019&curr=CAD&limit=15&partner=picky', (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-      res.send(body);
-    }
-  });
+  knex('trips')
+    .where('id', req.params.trip_id)
+    .then((dbTrip) => {
+      const [trip] = dbTrip;
+      // console.log(moment(trip.start_date).format('L'));
+      if (trip) {
+        // Get flights from flight API
+        request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
+          if (!error && response.statusCode === 200) {
+            res.send(body);
+          }
+        });
+      }
+    });
 });
 
 
