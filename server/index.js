@@ -89,12 +89,17 @@ app.post('/trips/join', (req, res) => {
 app.get('/trips/:trip_id/hotel', (req, res) => {
 
   request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body);
+
+    const hotelResults = JSON.parse(body);
+    console.log('api request made:');
+    console.log(hotelResults.results)
+    res.send(hotelResults.results)
+
+    // return hotelResults
   });
 
-  console.log ("get is working")
+  // res.send("is this working", hotelResults)
+  // console.log ("get insert working")
 
 });
 
