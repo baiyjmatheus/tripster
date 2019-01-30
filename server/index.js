@@ -85,7 +85,7 @@ app.post('/trips/join', (req, res) => {
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-	console.log('new socket established', socket.id);
+	console.log('new socket established', io.nsps['/'].server);
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
       const userData = {
@@ -100,8 +100,7 @@ io.on('connection', socket => {
   // console.log('session:', session)
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
-  	socket.emit('new message', msg)
-  	socket.broadcast.emit('new message', msg)
+  	io.emit('new message', msg)
   })
   
   socket.on('disconnect', () => {
