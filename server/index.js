@@ -92,7 +92,8 @@ app.get('/trips/:trip_id/hotel', (req, res) => {
 
     const hotelResults = JSON.parse(body);
     console.log('api request made:');
-    console.log(hotelResults.results)
+    // console.log(hotelResults)
+    // console.log(body)
     res.send(hotelResults.results)
 
     // return hotelResults
