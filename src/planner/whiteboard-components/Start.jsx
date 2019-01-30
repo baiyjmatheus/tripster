@@ -21,7 +21,7 @@ class Start extends Component {
     if (this.state.redirect) {
       // Render loading animation before redirect (timeout)
      // renders events from start -- switch  '/events' to your own page for testing 
-      return (<Redirect to={`${this.props.url}/flights`} />);
+      return (<Redirect to={`${this.props.url}/events`} />);
     } else {
       return (
         <div id="start-plan-container" >

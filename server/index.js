@@ -2,18 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
-
 const PORT = 8080;
 const ENV = process.env.ENV || "development";
-
-const io = require('socket.io')(app.listen(PORT, () => {
-  console.log(`Server is listening to ${PORT}`);
-}));
-
+const tripsRoutes = require('./routes/trips');
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
-
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -21,7 +15,9 @@ const cors = require('cors');
 const request = require('request');
 const moment = require('moment');
 
-moment.locale('br');
+const io = require('socket.io')(app.listen(PORT, () => {
+  console.log(`Server is listening to ${PORT}`);
+}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -31,8 +27,10 @@ app.use(cookieSession({
   name: 'session',
   keys: ['final']
 }));
-
 app.use(cors());
+moment.locale('br');
+
+app.use('/trips', tripsRoutes);
 
 // Create new user and set session cookie
 app.post('/login', (req, res) => {
@@ -47,53 +45,8 @@ app.post('/login', (req, res) => {
       } else {
         res.send({id: existingUser[0].id});
       }
-        
     });
 });
-
-// Create new trip (adds trip to DB)
-app.post('/trips/create', (req, res) => {
-  const newTrip = req.body;
-
-  knex('trips')
-    .returning('id')
-    .insert({
-      name: 'Amazing Trip',
-      origin: newTrip.origin,
-      destination: newTrip.destination,
-      start_date: newTrip.start_date,
-      end_date: newTrip.end_date
-    })
-    .then((tripId) => {
-      res.send({id: tripId[0]});
-    });
-});
-
-// join trip - queries DB to see if trip exists and returns true or false to client
-app.post('/trips/join', (req, res) => {
-
- const tripCode = req.body.trip_id
-
-  knex('trips')
-    .where('id', tripCode)
-    .then((response) =>{
-      if(response.length){
-        res.send({exists: true})
-      } else {
-        res.send({exists:false})
-      }
-    })
-
-});
-
-// app.get('/trips/:trip_id/events', (req, res) => {
-//   console.log(ENV.EVENTBRITE_API_TOKEN)
-//   request(
-//     `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
-//     (error, response, body) => {
-//     res.send(body)
-//   })
-// })
 
 // on client connect/disconnect, socket is created/destroyed
 	// console.log('new socket established', io.nsps['/'].server);
@@ -108,25 +61,17 @@ io.on('connection', socket => {
       }
       socket.emit('new user', userData)
     })
-  })
-  // console.log('session:', session)
+  })''
 
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
     io.emit('new message', msg);
-  })
+  });
 
+  // broadcast flights whenever all participants are ready
   socket.on('startReady', startReady => {
     socket.startReady = socket.startReady ? !socket.startReady: startReady;
-    const socketsId = Object.keys(io.sockets.sockets);
-    let startReadyCounter = 0;
-    socketsId.forEach((socketId) => {
-      if (io.sockets.sockets[socketId].startReady) {
-        startReadyCounter++;
-      }
-    });
-
-    if (startReadyCounter === socketsId.length) {
+    if (readyCounter('startReady')) {
       io.emit('next step', 'flights');
     }
   });
@@ -137,15 +82,7 @@ io.on('connection', socket => {
 
   socket.on('flightReady', (tripId) => {
     socket.flightReady = true;
-    const socketsId = Object.keys(io.sockets.sockets);
-    let flightReadyCounter = 0;
-    socketsId.forEach((socketId) => {
-      if (io.sockets.sockets[socketId].startReady) {
-        flightReadyCounter++;
-      }
-    });
-
-    if (flightReadyCounter === socketsId.length) {
+    if (readyCounter('flightReady')) {
       knex('trips')
       .where('id', tripId)
       .then((dbTrip) => {
@@ -174,20 +111,11 @@ io.on('connection', socket => {
 
   socket.on('events request', () => {
     socket.eventReady = true;
-    const socketsId = Object.keys(io.sockets.sockets);
-    let eventReadyCounter = 0;
-    socketsId.forEach((socketId) => {
-      if (io.sockets.sockets[socketId].eventReady) {
-        eventReadyCounter++;
-      }
-    });
-
-    if (eventReadyCounter === socketsId.length) {
+    if (readyCounter('eventReady')) {
     request(
       `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
       (error, response, body) => {
         parsedBody = JSON.parse(body)
-        // console.log(parsedBody)
         const eventsData = parsedBody.events.map(event => {
           const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
           const rating = Math.floor((Math.random() * 5) * 10) / 10
@@ -203,7 +131,7 @@ io.on('connection', socket => {
             price: price
           }
         })
-        console.log(eventsData)
+        
         io.emit('events data', eventsData)
       })
     }
@@ -211,9 +139,17 @@ io.on('connection', socket => {
 
 });
 
+const readyCounter = (step) => {
+  const socketsId = Object.keys(io.sockets.sockets);
+  let counter = 0;
+  socketsId.forEach((socketId) => {
+    if (io.sockets.sockets[socketId][step]) {
+      counter++;
+    }
+  });
 
-
-
+  return counter === socketsId.length;
+}
 
 const setUserColor = (num) => {
   const colors = ['tomato', 'greenyellow', 'yellow'];
