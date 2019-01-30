@@ -6,6 +6,8 @@ const app = express();
 const PORT = 8080;
 const ENV = process.env.ENV || "development";
 
+const GOOGLE_PLACE_KEY= process.env.GOOGLE_PLACE_KEY
+
 const io = require('socket.io')(app.listen(PORT, () => {
   console.log(`Server is listening to ${PORT}`);
 }));
@@ -84,8 +86,16 @@ app.post('/trips/join', (req, res) => {
 });
 
 //api call to get hotel information
-app.get('/trips/:id/hotel',  (req, res) => {
-  const location =
+app.get('/trips/:trip_id/hotel', (req, res) => {
+
+  request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+    console.log('error:', error); // Print the error if one occurred
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    console.log('body:', body);
+  });
+
+  console.log ("get is working")
+
 });
 
 
