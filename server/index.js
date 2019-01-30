@@ -85,9 +85,11 @@ app.post('/trips/join', (req, res) => {
 
 app.get('/trips/:trip_id/flights', (req, res) => {
   // Get flights from flight API
-
-
-  res.send('Server msg to client');
+  request('https://api.skypicker.com/flights?flyFrom=toronto&to=barcelona&dateFrom=01/03/2019&dateTo=07/03/2019&curr=CAD&limit=15&partner=picky', (error, response, body) => {
+    if (!error && response.statusCode === 200) {
+      res.send(body);
+    }
+  });
 });
 
 

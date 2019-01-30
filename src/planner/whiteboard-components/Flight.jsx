@@ -6,7 +6,7 @@ class Flight  extends Component {
   componentWillMount() {
     axios.get(`http://localhost:8080/trips/${this.props.tripId}/flights`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data.data);
       });
   }
 
