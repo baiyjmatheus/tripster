@@ -83,18 +83,18 @@ app.post('/trips/join', (req, res) => {
 
 });
 
-app.get('/trips/:trip_id/events', (req, res) => {
-  console.log(ENV.EVENTBRITE_API_TOKEN)
-  request(
-    `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
-    (error, response, body) => {
-    res.send(body)
-  })
-})
+// app.get('/trips/:trip_id/events', (req, res) => {
+//   console.log(ENV.EVENTBRITE_API_TOKEN)
+//   request(
+//     `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
+//     (error, response, body) => {
+//     res.send(body)
+//   })
+// })
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-	console.log('new socket established', io.nsps['/'].server);
+	// console.log('new socket established', io.nsps['/'].server);
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
       const userData = {
@@ -105,6 +105,43 @@ io.on('connection', socket => {
       socket.emit('new user', userData)
       // colorsIncrement == 2 ? colorsIncrement = 0 : colorsIncrement++
     })
+  })
+
+  socket.on('events request', () => {
+    socket.eventReady = true;
+    const socketsId = Object.keys(io.sockets.sockets);
+    let eventReadyCounter = 0;
+    socketsId.forEach((socketId) => {
+      if (io.sockets.sockets[socketId].eventReady) {
+        eventReadyCounter++;
+      }
+    });
+
+    if (eventReadyCounter === socketsId.length) {
+    request(
+      `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
+      (error, response, body) => {
+        parsedBody = JSON.parse(body)
+        // console.log(parsedBody)
+        const eventsData = parsedBody.events.map(event => {
+          const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
+          const rating = Math.floor((Math.random() * 5) * 10) / 10
+          const price = Math.floor((Math.random() * 250) * 100) / 100 
+          return { 
+            name: event.name.text, 
+            description: event.description.text, 
+            start_time: event.start.local, 
+            end_time: event.end.local,
+            img: img,
+            address: event.venue.address.address1,
+            rating: rating,
+            price: price
+          }
+        })
+        console.log(eventsData)
+        io.emit('events data', eventsData)
+      })
+    }
   })
   // console.log('session:', session)
   // emit to current user, broadcast to all others (broadcast does not send to current)
