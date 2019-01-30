@@ -83,6 +83,14 @@ app.post('/trips/join', (req, res) => {
 
 });
 
+app.get('/trips/:trip_id/events', (req, res) => {
+  console.log(ENV.EVENTBRITE_API_TOKEN)
+  request(
+    `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
+    (error, response, body) => {
+    res.send(body)
+  })
+})
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
@@ -123,6 +131,9 @@ io.on('connection', socket => {
     console.log('socket disconnected', socket.id);
   });
 });
+
+
+
 
 
 const setUserColor = (num) => {
