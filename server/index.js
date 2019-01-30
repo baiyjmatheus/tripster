@@ -86,28 +86,8 @@ app.post('/trips/join', (req, res) => {
 
 });
 
-app.get('/trips/:trip_id/flights', (req, res) => {
-  knex('trips')
-    .where('id', req.params.trip_id)
-    .then((dbTrip) => {
-      const [trip] = dbTrip;
-
-      if (trip) {
-        // Get flights from flight API
-        request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
-          if (!error && response.statusCode === 200) {
-            res.send(body);
-          }
-        });
-      }
-
-    });
-});
-
-
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
-	console.log('new socket established', io.nsps['/'].server);
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
       const userData = {
@@ -116,13 +96,12 @@ io.on('connection', socket => {
         color: setUserColor(socket.conn.server.clientsCount % 3)
       }
       socket.emit('new user', userData)
-      // colorsIncrement == 2 ? colorsIncrement = 0 : colorsIncrement++
     })
   })
-  // console.log('session:', session)
+  
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
-  	io.emit('new message', msg)
+    io.emit('new message', msg);
   })
 
   socket.on('startReady', startReady => {
@@ -143,6 +122,44 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
   });
+
+  socket.on('flightReady', (tripId) => {
+    socket.flightReady = true;
+    const socketsId = Object.keys(io.sockets.sockets);
+    let flightReadyCounter = 0;
+    socketsId.forEach((socketId) => {
+      if (io.sockets.sockets[socketId].startReady) {
+        flightReadyCounter++;
+      }
+    });
+
+    if (flightReadyCounter === socketsId.length) {
+      knex('trips')
+      .where('id', tripId)
+      .then((dbTrip) => {
+        const [trip] = dbTrip;
+
+        if (trip) {
+        // Get flights from flight API
+          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+              const flights = JSON.parse(body).data.map((flight) => {
+                return {
+                  route: flight.route,
+                  quality: flight.quality,
+                  flyFrom: flight.flyFrom,
+                  flyTo: flight.flyTo,
+                  price: flight.price
+                }
+              });
+              io.emit('flights', flights);
+            }
+          });
+        }
+      });
+    }
+  }); 
+
 });
 
 

@@ -12,10 +12,10 @@ class Flight  extends Component {
   }
 
   componentWillMount() {
-    axios.get(`http://localhost:8080/trips/${this.props.tripId}/flights`)
-      .then((res) => {
-        this.setState({flights: res.data.data});
-      });
+    this.props.socket.emit('flightReady', this.props.tripId);
+    this.props.socket.on('flights', (flights) => {
+      this.setState({flights});
+    });
   }
 
   render () {
