@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
       } else {
         res.send({id: existingUser[0].id});
       }
-        
+
     });
 });
 
@@ -82,6 +82,11 @@ app.post('/trips/join', (req, res) => {
 
 });
 
+//api call to get hotel information
+app.get('/trips/:id/hotel',  (req, res) => {
+  const location =
+});
+
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
@@ -117,7 +122,7 @@ io.on('connection', socket => {
       io.emit('next step', 'flights');
     }
   });
-  
+
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
   });
