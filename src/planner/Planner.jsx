@@ -36,8 +36,6 @@ class Planner extends Component {
   }
 
   render() {
-    console.log("from planner", this.state)
-    console.log("params: ", this.props)
     return (
       <div id="app" className="full-height">
         <Overview />
