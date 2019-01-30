@@ -8,7 +8,8 @@ class Hotel  extends Component {
     super();
     this.state = {
       redirect: false,
-      hotels:[]
+      hotels:[],
+      key: "secret"
     }
   }
 
@@ -20,9 +21,15 @@ class Hotel  extends Component {
         console.log("client made a request!")
         console.log("this is the data" , res)
         this.setState({
-          hotels: res.data
+          hotels: res.data.hotelData,
+          key: res.data.key
         })
+
+        // console.log('picture: ', this.state.hotels[2].photos[0].photo_reference )
+        // console.log(getPhoto(this.state.hotels[2].photos[0].photo_reference) )
       });
+
+
 
   }
 
@@ -30,9 +37,8 @@ class Hotel  extends Component {
   render () {
     const hotelsArray = this.state.hotels ;
     const hotelItem = hotelsArray.map( hotel => {
-      return <Card key={Math.random()} title={hotel.name} rating={hotel.rating} address={hotel.vicinity} imgSrc={'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?cs=srgb&dl=architecture-buildings-church-338515.jpg&fm=jpg'} location={hotel.location} price={(Math.random()*(2000-200)+200).toFixed(2)}/>
-    // console.log("this is the state: ", this.state.hotels)
-  })
+      return <Card key={Math.random()} title={hotel.name} rating={hotel.rating} address={hotel.vicinity} imgSrc={getPhoto(hotel.photos[0].photo_reference, this.state.key)} location={hotel.location} price={(Math.random()*(2000-200)+200).toFixed(2)}/>
+    })
     return (
       <div>
           <h1> this is the hotels page </h1>
@@ -42,6 +48,13 @@ class Hotel  extends Component {
       </div>
     )
   }
+}
+
+
+function getPhoto(photo_reference_id, key){
+  const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${key}`
+
+  return photoUrl
 }
 
 export default Hotel

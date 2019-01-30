@@ -88,18 +88,18 @@ app.post('/trips/join', (req, res) => {
 //api call to get hotel information
 app.get('/trips/:trip_id/hotel', (req, res) => {
 
-  request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+  request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
 
     const hotelResults = JSON.parse(body);
     console.log('api request made:');
     // console.log(hotelResults)
     // console.log(body)
-    res.send(hotelResults.results)
+    res.send({hotelData: hotelResults.results, key: GOOGLE_PLACE_KEY})
 
     // return hotelResults
   });
 
-  // res.send("is this working", hotelResults)
+  // res.send(GOOGLE_PLACE_KEY)
   // console.log ("get insert working")
 
 });
