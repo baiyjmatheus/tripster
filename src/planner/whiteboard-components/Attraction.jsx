@@ -17,25 +17,40 @@ class Attraction  extends Component {
     this.props.socket.emit('attractions request')
 
     this.props.socket.on('attractions data', attractionData => {
-      // console.log(attractionData)
-      this.setState({attractions: attractionData});
-      console.log(this.state.attractions)
+      console.log(attractionData)
+      this.setState({attractions: [...this.state.attractions, ...attractionData]});
+      // console.log(this.state.attractions)
     })
 
     this.props.socket.on('attractions Data amusement', attractionDataAM => {
-      this.setState({attractions: [...this.state.attractions, attractionDataAM]});
+      this.setState({attractions: [...this.state.attractions, ...attractionDataAM]});
       console.log(attractionDataAM)
     })
 
     this.props.socket.on('attractions Data aquarium', attractionDataAquarium => {
-      this.setState({attractions: [...this.state.attractions, attractionDataAquarium]});
+      this.setState({attractions: [...this.state.attractions, ...attractionDataAquarium]});
       console.log(attractionDataAquarium)
     })
 
     this.props.socket.on('attractions Data ArtGallery', attractionDataArtGallery => {
-      this.setState({attractions: [...this.state.attractions, attractionDataArtGallery]});
+      this.setState({attractions: [...this.state.attractions, ...attractionDataArtGallery]});
       console.log("atr", attractionDataArtGallery)
     })
+
+    this.props.socket.on('attractions Data Casino', attractionCasino => {
+      this.setState({attractions: [...this.state.attractions, ...attractionCasino]});
+      console.log("atr", attractionCasino)
+    })
+
+    //attempt at a function but the socketEmitData is not a string so getting "undefined" when passed as a variable
+    // function addAmusementItem(socketEventName, socketEmitData){
+    //   return (this.props.socket.on(socketEventName, socketEmitData => {
+    //     this.setState({attractions: [...this.state.attractions, ...socketEmitData]})
+    //   }))
+    // }
+
+    // addAmusementItem('attractions Data amusement', 'attractionDataAM')
+
 
 
   }

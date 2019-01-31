@@ -218,6 +218,22 @@ io.on('connection', socket => {
 
             io.emit('attractions Data ArtGallery', attractionArtGallery)
         })
+
+         //api request for casino
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+casino&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsCasino = JSON.parse(body).results;
+
+            const attractionCasino= attractionResultsCasino.map(attractionCasino => {
+              if(attractionCasino.photos){
+                const attractionPhotoCasino = getPhoto(attractionCasino.photos[0].photo_reference)
+                return returnObject(attractionCasino, "casino", attractionPhotoCasino )
+              } else {
+                return OBJ2 = returnObject(attractionCasino, "casino", attractionCasino.icon )
+              }
+            })
+
+            io.emit('attractions Data Casino', attractionCasino)
+        })
     }
   });
 
