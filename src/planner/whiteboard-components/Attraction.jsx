@@ -7,7 +7,7 @@ class Attraction  extends Component {
     super();
     this.state = {
       redirect: false,
-      attractions: null,
+      attractions: [],
     }
   }
 
@@ -15,12 +15,27 @@ class Attraction  extends Component {
   componentWillMount() {
     console.log("request should be emitted")
     this.props.socket.emit('attractions request')
+
     this.props.socket.on('attractions data', attractionData => {
-      console.log("socket works!")
+      // console.log(attractionData)
       this.setState({attractions: attractionData});
       console.log(this.state.attractions)
     })
+
+    this.props.socket.on('attractions Data amusement', attractionDataAM => {
+      this.setState({attractions: [...this.state.attractions, attractionDataAM]});
+      console.log(attractionDataAM)
+    })
+
+    this.props.socket.on('attractions Data aquarium', attractionDataAquarium => {
+      this.setState({attractions: [...this.state.attractions, attractionDataAquarium]});
+      console.log(attractionDataAquarium)
+    })
+
   }
+
+
+            // messages: [...this.state.messages, msgJSON]
 
   render () {
     const attractionArray = this.state.attractions

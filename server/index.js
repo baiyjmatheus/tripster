@@ -153,37 +153,55 @@ io.on('connection', socket => {
   socket.attractionReady = true;
 
   //getting info from the api and processing
+
     if (readyCounter('attractionReady')){
       request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+point+of+interest&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         const attractionResults = JSON.parse(body).results;
 
-        // console.log(attarctionResults)
         const attractionData = attractionResults.map(attraction => {
           if(attraction.photos){
-            return {
-              name: attraction.name,
-              rating: attraction.rating,
-              location: attraction.geometry.location,
-              address: attraction.formatted_address,
-              img: getPhoto(attraction.photos[0].photo_reference),
-              price:(Math.random()*(50-10)+10).toFixed(2),
-              type: attraction.types
-            }
+            const attractionPhoto = getPhoto(attraction.photos[0].photo_reference)
+            return returnObject(attraction, "point_of_interest", attractionPhoto )
           } else {
-            return {
-              name: attraction.name,
-              rating: attraction.rating,
-              location: attraction.geometry.location,
-              address: attraction.formatted_address,
-              img: attraction.icon,
-              price:(Math.random()*(50-10)+10).toFixed(2)
-            }
+            return OBJ2 = returnObject(attraction, "point_of_interest", attraction.icon )
           }
         })
 
-        // console.log("this is the attaction objects", attractionData)
-        io.emit('attractions data', attractionData)
+
+       io.emit('attractions data', attractionData, attractionData)
       })
+
+      //api request for amusement parks
+       request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+amusement+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsAM = JSON.parse(body).results;
+
+            const attractionDataAM = attractionResultsAM.map(attractionAM => {
+              if(attractionAM.photos){
+                const attractionPhotoAM = getPhoto(attractionAM.photos[0].photo_reference)
+                return returnObject(attractionAM, "amusement_park", attractionPhotoAM )
+              } else {
+                return OBJ2 = returnObject(attractionAM, "amusement_park", attractionAM.icon )
+              }
+            })
+
+            io.emit('attractions Data amusement', attractionDataAM)
+        })
+
+       //api request for aquarium
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+aquarium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsAquarium = JSON.parse(body).results;
+
+            const attractionDataAquarium = attractionResultsAquarium.map(attractionAquarium => {
+              if(attractionAquarium.photos){
+                const attractionPhotoAquarium = getPhoto(attractionAquarium.photos[0].photo_reference)
+                return returnObject(attractionAquarium, "aquarium", attractionPhotoAquarium )
+              } else {
+                return OBJ2 = returnObject(attractionAquarium, "aquarium", attractionAquarium.icon )
+              }
+            })
+
+            io.emit('attractions Data aquarium', attractionDataAquarium)
+        })
     }
   });
 
@@ -273,3 +291,28 @@ const getPhoto = (photo_reference_id) => {
 
   return photoUrl
 }
+
+ const returnObject = (singleAttraction,type, photo) =>{
+  const OBJ = {
+          name: singleAttraction.name,
+          rating: singleAttraction.rating,
+          location: singleAttraction.geometry.location,
+          address: singleAttraction.formatted_address,
+          img: photo,
+          price:(Math.random()*(50-10)+10).toFixed(2),
+          type: type
+        }
+    return OBJ
+  }
+
+ const returnObjectURL = (singleAttraction,type, photo) =>{
+        return {
+          name: singleAttraction.name,
+          rating: singleAttraction.rating,
+          location: singleAttraction.geometry.location,
+          address: singleAttraction.formatted_address,
+          img: getPhoto(photo),
+          price:(Math.random()*(50-10)+10).toFixed(2),
+          type: singleAttraction.types
+        }
+      }
