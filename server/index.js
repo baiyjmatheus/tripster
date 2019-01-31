@@ -108,11 +108,7 @@ io.on('connection', socket => {
       }
       socket.emit('new user', userData)
     })
-<<<<<<< HEAD
   });
-=======
-  })
->>>>>>> 5e94b272528b3f129ea68312ddf904dff5aabbe6
 
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
@@ -131,18 +127,7 @@ io.on('connection', socket => {
   socket.on('hotels request', () => {
   console.log("hotel socket active")
   socket.hotelReady = true;
-
-
-  // const socketsId = Object.keys(io.sockets.sockets);
-  // let hotelReadyCounter = 0;
-
-  // socketsId.forEach((socketId) => {
-  //   if (io.sockets.sockets[socketId].hotelReady){
-  //     hotelReadyCounter++;
-  //     console.log("here!")
-  //   }
-  // })
-  //getting info from the api and processing
+  
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         const hotelResults = JSON.parse(body).results;
@@ -197,7 +182,6 @@ io.on('connection', socket => {
   socket.on('events request', (tripId) => {
     socket.eventReady = true;
     if (readyCounter('eventReady')) {
-<<<<<<< HEAD
 
       knex('trips')
         .returning('trip')
@@ -237,34 +221,7 @@ io.on('connection', socket => {
       });
     }
   });
-=======
-    request(
-      `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`,
-      (error, response, body) => {
-        parsedBody = JSON.parse(body)
-        const eventsData = parsedBody.events.map(event => {
-          const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
-          const rating = Math.floor((Math.random() * 5) * 10) / 10
-          const price = Math.floor((Math.random() * 250) * 100) / 100
-          return {
-            name: event.name.text,
-            description: event.description.text,
-            start_time: event.start.local,
-            end_time: event.end.local,
-            img: img,
-            address: event.venue.address.address1,
-            rating: rating,
-            price: price
-          }
-        })
 
-        io.emit('events data', eventsData)
-      })
-    }
-  })
-
-
->>>>>>> 5e94b272528b3f129ea68312ddf904dff5aabbe6
 });
 
 const readyCounter = (step) => {
@@ -283,12 +240,10 @@ const setUserColor = (num) => {
   const colors = ['tomato', 'greenyellow', 'yellow'];
   return colors[num]
 }
-<<<<<<< HEAD
-=======
 
 const getPhoto = (photo_reference_id) => {
   const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${GOOGLE_PLACE_KEY}`
 
   return photoUrl
 }
->>>>>>> 5e94b272528b3f129ea68312ddf904dff5aabbe6
+

@@ -23,7 +23,7 @@ class Start extends Component {
 
      // renders events from start -- switch  '/events' to your own page for testing
       // return (<Redirect to={`${this.props.url}/events`} />);
-      return (<Redirect to={`${this.props.url}/hotel`} />);
+      return (<Redirect to={`${this.props.url}/events`} />);
     } else {
       return (
         <div id="start-plan-container" >
