@@ -234,6 +234,119 @@ io.on('connection', socket => {
 
             io.emit('attractions Data Casino', attractionCasino)
         })
+
+         //api request for museum
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+museum&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsMuseum = JSON.parse(body).results;
+
+            const attractionMuseum= attractionResultsMuseum.map(attractionMuseum => {
+              if(attractionMuseum.photos){
+                const attractionPhotoMuseum = getPhoto(attractionMuseum.photos[0].photo_reference)
+                return returnObject(attractionMuseum, "museum", attractionPhotoMuseum )
+              } else {
+                return OBJ2 = returnObject(attractionMuseum, "museum", attractionMuseum.icon )
+              }
+            })
+
+            io.emit('attractions Data Museum', attractionMuseum)
+        })
+
+              //api request for park
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsPark = JSON.parse(body).results;
+
+            const attractionPark= attractionResultsPark.map(attractionPark => {
+              if(attractionPark.photos){
+                const attractionPhotoPark = getPhoto(attractionPark.photos[0].photo_reference)
+                return returnObject(attractionPark, "park", attractionPhotoPark)
+              } else {
+                return returnObject(attractionPark, "park", attractionPark.icon )
+              }
+            })
+
+            io.emit('attractions Data Parks', attractionPark)
+        })
+
+                 //api request for restaurant
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+restaurant&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsRestaurant = JSON.parse(body).results;
+
+            const attractionRestaurants= attractionResultsRestaurant.map(attractionRestaurant => {
+              if(attractionRestaurant.photos){
+                const attractionPhotoRestaurant = getPhoto(attractionRestaurant.photos[0].photo_reference)
+                return returnObject(attractionRestaurant, "restaurant", attractionPhotoRestaurant)
+              } else {
+                return returnObject(attractionRestaurant, "restaurant", attractionRestaurant.icon )
+              }
+            })
+
+            io.emit('attractions Data Restaurant', attractionRestaurants)
+        })
+
+          //api request for stadium
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+stadium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsStadium = JSON.parse(body).results;
+
+            const attractionStadiums= attractionResultsStadium.map(attractionStadium => {
+              if(attractionStadium.photos){
+                const attractionPhotoStadium = getPhoto(attractionStadium.photos[0].photo_reference)
+                return returnObject(attractionStadium, "stadium", attractionPhotoStadium)
+              } else {
+                return returnObject(attractionStadium, "stadium", attractionStadium.icon )
+              }
+            })
+
+            io.emit('attractions Data Stadium', attractionStadiums)
+        })
+
+              //api request for spa
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+spa&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsSpa = JSON.parse(body).results;
+
+            const attractionSpas= attractionResultsSpa.map(attractionSpa => {
+              if(attractionSpa.photos){
+                const attractionPhotoSpa = getPhoto(attractionSpa.photos[0].photo_reference)
+                return returnObject(attractionSpa, "spa", attractionPhotoSpa)
+              } else {
+                return returnObject(attractionSpa, "spa", attractionSpa.icon )
+              }
+            })
+
+            io.emit('attractions Data Spa', attractionSpas)
+        })
+
+
+              //api request for shopping mall
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+shopping+mall&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsShoppingMall = JSON.parse(body).results;
+
+            const attractionShoppingMalls= attractionResultsShoppingMall.map(attractionShoppingMall => {
+              if(attractionShoppingMall.photos){
+                const attractionPhotoShoppingMall = getPhoto(attractionShoppingMall.photos[0].photo_reference)
+                return returnObject(attractionShoppingMall, "shopping_mall", attractionPhotoShoppingMall)
+              } else {
+                return returnObject(attractionShoppingMall, "shopping_mall", attractionShoppingMall.icon )
+              }
+            })
+
+            io.emit('attractions Data ShoppingMall', attractionShoppingMalls)
+        })
+
+               //api request for zoo
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+zoo&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsZoo = JSON.parse(body).results;
+
+            const attractionZoos= attractionResultsZoo.map(attractionZoo => {
+              if(attractionZoo.photos){
+                const attractionPhotoZoo = getPhoto(attractionZoo.photos[0].photo_reference)
+                return returnObject(attractionZoo, "zoo", attractionPhotoZoo)
+              } else {
+                return returnObject(attractionZoo, "zoo", attractionZoo.icon )
+              }
+            })
+
+            io.emit('attractions Data Zoo', attractionZoos)
+        })
     }
   });
 

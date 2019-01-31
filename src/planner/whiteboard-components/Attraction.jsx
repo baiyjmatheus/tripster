@@ -19,7 +19,6 @@ class Attraction  extends Component {
     this.props.socket.on('attractions data', attractionData => {
       console.log(attractionData)
       this.setState({attractions: [...this.state.attractions, ...attractionData]});
-      // console.log(this.state.attractions)
     })
 
     this.props.socket.on('attractions Data amusement', attractionDataAM => {
@@ -41,6 +40,47 @@ class Attraction  extends Component {
       this.setState({attractions: [...this.state.attractions, ...attractionCasino]});
       console.log("atr", attractionCasino)
     })
+
+    this.props.socket.on('attractions Data Museum', attractionMuseum => {
+      this.setState({attractions: [...this.state.attractions, ...attractionMuseum]});
+      console.log("mus", attractionMuseum)
+    })
+
+
+    this.props.socket.on('attractions Data Parks', attractionPark=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionPark]});
+      console.log("park", attractionPark)
+    })
+
+    this.props.socket.on('attractions Data Restaurant', attractionRestaurants=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionRestaurants]});
+      console.log("res", attractionRestaurants)
+    })
+
+    this.props.socket.on('attractions Data Stadium', attractionStadiums=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionStadiums]});
+      console.log("stadium", attractionStadiums)
+    })
+
+    this.props.socket.on('attractions Data Spa', attractionSpas=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionSpas]});
+      console.log("spa", attractionSpas)
+    })
+
+
+    this.props.socket.on('attractions Data ShoppingMall', attractionShoppingMalls=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionShoppingMalls]});
+      console.log("ShoppingMall", attractionShoppingMalls)
+    })
+
+
+    this.props.socket.on('attractions Data Zoo', attractionZoos=> {
+      this.setState({attractions: [...this.state.attractions, ...attractionZoos]});
+      console.log("zoo", attractionZoos)
+    })
+
+
+
 
     //attempt at a function but the socketEmitData is not a string so getting "undefined" when passed as a variable
     // function addAmusementItem(socketEventName, socketEmitData){
