@@ -128,16 +128,6 @@ io.on('connection', socket => {
   console.log("hotel socket active")
   socket.hotelReady = true;
 
-
-  // const socketsId = Object.keys(io.sockets.sockets);
-  // let hotelReadyCounter = 0;
-
-  // socketsId.forEach((socketId) => {
-  //   if (io.sockets.sockets[socketId].hotelReady){
-  //     hotelReadyCounter++;
-  //     console.log("here!")
-  //   }
-  // })
   //getting info from the api and processing
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
@@ -153,6 +143,46 @@ io.on('connection', socket => {
           }
         })
         io.emit('hotel data', hotelData)
+      })
+    }
+  });
+
+  //socket to handle broadcasting data from attraction api
+  socket.on('attractions request', () => {
+  console.log("attractions socket active")
+  socket.attractionReady = true;
+
+  //getting info from the api and processing
+    if (readyCounter('attractionReady')){
+      request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+point+of+interest&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        const attractionResults = JSON.parse(body).results;
+
+        // console.log(attarctionResults)
+        const attractionData = attractionResults.map(attraction => {
+          if(attraction.photos){
+            return {
+              name: attraction.name,
+              rating: attraction.rating,
+              location: attraction.geometry.location,
+              address: attraction.formatted_address,
+              img: getPhoto(attraction.photos[0].photo_reference),
+              price:(Math.random()*(50-10)+10).toFixed(2),
+              type: attraction.types
+            }
+          } else {
+            return {
+              name: attraction.name,
+              rating: attraction.rating,
+              location: attraction.geometry.location,
+              address: attraction.formatted_address,
+              img: attraction.icon,
+              price:(Math.random()*(50-10)+10).toFixed(2)
+            }
+          }
+        })
+
+        // console.log("this is the attaction objects", attractionData)
+        io.emit('attractions data', attractionData)
       })
     }
   });
