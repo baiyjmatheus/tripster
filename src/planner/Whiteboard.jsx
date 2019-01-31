@@ -62,7 +62,6 @@ class Whiteboard extends Component {
         </main>
         
       </Router>
->>>>>>> e8604cbe92229348f22282531337001d496fe863
     );
   }
 }
