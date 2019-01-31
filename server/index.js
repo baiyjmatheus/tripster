@@ -179,7 +179,14 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('events request', (tripId) => {
+  socket.on('flights', (flightState) => {
+    socket.flights = flightState;
+    if (readyCounter('flights')) {
+      io.emit('next', 'events');
+    }
+  });
+
+  socket.on('events request', () => {
     socket.eventReady = true;
     if (readyCounter('eventReady')) {
 
