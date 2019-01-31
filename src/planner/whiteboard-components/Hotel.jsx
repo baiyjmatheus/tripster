@@ -15,19 +15,19 @@ class Hotel  extends Component {
 
   componentWillMount() {
 
-    axios
-      .get('http://localhost:8080/trips/7/hotel')
-      .then((res)=> {
-        console.log("client made a request!")
-        console.log("this is the data" , res)
-        this.setState({
-          hotels: res.data.hotelData,
-          key: res.data.key
-        })
+    this.props.socket.emit('hotels request')
 
-        // console.log('picture: ', this.state.hotels[2].photos[0].photo_reference )
-        // console.log(getPhoto(this.state.hotels[2].photos[0].photo_reference) )
-      });
+    // axios
+    //   .get('http://localhost:8080/trips/7/hotel')
+    //   .then((res)=> {
+    //     console.log("client made a request!")
+    //     console.log("this is the data" , res)
+    //     this.setState({
+    //       hotels: res.data.hotelData,
+    //       key: res.data.key
+    //     })
+
+    //   });
 
 
 
