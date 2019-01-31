@@ -122,21 +122,23 @@ io.on('connection', socket => {
     }
   });
 
-//socket to handle broacting data from hotel api
+//socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
   console.log("hotel socket active")
   socket.hotelReady = true;
-  const socketsId = Object.keys(io.sockets.sockets);
-  let hotelReadyCounter = 0;
 
-  socketsId.forEach((socketId) => {
-    if (io.sockets.sockets[socketId].hotelReady){
-      hotelReadyCounter++;
-      console.log("here!")
-    }
-  })
+
+  // const socketsId = Object.keys(io.sockets.sockets);
+  // let hotelReadyCounter = 0;
+
+  // socketsId.forEach((socketId) => {
+  //   if (io.sockets.sockets[socketId].hotelReady){
+  //     hotelReadyCounter++;
+  //     console.log("here!")
+  //   }
+  // })
   //getting info from the api and processing
-    if (hotelReadyCounter === socketsId.length){
+    if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         const hotelResults = JSON.parse(body).results;
         const hotelData = hotelResults.map(hotel => {
@@ -161,12 +163,25 @@ io.on('connection', socket => {
 });
 
 
+
+const readyCounter = (step) => {
+  const socketsId = Object.keys(io.sockets.sockets);
+  let counter = 0;
+  socketsId.forEach((socketId) => {
+    if (io.sockets.sockets[socketId][step]) {
+      counter++;
+    }
+  });
+
+  return counter === socketsId.length;
+}
+
 const setUserColor = (num) => {
   const colors = ['tomato', 'greenyellow', 'yellow'];
   return colors[num]
 }
 
-function getPhoto(photo_reference_id){
+const getPhoto = (photo_reference_id) => {
   const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${GOOGLE_PLACE_KEY}`
 
   return photoUrl
