@@ -11,10 +11,10 @@ class Event extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.emit('events request')
+    this.props.socket.emit('events request', this.props.tripId)
 
     this.props.socket.on('events data', eventsData => {
-      console.log(eventsData)
+      console.log(eventsData[0].lat, eventsData[0].long)
       this.setState({events: eventsData})
     })
   }
@@ -27,7 +27,8 @@ class Event extends Component {
             rating={ event.rating } 
             address={ event.address } 
             imgSrc={ event.img }
-            price={ event.price }/>
+            price={ event.price }
+          />
         })
       return (
         <div id="events-container">

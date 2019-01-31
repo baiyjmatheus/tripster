@@ -60,7 +60,6 @@ class Whiteboard extends Component {
             </Switch>
           </div>
         </main>
-        
       </Router>
     );
   }
