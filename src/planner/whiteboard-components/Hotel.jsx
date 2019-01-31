@@ -4,57 +4,49 @@ import Card from './Card.jsx';
 
 class Hotel  extends Component {
 
-   constructor() {
+  constructor() {
     super();
     this.state = {
       redirect: false,
-      hotels:[],
-      key: "secret"
+      hotels: null,
     }
   }
 
   componentWillMount() {
-
     this.props.socket.emit('hotels request')
-
-    // axios
-    //   .get('http://localhost:8080/trips/7/hotel')
-    //   .then((res)=> {
-    //     console.log("client made a request!")
-    //     console.log("this is the data" , res)
-    //     this.setState({
-    //       hotels: res.data.hotelData,
-    //       key: res.data.key
-    //     })
-
-    //   });
-
-
-
+    this.props.socket.on('hotel data', hotelsData => {
+      console.log(hotelsData)
+      this.setState({hotels: hotelsData})
+    })
   }
-
 
   render () {
-    const hotelsArray = this.state.hotels ;
-    const hotelItem = hotelsArray.map( hotel => {
-      return <Card key={Math.random()} title={hotel.name} rating={hotel.rating} address={hotel.vicinity} imgSrc={getPhoto(hotel.photos[0].photo_reference, this.state.key)} location={hotel.location} price={(Math.random()*(2000-200)+200).toFixed(2)}/>
+    const hotelArray = this.state.hotels
+
+    if (hotelArray){
+      const hotelItem = hotelArray.map( hotel => {
+      return <Card key={Math.random()} title={hotel.name} rating={hotel.rating} address={hotel.address} imgSrc={hotel.img} location={hotel.location} price={hotel.price}/>
     })
-    return (
-      <div>
-          <h1> this is the hotels page </h1>
-          <div id="flights-container">
-             {hotelItem}
-          </div>
-      </div>
-    )
+
+      return (
+        <div>
+            <h1> this is the hotels page </h1>
+             <div id="flights-container">
+                {hotelItem}
+            </div>
+
+        </div>
+      )
+    } else {
+
+      return (
+        <div>
+            <h1> Selecting the best Hotels for you! </h1>
+        </div>
+      )
+    }
   }
-}
-
-
-function getPhoto(photo_reference_id, key){
-  const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${key}`
-
-  return photoUrl
 }
 
 export default Hotel
+

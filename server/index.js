@@ -85,73 +85,6 @@ app.post('/trips/join', (req, res) => {
 
 });
 
-//api call to get hotel information
-// app.get('/trips/:trip_id/hotel', (req, res) => {
-
-//   request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-
-//     const hotelResults = JSON.parse(body);
-//     console.log('api request made:');
-//     // console.log(hotelResults)
-//     // console.log(body)
-//     res.send({hotelData: hotelResults.results, key: GOOGLE_PLACE_KEY})
-
-//     // return hotelResults
-//   });
-
-//   // res.send(GOOGLE_PLACE_KEY)
-//   // console.log ("get insert working")
-
-// });
-
-
-// using socket io
-
-
-// socket.on('events request', () => {
-//     socket.eventReady = true;
-//     const socketsId = Object.keys(io.sockets.sockets);
-//     let eventReadyCounter = 0;
-//     socketsId.forEach((socketId) => {
-//       if (io.sockets.sockets[socketId].eventReady) {
-//         eventReadyCounter++;
-//       }
-
-
-//     const hotelResults = JSON.parse(body);
-//     console.log('api request made:');
-//     // console.log(hotelResults)
-//     // console.log(body)
-//     res.send({hotelData: hotelResults.results, key: GOOGLE_PLACE_KEY})
-// //     });
-
-//     if (eventReadyCounter === socketsId.length) {
-//     request(
-//       `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`,
-//       (error, response, body) => {
-//         parsedBody = JSON.parse(body)
-//         // console.log(parsedBody)
-//         const eventsData = parsedBody.events.map(event => {
-//           const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
-//           const rating = Math.floor((Math.random() * 5) * 10) / 10
-//           const price = Math.floor((Math.random() * 250) * 100) / 100
-//           return {
-//             name: event.name.text,
-//             description: event.description.text,
-//             start_time: event.start.local,
-//             end_time: event.end.local,
-//             img: img,
-//             address: event.venue.address.address1,
-//             rating: rating,
-//             price: price
-//           }
-//         })
-//         console.log(eventsData)
-//         io.emit('events data', eventsData)
-//       })
-//     }
-//   })
-
 
 
 // on client connect/disconnect, socket is created/destroyed
@@ -189,6 +122,7 @@ io.on('connection', socket => {
     }
   });
 
+//socket to handle broacting data from hotel api
   socket.on('hotels request', () => {
   console.log("hotel socket active")
   socket.hotelReady = true;
@@ -201,40 +135,24 @@ io.on('connection', socket => {
       console.log("here!")
     }
   })
-
+  //getting info from the api and processing
     if (hotelReadyCounter === socketsId.length){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-
-          const hotelResults = JSON.parse(body).results;
-          const hotelData = hotelResults.map(hotel => {
-            return {
-              name: hotel.name,
-              rating: hotel.rating,
-              location: hotel.geometry.location,
-              address: hotel.vicinity,
-              img: getPhoto(hotel.photos[0].photo_reference),
-              price:(Math.random()*(2000-200)+200).toFixed(2)
-            }
-           })
-
-           // console.log(hotelData);
-
-            console.log('api request made:', hotelData);
-            console.log("hotel data test")
-            io.emit('hotel data', hotelData)
-
+        const hotelResults = JSON.parse(body).results;
+        const hotelData = hotelResults.map(hotel => {
+          return {
+            name: hotel.name,
+            rating: hotel.rating,
+            location: hotel.geometry.location,
+            address: hotel.vicinity,
+            img: getPhoto(hotel.photos[0].photo_reference),
+            price:(Math.random()*(2000-200)+200).toFixed(2)
+          }
         })
-
-
+        io.emit('hotel data', hotelData)
+      })
     }
-
-
-
-
   });
-
-
-
 
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
@@ -253,37 +171,3 @@ function getPhoto(photo_reference_id){
 
   return photoUrl
 }
-
-
-//commented out crap
-
-
-// //     const hotelResults = JSON.parse(body);
-//           console.log('api request made:');
-
-//         })
-// //     // console.log(hotelResults)
-// //     // console.log(body)
-// //     res.send({hotelData: hotelResults.results, key: GOOGLE_PLACE_KEY})
-
-// //     // return hotelResults
-//   // });
-//   //     request (`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`), function(error, response, body){ console.log(body)
-
-//       }
-
-//       //   console.log(hotelResults)
-//       //      const hotelData = hotelResults.results.map(hotel => {
-//       //       return {
-//       //         name: hotel.name,
-//       //         rating: hotel.rating,
-//       //         location: hotel.location,
-//       //         address: hotel.vicinity,
-//       //         img: getPhoto(hotel.photos[0].photo_reference),
-//       //         price:(Math.random()*(2000-200)+200).toFixed(2)
-//       //       }
-//       //      })
-
-//            // console.log(hotelData);
-//            console.log("hotel data test")
-//            io.emit('hotel data', "test data")
