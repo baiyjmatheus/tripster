@@ -32,6 +32,12 @@ class Attraction  extends Component {
       console.log(attractionDataAquarium)
     })
 
+    this.props.socket.on('attractions Data ArtGallery', attractionDataArtGallery => {
+      this.setState({attractions: [...this.state.attractions, attractionDataArtGallery]});
+      console.log("atr", attractionDataArtGallery)
+    })
+
+
   }
 
 

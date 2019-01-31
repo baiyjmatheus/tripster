@@ -202,6 +202,22 @@ io.on('connection', socket => {
 
             io.emit('attractions Data aquarium', attractionDataAquarium)
         })
+
+         //api request for art galleries
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+art+gallery&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            const attractionResultsArtGallery = JSON.parse(body).results;
+
+            const attractionArtGallery = attractionResultsArtGallery.map(attractionArtGallery => {
+              if(attractionArtGallery.photos){
+                const attractionPhotoArtGallery = getPhoto(attractionArtGallery.photos[0].photo_reference)
+                return returnObject(attractionArtGallery, "art_gallery", attractionPhotoArtGallery )
+              } else {
+                return OBJ2 = returnObject(attractionArtGallery, "art_gallery", attractionArtGallery.icon )
+              }
+            })
+
+            io.emit('attractions Data ArtGallery', attractionArtGallery)
+        })
     }
   });
 
