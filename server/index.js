@@ -146,10 +146,12 @@ io.on('connection', socket => {
     }
   });
 
+  // Socket disconnects
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
   });
 
+  // Broadcast flight suggestions
   socket.on('flightReady', (tripId) => {
     socket.flightReady = true;
     if (readyCounter('flightReady')) {
@@ -179,6 +181,7 @@ io.on('connection', socket => {
     }
   });
 
+  // Checks if redirecting to events
   socket.on('flights', (flightState) => {
     socket.flights = flightState;
     if (readyCounter('flights')) {
@@ -186,7 +189,8 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('events request', () => {
+  // Broadcast events
+  socket.on('events request', (tripId) => {
     socket.eventReady = true;
     if (readyCounter('eventReady')) {
 
@@ -231,6 +235,7 @@ io.on('connection', socket => {
 
 });
 
+// Check the counter of sockets ready
 const readyCounter = (step) => {
   const socketsId = Object.keys(io.sockets.sockets);
   let counter = 0;
@@ -243,11 +248,13 @@ const readyCounter = (step) => {
   return counter === socketsId.length;
 }
 
+// Give each user a color
 const setUserColor = (num) => {
   const colors = ['tomato', 'greenyellow', 'yellow'];
   return colors[num]
 }
 
+// 
 const getPhoto = (photo_reference_id) => {
   const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${GOOGLE_PLACE_KEY}`
 
