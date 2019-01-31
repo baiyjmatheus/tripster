@@ -88,6 +88,8 @@ main#whiteboard {
   overflow-y: scroll;
 
   div#trip-header {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
     background: #2c2f33;
     width: calc(72% - 20px);
@@ -108,13 +110,14 @@ div#suggestion-container {
   padding-top: 77px;
 }
 
-div#start-plan-container {
-  height: 78vh;
+div#ready-btn {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-right: 20px;
 
   button {
+    padding: 0;
     margin: 0 auto;
   }
 }

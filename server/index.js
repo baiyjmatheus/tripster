@@ -61,7 +61,7 @@ io.on('connection', socket => {
       }
       socket.emit('new user', userData)
     })
-  })''
+  });
 
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
@@ -69,10 +69,10 @@ io.on('connection', socket => {
   });
 
   // broadcast flights whenever all participants are ready
-  socket.on('startReady', startReady => {
-    socket.startReady = socket.startReady ? !socket.startReady: startReady;
+  socket.on('start', startState => {
+    socket.startReady = !startState;
     if (readyCounter('startReady')) {
-      io.emit('next step', 'flights');
+      io.emit('next', 'flights');
     }
   });
   

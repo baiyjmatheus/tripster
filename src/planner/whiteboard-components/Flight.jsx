@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
-import axios from 'axios';
 
 class Flight  extends Component {
   constructor() {
@@ -11,7 +10,7 @@ class Flight  extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.socket.emit('flightReady', this.props.tripId);
     this.props.socket.on('flights', (flights) => {
       this.setState({flights});
