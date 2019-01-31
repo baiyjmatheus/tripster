@@ -21,7 +21,9 @@ class Whiteboard extends Component {
     this.state = {
       currentStep: 'start',
       start: false,
-      flight: false
+      flights: false,
+      hotels: false,
+      events: false
     }
   }
 
@@ -54,7 +56,7 @@ class Whiteboard extends Component {
             <Switch>
               <Route exact path={`${url}`} render={() => (<Start tripURL={this.props.tripURL} currentStep={this.state.currentStep} />)} />
               <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route path={`${url}/hotel`}  component={Hotel}/>
+              <Route path={`${url}/hotels`}  render={() => <Hotel socket={this.props.socket} tripId={this.props.tripId} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
               <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} />}/>
               <Route path={`${url}/attraction`}  component={Attraction}/>
             </Switch>

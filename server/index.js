@@ -181,10 +181,18 @@ io.on('connection', socket => {
     }
   });
 
-  // Checks if redirecting to events
+  // Checks if redirecting to hotels
   socket.on('flights', (flightState) => {
     socket.flights = flightState;
     if (readyCounter('flights')) {
+      io.emit('next', 'hotels');
+    }
+  });
+
+  // Checks if redirecting to events
+  socket.on('hotels', (hotelState) => {
+    socket.hotels = hotelState;
+    if (readyCounter('hotels')) {
       io.emit('next', 'events');
     }
   });
