@@ -61,7 +61,7 @@ io.on('connection', socket => {
       }
       socket.emit('new user', userData)
     })
-  })''
+  });
 
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
@@ -109,34 +109,48 @@ io.on('connection', socket => {
     }
   }); 
 
-  socket.on('events request', () => {
+  socket.on('events request', (tripId) => {
     socket.eventReady = true;
     if (readyCounter('eventReady')) {
-    request(
-      `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`, 
-      (error, response, body) => {
-        parsedBody = JSON.parse(body)
-        const eventsData = parsedBody.events.map(event => {
-          const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
-          const rating = Math.floor((Math.random() * 5) * 10) / 10
-          const price = Math.floor((Math.random() * 250) * 100) / 100 
-          return { 
-            name: event.name.text, 
-            description: event.description.text, 
-            start_time: event.start.local, 
-            end_time: event.end.local,
-            img: img,
-            address: event.venue.address.address1,
-            rating: rating,
-            price: price
-          }
-        })
-        
-        io.emit('events data', eventsData)
-      })
-    }
-  })
 
+      knex('trips')
+        .returning('trip')
+        .where('id', tripId)
+        .then(trip => {
+          // fetch events from eventbrite with trip data from DB
+          request(
+            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`,
+            (error, response, body) => {
+              if (error) {
+                return error
+              }
+              parsedBody = JSON.parse(body)
+              const eventsData = parsedBody.events.map(event => {
+                // if event does not have img, insert generic img
+                const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
+                // generate random price & rating
+                const rating = Math.floor((Math.random() * 5) * 10) / 10
+                const price = Math.floor((Math.random() * 250) * 100) / 100 
+                //return event obj for each
+                return { 
+                  name: event.name.text, 
+                  description: event.description.text, 
+                  start_time: event.start.local, 
+                  end_time: event.end.local,
+                  img: img,
+                  address: event.venue.address.address1,
+                  rating: rating,
+                  price: price,
+                  lat: event.venue.address.latitude,
+                  long: event.venue.address.longitude
+                }
+              });
+              // broadcast arr of event objs
+              io.emit('events data', eventsData)
+          });
+      });
+    }
+  });
 });
 
 const readyCounter = (step) => {
