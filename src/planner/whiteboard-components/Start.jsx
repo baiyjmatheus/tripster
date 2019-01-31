@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import Card from './Card.jsx';
 
 class Start extends Component {
-  constructor() {
-    super();
-    this.state = {
-      redirect: false
-    }
-  }
-
   render() {
     const buttonStyle = {
       width: '300px',
@@ -25,33 +17,12 @@ class Start extends Component {
       // return (<Redirect to={`${this.props.url}/events`} />);
       return (<Redirect to={`${this.props.url}/events`} />);
     } else {
+    if (this.props.currentStep !== 'start') {
       return (
-        <div id="start-plan-container" >
-          <button onClick={this.ready} style={buttonStyle}>Start</button>
-        </div>
-      )
-    }
-  }
-
-  componentDidMount() {
-    this.props.socket.on('next step', (step) => {
-      // Save state info to database then redirect
-      this.setState({redirect: true});
-    });
-  }
-
-  ready = (evt) => {
-    const socket = this.props.socket;
-    let btnBackground = evt.target.style.background;
-    socket.emit('startReady', true);
-    if (btnBackground === 'rgb(60, 186, 84)') {
-      evt.target.style.background = 'rgb(244, 194, 13)';
-      btnBackground = 'rgb(244, 194, 13)';
-      evt.target.innerText = 'Waiting for all participants...';
+        <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
+      );
     } else {
-      evt.target.style.background = 'rgb(60, 186, 84)';
-      btnBackground = 'rgb(60, 186, 84)';
-      evt.target.innerText = 'Start';
+      return (<h2>Click ready and wait for all participants</h2>);
     }
   }
 }

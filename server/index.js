@@ -116,10 +116,10 @@ io.on('connection', socket => {
   });
 
   // broadcast flights whenever all participants are ready
-  socket.on('startReady', startReady => {
-    socket.startReady = socket.startReady ? !socket.startReady: startReady;
+  socket.on('start', startState => {
+    socket.startReady = !startState;
     if (readyCounter('startReady')) {
-      io.emit('next step', 'flights');
+      io.emit('next', 'flights');
     }
   });
 
