@@ -16,6 +16,7 @@ import Attraction from './whiteboard-components/Attraction.jsx'
 class Whiteboard extends Component {
   render() {
     const url = this.props.tripURL
+    const tripId = this.props.tripId
     // console.log("params: ", this.props.tripURL)
     return (
     <Router>
@@ -29,15 +30,14 @@ class Whiteboard extends Component {
             <li><Link to={`${url}/flights`} > flight</Link></li>
             <li><Link to={`${url}/hotel`} > hotel</Link></li>
              <li><Link to={`${url}/event`} > event</Link></li>
-            <li><Link to={`${url}/attraction`} > attraction</Link></li>
+            <li><Link to={`${url}/attraction`} > attraction</Link></li>import Card from './Card.jsx';
           </ul> */}
          <div id="suggestion-container">
           <Switch>
             <Route exact path={`${url}`} render={() => <Start url={url} socket={this.props.socket} next={'flights'} />}/>
             <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} />}/>
-            <Route path={`${url}/hotel`}  component={Hotel}/>
+            <Route path={`${url}/hotel`}  render={() => <Hotel url={`${url}/hotel`} socket={this.props.socket} tripId={tripId} />}/>
             <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} />}/>
-          {/* <Route path={`${url}/event`} component={Event}/> */}
             <Route path={`${url}/attraction`}  component={Attraction}/>
           </Switch>
         </div>
