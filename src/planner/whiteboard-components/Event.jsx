@@ -32,11 +32,9 @@ class Event extends Component {
     if (this.state.events) {
         const events = this.state.events.map(event => {
           return <Card 
-
             id={ event.id }
             socketIds={ event.socketIds }
             addUserSelection={ this.addUserSelection }
-
             title={ event.name }
             rating={ event.rating } 
             address={ event.address } 
@@ -67,6 +65,7 @@ class Event extends Component {
         event = e
       }
     })
+    console.log("HERE")
     event.socketIds[this.props.currentUser.socketId].selected = !event.socketIds[this.props.currentUser.socketId].selected
     event.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
     this.props.socket.emit('event selection', event)
