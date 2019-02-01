@@ -9,12 +9,15 @@ class Attraction  extends Component {
     this.state = {
       redirect: false,
       attractions: attractionDataArray,
+      filter: false
     }
   }
 
 
   componentWillMount() {
     console.log("request should be emitted")
+
+
 
     // ** COMMENTED OUT TO LIMIT API CALLS - TEST DATA IN JSON FILE ** //
     this.props.socket.emit('attractions request')
@@ -102,16 +105,40 @@ class Attraction  extends Component {
             // messages: [...this.state.messages, msgJSON]
 
   render () {
+
+  const checkBox = (e) => {
+    const typeName = e.target.name
+    matchType(typeName)
+    console.log("this is the box:", typeName)
+  }
+
+  const matchType = (type) => {
+    const array = this.state.attractions
+    function filterType(item){
+      if(item.type === type){
+        return true
+      }
+    }
+
+    var testFilter = array.filter(filterType)
+    console.log(testFilter)
+  }
     const attractionArray = this.state.attractions
 
     if (attractionArray){
       const attractionItem = attractionArray.map( attraction => {
-       return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price}/>
+       return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price} type={attraction.type} />
       })
 
       return (
         <div>
             <h1> this is the Attractions page </h1>
+
+            <div id="filter-boxes">
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
+                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
+            </div>
+
              <div id="flights-container">
                 {attractionItem}
             </div>
@@ -121,11 +148,20 @@ class Attraction  extends Component {
       return (
         <div>
             <h1> Selecting the best Attractions for you! </h1>
+
+             <div id="filter-boxes">
+                <input type="checkbox" />
+            </div>
         </div>
       )
     }
 
   }
+
 }
 
 export default Attraction;
+
+
+
+
