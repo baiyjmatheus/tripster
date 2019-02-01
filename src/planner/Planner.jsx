@@ -21,7 +21,7 @@ class Planner extends Component {
     // recieves currentUser obj from server and concats to state
     socket.on('new user', user => {
       this.setState({ currentUser: user }, () => {
-        console.log(this.state.currentUser)
+        console.log('from planner', this.state.currentUser)
       })
     })
     // check for connection --temp err handling
@@ -39,7 +39,7 @@ class Planner extends Component {
     return (
       <div id="app" className="full-height">
         <Overview />
-        <Whiteboard tripURL = {this.props.match.url}  tripId= {this.props.match.params.trip_id} socket={ this.state.socket }/>
+        <Whiteboard currentUser = { this.state.currentUser } tripURL = {this.props.match.url}  tripId= {this.props.match.params.trip_id} socket={ this.state.socket }/>
         <Chat socket={ this.state.socket } currentUser = { this.state.currentUser } />
       </div>
     );

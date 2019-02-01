@@ -21,6 +21,7 @@ class Chat extends Component {
 
 
   render() {
+    console.log('from chat', this.props)
     return (
       <aside id="chat">
         <ChatHeader />

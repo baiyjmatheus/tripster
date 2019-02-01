@@ -9,9 +9,9 @@ class Start extends Component {
       );
     } else {
       return (<h2>Click ready and wait for all participants</h2>);
-      }
     }
   }
 }
+
 
 export default Start;

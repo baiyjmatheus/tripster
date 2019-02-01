@@ -104,7 +104,8 @@ io.on('connection', socket => {
       const userData = {
         id: user[0].id,
         name: user[0].name,
-        color: setUserColor(socket.conn.server.clientsCount % 3)
+        color: setUserColor(socket.conn.server.clientsCount % 3),
+        socketId: socket.id
       }
       socket.emit('new user', userData)
     })
@@ -203,27 +204,37 @@ io.on('connection', socket => {
             `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`,
             (error, response, body) => {
               if (error) {
+                console.log(error)
                 return error
               }
               parsedBody = JSON.parse(body)
+              let count = 0;
               const eventsData = parsedBody.events.map(event => {
                 // if event does not have img, insert generic img
                 const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
                 // generate random price & rating
-                const rating = Math.floor((Math.random() * 5) * 10) / 10
-                const price = Math.floor((Math.random() * 250) * 100) / 100 
+                const rating = Math.floor((Math.random() * 5) * 10) / 10;
+                const price = Math.floor((Math.random() * 250) * 100) / 100;
+                count++
+                const selectionsBySockets = {} 
+                Object.keys(io.sockets.sockets).forEach(user => {
+                  selectionsBySockets[user] = false;
+                })
                 //return event obj for each
                 return { 
+                  id: count,
                   name: event.name.text, 
                   description: event.description.text, 
                   start_time: event.start.local, 
                   end_time: event.end.local,
                   img: img,
-                  address: event.venue.address.address1,
+                  address: event.venue.address.address_1,
                   rating: rating,
                   price: price,
                   lat: event.venue.address.latitude,
-                  long: event.venue.address.longitude
+                  long: event.venue.address.longitude,
+                  selected: false,
+                  selectionsBySockets
                 }
               });
               // broadcast arr of event objs
@@ -232,6 +243,10 @@ io.on('connection', socket => {
       });
     }
   });
+
+  socket.on('event selection', userSelection => {
+    socket.emit('event selection', userSelection)
+  })
 
 });
 
