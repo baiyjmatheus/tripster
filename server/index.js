@@ -213,7 +213,11 @@ io.on('connection', socket => {
                 // generate random price & rating
                 const rating = Math.floor((Math.random() * 5) * 10) / 10
                 const price = Math.floor((Math.random() * 250) * 100) / 100 
+                // temp event id counter
                 count++
+                /* -each event contains data + selections obj in the form of socketIds
+                   -socketIds contains an object for each connected socket
+                   -each id obj contains that sockets selection status + their color(pulled from currentUser) */
                 let socketIds = {}
                 Object.keys(io.sockets.sockets).forEach(id => {
                   socketIds[id] = { selected: false, color: null}
@@ -240,9 +244,9 @@ io.on('connection', socket => {
       });
     }
   });
-
+  // recieves new selection and broadcasts it to all
   socket.on('event selection', event => {
-    io.emit('new selection', event)
+    io.emit('event selection', event)
   })
 
 });

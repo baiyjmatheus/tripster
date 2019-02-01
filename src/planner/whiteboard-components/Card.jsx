@@ -11,7 +11,7 @@ class Card extends Component {
     }
     let colors = []
     for (let user in this.props.socketIds) {
-      if (this.props.socketIds[user].selected === true) {
+      if (this.props.socketIds[user].selected) {
         colors.push(this.props.socketIds[user].color)
       }
     }
@@ -20,6 +20,7 @@ class Card extends Component {
         <div className="card-header">
           <h4>{this.props.title}</h4>
           <p><span>{this.props.rating}</span> stars</p>
+        {/* maps colors array (selections) to an icon containing that users coloro */}
           {
             colors.map(color => {return <i className="fas fa-check" style={{color: color}}></i>})
           }

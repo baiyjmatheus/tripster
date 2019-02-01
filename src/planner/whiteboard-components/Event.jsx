@@ -17,11 +17,10 @@ class Event extends Component {
       console.log(eventsData[0].lat, eventsData[0].long)
       this.setState({events: eventsData})
     })
-
-    this.props.socket.on('new selection', event => {
+    // recieves broadcast of new event selection and replaces that event obj
+    this.props.socket.on('event selection', event => {
       let stateCopy = Object.assign({}, this.state);
-      stateCopy.events[this.findEventById(this.state.events, event.id)] = event
-      console.log(stateCopy.events[this.findEventById(this.state.events, event.id)])
+      stateCopy.events[this.findEventIndexById(this.state.events, event.id)] = event
       this.setState({stateCopy})
     })
 
@@ -33,15 +32,16 @@ class Event extends Component {
     if (this.state.events) {
         const events = this.state.events.map(event => {
           return <Card 
+
             id={ event.id }
             socketIds={ event.socketIds }
             addUserSelection={ this.addUserSelection }
+
             title={ event.name }
             rating={ event.rating } 
             address={ event.address } 
             imgSrc={ event.img }
             price={ event.price }
-
           />
         })
       return (
@@ -59,7 +59,7 @@ class Event extends Component {
       )
     }
   }
-
+  // when a user clicks a card, their corresponding socketId obj on that card is updated with sel' status & color
   addUserSelection = (cardId) => {
     let event;
     this.state.events.forEach((e) => {
@@ -71,8 +71,8 @@ class Event extends Component {
     event.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
     this.props.socket.emit('event selection', event)
   }
-
-  findEventById = (events, id) => {
+  // takes in events array and ouputs index of event at given id
+  findEventIndexById = (events, id) => {
     let index;
     events.forEach((e, i) => {
       if (e.id === id) {
