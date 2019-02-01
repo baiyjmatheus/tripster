@@ -159,18 +159,25 @@ io.on('connection', socket => {
       .where('id', tripId)
       .then((dbTrip) => {
         const [trip] = dbTrip;
-
+        let count = 0
         if (trip) {
         // Get flights from flight API
           request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
             if (!error && response.statusCode === 200) {
               const flights = JSON.parse(body).data.map((flight) => {
+                let socketIds = {}
+                Object.keys(io.sockets.sockets).forEach(id => {
+                  socketIds[id] = { selected: false, color: null}
+                })
+                count++
                 return {
+                  id: count,
                   route: flight.route,
                   quality: flight.quality,
                   flyFrom: flight.flyFrom,
                   flyTo: flight.flyTo,
-                  price: flight.price
+                  price: flight.price,
+                  socketIds
                 }
               });
               io.emit('flights', flights);
@@ -180,6 +187,10 @@ io.on('connection', socket => {
       });
     }
   });
+
+  socket.on('flight selection', flight => {
+    io.emit('flight selection', flight)
+  })
 
   // Checks if redirecting to events
   socket.on('flights', (flightState) => {
@@ -200,8 +211,7 @@ io.on('connection', socket => {
         .then(trip => {
           // fetch events from eventbrite with trip data from DB
           request(
-            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`,
-            (error, response, body) => {
+            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`, (error, response, body) => {
               if (error) {
                 return error
               }

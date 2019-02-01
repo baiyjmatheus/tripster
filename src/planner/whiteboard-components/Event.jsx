@@ -65,7 +65,6 @@ class Event extends Component {
         event = e
       }
     })
-    console.log("HERE")
     event.socketIds[this.props.currentUser.socketId].selected = !event.socketIds[this.props.currentUser.socketId].selected
     event.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
     this.props.socket.emit('event selection', event)

@@ -65,7 +65,8 @@ class Whiteboard extends Component {
                   tripId={this.props.tripId} 
                   socket={this.props.socket} 
                   tripURL={this.props.tripURL} 
-                  currentStep={this.state.currentStep} 
+                  currentStep={this.state.currentStep}
+                  currentUser={this.props.currentUser}
                 />}
               />
               <Route path={`${url}/hotel`}  
