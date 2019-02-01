@@ -119,7 +119,7 @@ io.on('connection', socket => {
   socket.on('start', startState => {
     socket.startReady = !startState;
     if (readyCounter('startReady')) {
-      io.emit('next', 'flights');
+      io.emit('next', ['start', 'flights']);
     }
   });
 
@@ -196,7 +196,7 @@ io.on('connection', socket => {
   socket.on('flights', (flightState) => {
     socket.flights = flightState;
     if (readyCounter('flights')) {
-      io.emit('next', 'events');
+      io.emit('next', ['flights', 'events']);
     }
   });
 

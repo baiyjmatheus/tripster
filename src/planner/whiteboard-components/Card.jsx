@@ -21,7 +21,6 @@ class Card extends Component {
         <div className="card-header">
           <h4>{this.props.title}</h4>
           <p><span>{this.props.rating}</span> stars</p>
-        {/* maps colors array (selections) to an icon containing that users color */}
           {
             colors.map(color => {return <i className="fas fa-check" style={{color: color}}></i>})
           }

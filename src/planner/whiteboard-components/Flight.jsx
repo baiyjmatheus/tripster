@@ -17,8 +17,8 @@ class Flight  extends Component {
     this.props.socket.on('flights', (flights) => {
       this.setState({flights});
     });
-
     this.props.socket.on('flight selection', flight => {
+      this.props.getSelectedItems(this.state.flights, 'flights')
       let stateCopy = Object.assign({}, this.state);
       stateCopy.flights[this.findFlightIndexById(this.state.flights, flight.id)] = flight
       this.setState({stateCopy})
@@ -57,7 +57,6 @@ class Flight  extends Component {
         flight = e
       }
     })
-    console.log("HERE")
     flight.socketIds[this.props.currentUser.socketId].selected = !flight.socketIds[this.props.currentUser.socketId].selected
     flight.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
     this.props.socket.emit('flight selection', flight)

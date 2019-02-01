@@ -25,6 +25,19 @@ class Whiteboard extends Component {
     }
   }
 
+  getSelectedItems = (items, type) => {
+    let selectedItems = [];
+    items.forEach(item => {
+      for (let user in item.socketIds) {
+        if (item.socketIds[user].selected) {
+          selectedItems.push(item);
+          break;
+        }
+      }
+    });
+    this.setState({[type + 'Selections']: selectedItems})
+  }
+
   changeStepState = (key) => {
     this.setState({[key]: !this.state[key]});
     this.props.socket.emit(`${this.state.currentStep}`, this.state[key]);
@@ -32,7 +45,9 @@ class Whiteboard extends Component {
   
   componentWillMount() {
     this.props.socket.on('next', (step) => {
-      this.setState({currentStep: step});
+      // send data to server for db here
+      this.props.socket.emit(`${step[0]} selections`, this.state[`${step[0]}Selections`])
+      this.setState({currentStep: step[1]});
     });
   }
 
@@ -66,6 +81,7 @@ class Whiteboard extends Component {
                   socket={this.props.socket} 
                   tripURL={this.props.tripURL} 
                   currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
                   currentUser={this.props.currentUser}
                 />}
               />
