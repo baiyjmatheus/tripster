@@ -9,6 +9,7 @@ class Card extends Component {
       border: '1px solid black',
       margin: '20px 0 40px'
     }
+    // for each user that selected this card, their color is pushed to an array for mapping to check icon
     let colors = []
     for (let user in this.props.socketIds) {
       if (this.props.socketIds[user].selected) {
