@@ -98,13 +98,13 @@ app.post('/trips/join', (req, res) => {
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
 	// console.log('new socket established', io.nsps['/'].server);
-
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
       const userData = {
         id: user[0].id,
         name: user[0].name,
-        color: setUserColor(socket.conn.server.clientsCount % 3)
+        color: setUserColor(socket.conn.server.clientsCount % 3),
+        socketId: socket.id
       }
       socket.emit('new user', userData)
     })
@@ -206,14 +206,21 @@ io.on('connection', socket => {
                 return error
               }
               parsedBody = JSON.parse(body)
+              let count = 0
               const eventsData = parsedBody.events.map(event => {
                 // if event does not have img, insert generic img
                 const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
                 // generate random price & rating
                 const rating = Math.floor((Math.random() * 5) * 10) / 10
                 const price = Math.floor((Math.random() * 250) * 100) / 100 
+                count++
+                let socketIds = {}
+                Object.keys(io.sockets.sockets).forEach(id => {
+                  socketIds[id] = { selected: false, color: null}
+                })
                 //return event obj for each
                 return { 
+                  id: count,  
                   name: event.name.text, 
                   description: event.description.text, 
                   start_time: event.start.local, 
@@ -223,7 +230,8 @@ io.on('connection', socket => {
                   rating: rating,
                   price: price,
                   lat: event.venue.address.latitude,
-                  long: event.venue.address.longitude
+                  long: event.venue.address.longitude,
+                  socketIds
                 }
               });
               // broadcast arr of event objs
@@ -232,6 +240,10 @@ io.on('connection', socket => {
       });
     }
   });
+
+  socket.on('event selection', event => {
+    io.emit('new selection', event)
+  })
 
 });
 
