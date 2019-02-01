@@ -152,10 +152,12 @@ io.on('connection', socket => {
   console.log("attractions socket active")
   socket.attractionReady = true;
 
+  const city = 'Toronto'
+
   //getting info from the api and processing
 
     if (readyCounter('attractionReady')){
-      request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+point+of+interest&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+      request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+point+of+interest&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         const attractionResults = JSON.parse(body).results;
 
         const attractionData = attractionResults.map(attraction => {
@@ -172,7 +174,7 @@ io.on('connection', socket => {
       })
 
       //api request for amusement parks
-       request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+amusement+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+       request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+amusement+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsAM = JSON.parse(body).results;
 
             const attractionDataAM = attractionResultsAM.map(attractionAM => {
@@ -188,7 +190,7 @@ io.on('connection', socket => {
         })
 
        //api request for aquarium
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+aquarium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+aquarium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsAquarium = JSON.parse(body).results;
 
             const attractionDataAquarium = attractionResultsAquarium.map(attractionAquarium => {
@@ -204,7 +206,7 @@ io.on('connection', socket => {
         })
 
          //api request for art galleries
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+art+gallery&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+art+gallery&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsArtGallery = JSON.parse(body).results;
 
             const attractionArtGallery = attractionResultsArtGallery.map(attractionArtGallery => {
@@ -220,7 +222,7 @@ io.on('connection', socket => {
         })
 
          //api request for casino
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+casino&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+casino&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsCasino = JSON.parse(body).results;
 
             const attractionCasino= attractionResultsCasino.map(attractionCasino => {
@@ -236,7 +238,7 @@ io.on('connection', socket => {
         })
 
          //api request for museum
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+museum&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+museum&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsMuseum = JSON.parse(body).results;
 
             const attractionMuseum= attractionResultsMuseum.map(attractionMuseum => {
@@ -252,7 +254,7 @@ io.on('connection', socket => {
         })
 
               //api request for park
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsPark = JSON.parse(body).results;
 
             const attractionPark= attractionResultsPark.map(attractionPark => {
@@ -268,7 +270,7 @@ io.on('connection', socket => {
         })
 
                  //api request for restaurant
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+restaurant&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+restaurant&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsRestaurant = JSON.parse(body).results;
 
             const attractionRestaurants= attractionResultsRestaurant.map(attractionRestaurant => {
@@ -284,7 +286,7 @@ io.on('connection', socket => {
         })
 
           //api request for stadium
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+stadium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+stadium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsStadium = JSON.parse(body).results;
 
             const attractionStadiums= attractionResultsStadium.map(attractionStadium => {
@@ -300,7 +302,7 @@ io.on('connection', socket => {
         })
 
               //api request for spa
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+spa&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+spa&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsSpa = JSON.parse(body).results;
 
             const attractionSpas= attractionResultsSpa.map(attractionSpa => {
@@ -317,7 +319,7 @@ io.on('connection', socket => {
 
 
               //api request for shopping mall
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+shopping+mall&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+shopping+mall&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsShoppingMall = JSON.parse(body).results;
 
             const attractionShoppingMalls= attractionResultsShoppingMall.map(attractionShoppingMall => {
@@ -333,7 +335,7 @@ io.on('connection', socket => {
         })
 
                //api request for zoo
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=Sydney+zoo&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+zoo&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
             const attractionResultsZoo = JSON.parse(body).results;
 
             const attractionZoos= attractionResultsZoo.map(attractionZoo => {
