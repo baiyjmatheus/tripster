@@ -205,19 +205,17 @@ class Attraction  extends Component {
 
 
     const attractionArray = this.state.attractions
+    const filterAttractionsArray = this.state.filteredAttractions
 
-    // if(this.state.filteredAttractions.lengt){
-    //   return <h1> no filter </h1>
-    // }
+    if (filterAttractionsArray.length){
 
-    if (attractionArray){
-      console.log("these are the filtered attractions", this.state.filteredAttractions)
-      const attractionItem = attractionArray.map( attraction => {
-       return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price} type={attraction.type} />
+      const filterItem = filterAttractionsArray.map( filteredAttraction => {
+        return <Card key={Math.random()} title={filteredAttraction.name} rating={filteredAttraction.rating} address={filteredAttraction.address} imgSrc={filteredAttraction.img} location={filteredAttraction.location} price={filteredAttraction.price} type={filteredAttraction.type} />
       })
 
       return (
-        <div>
+
+         <div>
             <h1> this is the Attractions page </h1>
 
             <div id="filter-boxes">
@@ -228,23 +226,37 @@ class Attraction  extends Component {
               </form>
             </div>
 
-             <div id="flights-container">
+            <div id="flights-container">
+                {filterItem}
+            </div>
+        </div>
+      )
+
+    } else {
+
+      const attractionItem = attractionArray.map( attraction => {
+         return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price} type={attraction.type} />
+      })
+
+      return (
+
+         <div>
+            <h1> this is the Attractions page </h1>
+
+            <div id="filter-boxes">
+              <form>
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
+                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+                <button onClick = {matchType}> Filter Now </button>
+              </form>
+            </div>
+
+            <div id="flights-container">
                 {attractionItem}
             </div>
         </div>
       )
-    } else {
-      return (
-        <div>
-            <h1> Selecting the best Attractions for you! </h1>
-
-             <div id="filter-boxes">
-                <input type="checkbox" />
-            </div>
-        </div>
-      )
     }
-
   }
 
 }
@@ -254,3 +266,23 @@ export default Attraction;
 
 
 
+
+    //   return (
+    //      <div>
+    //         <h1> this is the Attractions page </h1>
+
+    //         <div id="filter-boxes">
+    //           <form>
+    //             amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
+    //             aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+    //             <button onClick = {matchType}> Filter Now </button>
+    //           </form>
+    //         </div>
+
+    //          <div >
+    //              {renderT}
+    //         </div>
+    //     </div>
+    //   )
+
+    // } else {
