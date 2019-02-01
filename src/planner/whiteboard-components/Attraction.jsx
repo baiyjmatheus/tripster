@@ -153,20 +153,57 @@ class Attraction  extends Component {
 
 
 
-  // const matchType = (type) => {
-  //   const array = this.state.attractions
-  //   function filterType(item){
-  //     if(item.type === type){
-  //       return true
-  //     }
-  // }
+  const matchType = (e) => {
+    e.preventDefault()
 
-  //   var testFilter = array.filter(filterType)
+    this.setState({filteredAttractions : []})
+    // this.state.filteredAttractions
+    const array = this.state.attractions
+    const filterTypesArray = this.state.filterTypes
 
-  //   return testFilter
-  //   // console.log(testFilter)
-  //   // this.setState({})
-  // }
+    const filteredList = []
+
+    filterTypesArray.forEach(function(category){
+      function filterType(item){
+          if(item.type === category){
+            return true
+          }
+      }
+
+      var testFilter = array.filter(filterType)
+
+
+
+      testFilter.forEach(function(item){
+        filteredList.push(item)
+      })     // this.setState({filteredAttractions : [...filteredAttractions, ...testFilter]})
+
+    })
+
+    this.setState({filteredAttractions : filteredList })
+    // console.log("this the final filtered list", filteredList)
+
+
+    // }
+    // function returnThis() {
+    //   for (category of filterCat)
+    //   {
+
+    //     function filterType(item){
+    //       if(item.type === category){
+    //         return true
+    //       }
+    //     }
+    //   }
+    // }
+
+
+    // return testFilter
+    // console.log(testFilter)
+    // this.setState({})
+  }
+
+
     const attractionArray = this.state.attractions
 
     // if(this.state.filteredAttractions.lengt){
@@ -187,6 +224,7 @@ class Attraction  extends Component {
               <form>
                 amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
                 aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+                <button onClick = {matchType}> Filter Now </button>
               </form>
             </div>
 
