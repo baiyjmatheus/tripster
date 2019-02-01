@@ -109,7 +109,6 @@ class Attraction  extends Component {
 
   const checkBox = (e) => {
     const typeName = e.target.name
-    // const status = e.target.value
     const typesArray = this.state.filterTypes
 
     const i = typesArray.indexOf(typeName)
@@ -219,9 +218,19 @@ class Attraction  extends Component {
             <h1> this is the Attractions page </h1>
 
             <div id="filter-boxes">
-              <form>
-                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
-                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+                <form>
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
+                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
+                point of interest : <input type="checkbox" name="point_of_interest" onClick={checkBox} />
+                art gallery : <input type="checkbox" name="art_gallery" onClick={checkBox} />
+                casino : <input type="checkbox" name="casino" onClick={checkBox} />
+                museum : <input type="checkbox" name="museum" onClick={checkBox} />
+                park : <input type="checkbox" name="park" onClick={checkBox} />
+                restaurant : <input type="checkbox" name="restaurant" onClick={checkBox} />
+                stadium : <input type="checkbox" name="stadium" onClick={checkBox} />
+                spa : <input type="checkbox" name="spa" onClick={checkBox} />
+                zoo : <input type="checkbox" name="zoo" onClick={checkBox} />
+                shopping mall: <input type="checkbox" name="shopping_mall" onClick={checkBox} />
                 <button onClick = {matchType}> Filter Now </button>
               </form>
             </div>
@@ -245,8 +254,18 @@ class Attraction  extends Component {
 
             <div id="filter-boxes">
               <form>
-                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
-                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
+                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
+                point of interest : <input type="checkbox" name="point_of_interest" onClick={checkBox} />
+                art gallery : <input type="checkbox" name="art_gallery" onClick={checkBox} />
+                casino : <input type="checkbox" name="casino" onClick={checkBox} />
+                museum : <input type="checkbox" name="museum" onClick={checkBox} />
+                park : <input type="checkbox" name="park" onClick={checkBox} />
+                restaurant : <input type="checkbox" name="restaurant" onClick={checkBox} />
+                stadium : <input type="checkbox" name="stadium" onClick={checkBox} />
+                spa : <input type="checkbox" name="spa" onClick={checkBox} />
+                zoo : <input type="checkbox" name="zoo" onClick={checkBox} />
+                shopping mall: <input type="checkbox" name="shopping_mall" onClick={checkBox} />
                 <button onClick = {matchType}> Filter Now </button>
               </form>
             </div>
@@ -263,26 +282,3 @@ class Attraction  extends Component {
 
 export default Attraction;
 
-
-
-
-
-    //   return (
-    //      <div>
-    //         <h1> this is the Attractions page </h1>
-
-    //         <div id="filter-boxes">
-    //           <form>
-    //             amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
-    //             aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
-    //             <button onClick = {matchType}> Filter Now </button>
-    //           </form>
-    //         </div>
-
-    //          <div >
-    //              {renderT}
-    //         </div>
-    //     </div>
-    //   )
-
-    // } else {
