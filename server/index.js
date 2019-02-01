@@ -192,6 +192,55 @@ io.on('connection', socket => {
     io.emit('flight selection', flight)
   })
 
+  socket.on('flights final selections', data => {
+    console.log(data)
+    knex('flights')
+      .returning('*')
+      .where('trip_id', data.tripId)
+      .then( flights => {
+        if (flights.length !== 0) {
+          data.data.forEach(flight => {
+            flight.route = JSON.stringify(flight.route)
+            knex('flights')
+              .insert({
+                quality: flight.quality,
+                price: flight.price,
+                trip_id: data.tripId,
+                route: flight.route
+              })
+              .then()
+          })
+        }
+      })
+  })
+
+  socket.on('events final selections', data => {
+    knex('events')
+      .returning('*')
+      .where('trip_id', data.tripId)
+      .then( events => {
+        if (events.length !== 0) {
+          data.data.forEach(event => {
+            event.venue = JSON.stringify(event.venue)
+            knex('events')
+              .insert({
+                name: event.name,
+                description: event.description,
+                start_time: event.start_time,
+                end_time: event.end_time,
+                url: event.url,
+                latt: event.latt,
+                long: event.long,
+                price: event.price,
+                trip_id: data.tripId,
+                venue: event.venue
+              })
+              .then()
+          })
+        }
+      })
+  })
+
   // Checks if redirecting to events
   socket.on('flights', (flightState) => {
     socket.flights = flightState;

@@ -46,7 +46,7 @@ class Whiteboard extends Component {
   componentWillMount() {
     this.props.socket.on('next', (step) => {
       // send data to server for db here
-      this.props.socket.emit(`${step[0]} selections`, this.state[`${step[0]}Selections`])
+      this.props.socket.emit(`${step[0]} final selections`, { tripId: this.props.tripId, data: this.state[`${step[0]}Selections`] })
       this.setState({currentStep: step[1]});
     });
   }
