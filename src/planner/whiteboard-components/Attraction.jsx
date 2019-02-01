@@ -9,7 +9,8 @@ class Attraction  extends Component {
     this.state = {
       redirect: false,
       attractions: attractionDataArray,
-      filter: false
+      filteredAttractions: [],
+      filterTypes: []
     }
   }
 
@@ -108,24 +109,72 @@ class Attraction  extends Component {
 
   const checkBox = (e) => {
     const typeName = e.target.name
-    matchType(typeName)
-    console.log("this is the box:", typeName)
-  }
+    // const status = e.target.value
+    const typesArray = this.state.filterTypes
 
-  const matchType = (type) => {
-    const array = this.state.attractions
-    function filterType(item){
-      if(item.type === type){
-        return true
-      }
+    const i = typesArray.indexOf(typeName)
+
+    // console.log("this is the index of array, ", i)
+
+    if ( i === -1) {
+    //   // const NewArray = typesArray.splice(i,1)
+      // console.log(NewArray)
+      // this.setState({filterTypes: typesArray.splice(i,1) })
+      this.setState({filterTypes:[...typesArray, typeName]})
+    } else {
+      const x = typesArray.splice(i, 1)
+      // console.log("remove this", x)
+      // console.log("spliced array", typesArray)
+      this.setState({filterTypes: typesArray})
     }
 
-    var testFilter = array.filter(filterType)
-    console.log(testFilter)
+    console.log("checked box!", this.state.filterTypes)
   }
+  //check array:
+
+
+
+    // console.log ("this is the typename", typeName)
+
+    // var items = matchType(typeName)
+
+    // console.log("these are the new items", items)
+    // matchType(typeName)
+    // console.log("this is the box:", typeName)
+
+    // if(this.state.filteredAttractions.length > 0){
+    //   this.setState({filteredAttractions: [...this.state.filteredAttractions,...items]})
+    // } else{
+    //   this.setState({filteredAttractions: items})
+    // }
+
+    // console.log("the state", this.state.filteredAttractions)
+
+
+
+
+  // const matchType = (type) => {
+  //   const array = this.state.attractions
+  //   function filterType(item){
+  //     if(item.type === type){
+  //       return true
+  //     }
+  // }
+
+  //   var testFilter = array.filter(filterType)
+
+  //   return testFilter
+  //   // console.log(testFilter)
+  //   // this.setState({})
+  // }
     const attractionArray = this.state.attractions
 
+    // if(this.state.filteredAttractions.lengt){
+    //   return <h1> no filter </h1>
+    // }
+
     if (attractionArray){
+      console.log("these are the filtered attractions", this.state.filteredAttractions)
       const attractionItem = attractionArray.map( attraction => {
        return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price} type={attraction.type} />
       })
@@ -135,8 +184,10 @@ class Attraction  extends Component {
             <h1> this is the Attractions page </h1>
 
             <div id="filter-boxes">
-                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
-                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
+              <form>
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} value="false" />
+                aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} value="false" />
+              </form>
             </div>
 
              <div id="flights-container">
