@@ -19,6 +19,8 @@ class Whiteboard extends Component {
     super();
 
     this.state = {
+      readyBtnStatus: 'Ready',
+      readyBtnColor: 'rgb(60, 186, 84)', // green
       currentStep: 'start',
       start: false,
       flights: false,
@@ -44,18 +46,20 @@ class Whiteboard extends Component {
     this.setState({[key]: !this.state[key]});
     this.props.socket.emit(`${this.state.currentStep}`, this.state[key]);
   }
-  
+
   componentWillMount() {
     this.props.socket.on('next', (step) => {
       // send data to server for db here
       this.props.socket.emit(`${step[0]} final selections`, { tripId: this.props.tripId, data: this.state[`${step[0]}Selections`] })
       this.setState({currentStep: step[1]});
+      this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
     });
   }
 
   render() {
     const url = this.props.tripURL;
     return (
+
       <Router>
         <main id="whiteboard" className="full-height">
           <div id="trip-header">
@@ -64,7 +68,7 @@ class Whiteboard extends Component {
               <h4>Location: Paris</h4>
             </div>
             <div id="ready-btn">
-              <Ready currentStep={this.state.currentStep} changeStepState={this.changeStepState}/>
+              <Ready status={this.state.readyBtnStatus} currentStep={this.state.currentStep} changeStepState={this.changeStepState} changeReadyBtn={this.changeReadyBtn} color={this.state.readyBtnColor}/>
             </div>
           </div>
           <div id="suggestion-container">
@@ -117,7 +121,12 @@ class Whiteboard extends Component {
           </div>
         </main>
       </Router>
+
     );
+  }
+
+  changeReadyBtn = (color, btnText) => {
+    this.setState({readyBtnColor: color, readyBtnStatus: btnText});
   }
 }
 

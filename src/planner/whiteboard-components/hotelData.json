@@ -1,0 +1,42 @@
+[
+  {
+    "address": "701 George St, Haymarket",
+    "img": "https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=CmRaAAAAY6DeciSSSfumBxOxDo-5728FSIB_WPC2anE4n_SEekEn28M97ZRTppQ0PH2kXGA-42CtI-7vLMbvtB0iCTQ0pUWADqcV6C_uxqDy-YKpuuSYZxTp8gejOa_gG181lC01EhD0MdChiEL5RqUkgv6rORqfGhRtmqpayHM6RaRMB161FpeTNTqx3A&key=AIzaSyCM2YyfHEPGn78KdQ96GU1UjgZtkC7Vlts",
+    "location": {"latt": -33.880482, "lng": 151.204739},
+    "latt": -33.880482,
+    "lng": 151.204739,
+    "name": "Mount Batten Hotel",
+    "price": "509.39",
+    "rating": 3.8
+  },
+  {
+    "address": "118 Campbell Parade, Bondi Beach",
+    "img": "https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=CmRaAAAAKzuFCD_Dww2xCoArVRaLCrMs7WsnPHNvJBwjhXgXoZmTuXTU7VR86tyHtSVcQYurmDWKX0F3WNzZ3Wubz4oXU1rJEw4A0ZQbf2mrWj-aaZYXhpMaqvj344NpIGyuGGBmEhDoQpkl8ga96PNbeKaYqVNgGhRrKaxrasPHDuE8ypMyYI1P0DKhDw&key=AIzaSyCM2YyfHEPGn78KdQ96GU1UjgZtkC7Vlts",
+    "location": {"latt": -33.8911931, "lng": 151.2735717},
+    "latt": -33.8911931,
+    "lng": 151.2735717,
+    "name": "Hotel Ravesis",
+    "price": "1737.03",
+    "rating": 4
+  },
+  {
+    "address": "75 The Corso, Manly",
+    "img": "https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=CmRaAAAAp5j_WYhWlmCB-JgtfIJ4xFJQsLqbm7_QsqUnBJoeJjtseuDYVwQgU-tFhWW9pHChJ72C7fz0aEbx95aOP3Y8bfycqiZw4F0JIyeFV_Ve9QdhYDj7vSC6iRBp_-l1BMOsEhB84eb_7igKuW4j5KkuQRXtGhT58de6KJj4VQVoJkPiVGbu8OciHA&key=AIzaSyCM2YyfHEPGn78KdQ96GU1UjgZtkC7Vlts",
+    "location": {"latt": -33.7970838, "lng": 151.2878116},
+    "latt": -33.7970838,
+    "lng": 151.2878116,
+    "name": "Hotel Steyne",
+    "price": "1312.15",
+    "rating": 4
+  },
+  {
+    "address": "178 Campbell Parade, Bondi Beach",
+    "img": "https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=CmRaAAAAEGrZYWZLZPta2J7H8g0gk9slybUx9J2rfCCJCkRqXml6YpStY28p5AzeLwV_-HpXESxcC8XYQGoqOsjEw3pHapCPA1BF_DFsmV1k_WNRppYV6KSxDuHZxQvCpS_gWFNdEhDK4gTuxjshJ_tsSMQ7I9k7GhRk1DKw4JhghPWBDCyTHMTs1KfqXQ&key=AIzaSyCM2YyfHEPGn78KdQ96GU1UjgZtkC7Vlts",
+    "location": {"latt": -33.889775, "lng": 151.2749565},
+    "latt": -33.889775,
+    "lng": 151.2749565,
+    "name": "Hotel Bondi",
+    "price": "654.41",
+    "rating": 3.9
+  }
+]

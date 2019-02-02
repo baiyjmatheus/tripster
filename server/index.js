@@ -123,6 +123,7 @@ io.on('connection', socket => {
 
 // socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
+
     socket.hotelReady = true;
   
     if (readyCounter('hotelReady')){
@@ -154,6 +155,55 @@ io.on('connection', socket => {
     }
   });
 
+  // socket.hotelReady = true;
+
+  //getting info from the api and processing
+
+    // if (readyCounter('hotelReady')){
+      //COMMENTED OUT API CALL DO NOT DELETE !!!! ///
+      // request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+      //   const hotelResults = JSON.parse(body).results;
+      //   const hotelData = hotelResults.map(hotel => {
+      //     return {
+      //       name: hotel.name,
+      //       rating: hotel.rating,
+      //       location: hotel.geometry.location,
+      //       address: hotel.vicinity,
+      //       img: getPhoto(hotel.photos[0].photo_reference),
+      //       price:(Math.random()*(2000-200)+200).toFixed(2)
+      //     }
+      //   })
+      //   io.emit('hotel data', hotelData)
+      // })
+
+//***** COMMENTED OUT TO LIMIT API CALLS , TEST DATA IN PACKGAE JSON !!! *****//
+  //socket to handle broadcasting data from attraction api
+  socket.on('attractions request', (tripId) => {
+  console.log("attractions socket active")
+  socket.attractionReady = true;
+
+  const city = 'Sydney'
+
+  // //getting info from the api and processing
+
+    if (readyCounter('attractionReady')){
+
+     FindAttractions('point_of_interest', city ,'attractions data')
+     FindAttractions('amusement_park', city,'attractions Data amusement')
+     FindAttractions('aquarium', city,'attractions Data aquarium')
+     FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+     FindAttractions('casino', city,'attractions Data Casino')
+     FindAttractions('museum', city,'attractions Data Museum')
+     FindAttractions('park', city,'attractions Data Parks')
+     FindAttractions('restaurant', city,'attractions Data Restaurant')
+     FindAttractions('stadium', city,'attractions Data Stadium')
+     FindAttractions('spa', city, 'attractions Data Spa')
+     FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+     FindAttractions('zoo', city, 'attractions Data Zoo')
+
+    }
+  });
+
   socket.on('hotel selection', hotel => {
     console.log(hotel)
     io.emit('hotel selection', hotel)
@@ -182,6 +232,7 @@ io.on('connection', socket => {
   })
 
   // Socket disconnects
+
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
   });
@@ -253,7 +304,7 @@ io.on('connection', socket => {
 
   // Checks if redirecting to events
   socket.on('flights', (flightState) => {
-    socket.flights = flightState;
+    socket.flights = !flightState;
     if (readyCounter('flights')) {
       io.emit('next', ['flights', 'hotels']);
     }
@@ -261,7 +312,7 @@ io.on('connection', socket => {
 
   // Checks if redirecting to events
   socket.on('hotels', (hotelState) => {
-    socket.hotels = hotelState;
+    socket.hotels = !hotelState;
     if (readyCounter('hotels')) {
       io.emit('next', ['hotels', 'events']);
     }
@@ -373,10 +424,43 @@ const setUserColor = (num) => {
   return colors[num]
 }
 
-// 
+//
 const getPhoto = (photo_reference_id) => {
   const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${GOOGLE_PLACE_KEY}`
 
   return photoUrl
 }
 
+ const returnObject = (singleAttraction,type, photo) =>{
+  const OBJ = {
+          name: singleAttraction.name,
+          rating: singleAttraction.rating,
+          location: singleAttraction.geometry.location,
+          address: singleAttraction.formatted_address,
+          img: photo,
+          price:(Math.random()*(50-10)+10).toFixed(2),
+          type: type
+        }
+    return OBJ
+  }
+
+  const FindAttractions = (type, city, socketEventName) => {
+
+    const formattedCityName = city.replace(/\s/g,"+")
+    const formattedType = type.replace(/[\W_]+/g,"+")
+
+    request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${formattedCityName}+${formattedType}&key=${GOOGLE_PLACE_KEY}`, function (error, response, body){
+      const attractionType = type
+      const APIresults = JSON.parse(body).results;
+      const APIdata = APIresults.map(result => {
+        if (result.photos){
+          const resultPhoto = getPhoto(result.photos[0].photo_reference)
+          return returnObject(result, type, resultPhoto)
+        } else {
+           return returnObject(result, type , result.icon )
+        }
+      })
+
+      io.emit(socketEventName, APIdata)
+    })
+  }
