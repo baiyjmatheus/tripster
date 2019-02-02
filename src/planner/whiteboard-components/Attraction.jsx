@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
 import attractionDataArray from './attractionData.json';
+import { Redirect } from 'react-router-dom';
 
 class Attraction  extends Component {
 
@@ -57,6 +58,11 @@ class Attraction  extends Component {
   }
 
   render () {
+    if (this.props.currentStep !== 'attractions') {
+      return (
+        <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
+      );
+    }
 
   const checkBox = (e) => {
     const typeName = e.target.name

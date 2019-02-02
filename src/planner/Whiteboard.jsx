@@ -20,7 +20,7 @@ class Whiteboard extends Component {
 
     this.state = {
       readyBtnStatus: 'Ready',
-      readyBtnColor: 'rgb(60, 186, 84)', // green
+      readyBtnColor: 'rgb(60, 186, 84)',
       currentStep: 'start',
       start: false,
       flights: false,
@@ -30,11 +30,13 @@ class Whiteboard extends Component {
     }
   }
 
+  // Switches the step state when ready button is clicked
   changeStepState = (key) => {
     this.setState({[key]: !this.state[key]});
     this.props.socket.emit(`${this.state.currentStep}`, this.state[key]);
   }
 
+  // Reset the button to Ready when redirected and changes the currentStep state
   componentWillMount() {
     this.props.socket.on('next', (step) => {
       this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
@@ -63,7 +65,7 @@ class Whiteboard extends Component {
               <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
               <Route path={`${url}/hotels`}  render={() => <Hotel socket={this.props.socket} tripId={this.props.tripId} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
               <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route path={`${url}/attractions`}  render={() => <Attraction url={`${url}/attraction`} socket={this.props.socket} tripId={this.props.tripId}/>}/>
+              <Route path={`${url}/attractions`}  render={() => <Attraction url={`${url}/attractions`} socket={this.props.socket} tripId={this.props.tripId} currentStep={this.state.currentStep} tripURL={this.props.tripURL} />} />
             </Switch>
           </div>
         </main>
@@ -72,6 +74,7 @@ class Whiteboard extends Component {
     );
   }
 
+  // Changes ready button color and text
   changeReadyBtn = (color, btnText) => {
     this.setState({readyBtnColor: color, readyBtnStatus: btnText});
   }
