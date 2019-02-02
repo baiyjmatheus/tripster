@@ -19,6 +19,8 @@ class Whiteboard extends Component {
     super();
 
     this.state = {
+      readyBtnStatus: 'Ready',
+      readyBtnColor: 'rgb(60, 186, 84)', // green
       currentStep: 'start',
       start: false,
       flights: false,
@@ -34,6 +36,7 @@ class Whiteboard extends Component {
 
   componentWillMount() {
     this.props.socket.on('next', (step) => {
+      this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
       this.setState({currentStep: step});
     });
   }
@@ -50,7 +53,7 @@ class Whiteboard extends Component {
               <h4>Location: Paris</h4>
             </div>
             <div id="ready-btn">
-              <Ready currentStep={this.state.currentStep} changeStepState={this.changeStepState}/>
+              <Ready status={this.state.readyBtnStatus} currentStep={this.state.currentStep} changeStepState={this.changeStepState} changeReadyBtn={this.changeReadyBtn} color={this.state.readyBtnColor}/>
             </div>
           </div>
           <div id="suggestion-container">
@@ -66,6 +69,10 @@ class Whiteboard extends Component {
       </Router>
 
     );
+  }
+
+  changeReadyBtn = (color, btnText) => {
+    this.setState({readyBtnColor: color, readyBtnStatus: btnText});
   }
 }
 

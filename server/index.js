@@ -125,7 +125,6 @@ io.on('connection', socket => {
 
 //socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
-  console.log("hotel socket active")
   socket.hotelReady = true;
 
   //getting info from the api and processing
@@ -214,7 +213,7 @@ io.on('connection', socket => {
 
   // Checks if redirecting to hotels
   socket.on('flights', (flightState) => {
-    socket.flights = flightState;
+    socket.flights = !flightState;
     if (readyCounter('flights')) {
       io.emit('next', 'hotels');
     }
