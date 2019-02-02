@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
 import { Redirect } from 'react-router-dom';
+import hotelDataArray from './hotelData.json'
 
 class Hotel  extends Component {
 
@@ -8,7 +9,7 @@ class Hotel  extends Component {
     super();
     this.state = {
       redirect: false,
-      hotels: null,
+      hotels: hotelDataArray,
     }
   }
 

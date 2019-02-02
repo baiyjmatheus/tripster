@@ -130,20 +130,21 @@ io.on('connection', socket => {
   //getting info from the api and processing
 
     if (readyCounter('hotelReady')){
-      request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-        const hotelResults = JSON.parse(body).results;
-        const hotelData = hotelResults.map(hotel => {
-          return {
-            name: hotel.name,
-            rating: hotel.rating,
-            location: hotel.geometry.location,
-            address: hotel.vicinity,
-            img: getPhoto(hotel.photos[0].photo_reference),
-            price:(Math.random()*(2000-200)+200).toFixed(2)
-          }
-        })
-        io.emit('hotel data', hotelData)
-      })
+      //COMMENTED OUT API CALL DO NOT DELETE !!!! ///
+      // request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+      //   const hotelResults = JSON.parse(body).results;
+      //   const hotelData = hotelResults.map(hotel => {
+      //     return {
+      //       name: hotel.name,
+      //       rating: hotel.rating,
+      //       location: hotel.geometry.location,
+      //       address: hotel.vicinity,
+      //       img: getPhoto(hotel.photos[0].photo_reference),
+      //       price:(Math.random()*(2000-200)+200).toFixed(2)
+      //     }
+      //   })
+      //   io.emit('hotel data', hotelData)
+      // })
     }
   });
 
