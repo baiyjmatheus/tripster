@@ -125,8 +125,8 @@ io.on('connection', socket => {
 
 //socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
-  console.log("hotel socket active")
-  socket.hotelReady = true;
+    console.log("hotel socket active")
+    socket.hotelReady = true;
   
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
@@ -220,6 +220,14 @@ io.on('connection', socket => {
     socket.flights = flightState;
     if (readyCounter('flights')) {
       io.emit('next', ['flights', 'events']);
+    }
+  });
+
+  // Checks if redirecting to events
+  socket.on('hotels', (hotelState) => {
+    socket.hotels = hotelState;
+    if (readyCounter('hotels')) {
+      io.emit('next', ['events', 'hotels']);
     }
   });
 

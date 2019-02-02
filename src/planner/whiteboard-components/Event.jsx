@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
-import axios from 'axios';
 
 class Event extends Component {
   constructor() {
