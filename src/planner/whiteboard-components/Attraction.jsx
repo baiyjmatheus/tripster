@@ -59,12 +59,6 @@ class Attraction  extends Component {
   }
 
   render () {
-    // if (this.props.currentStep !== 'attractions') {
-    //   return (
-    //     <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
-    //   );
-    // }
-
   const checkBox = (e) => {
     const typeName = e.target.name
     const typesArray = this.state.filterTypes

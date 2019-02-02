@@ -61,80 +61,84 @@ class Whiteboard extends Component {
 
   render() {
     const url = this.props.tripURL;
-    return (
 
-      <Router>
-        <main id="whiteboard" className="full-height">
-          <div id="trip-header">
-            <div id="trip-info">
-              <h1>Amazing trip</h1>
-              <h4>Location: Paris</h4>
-            </div>
-            <div id="ready-btn">
-              <Ready status={this.state.readyBtnStatus} currentStep={this.state.currentStep} changeStepState={this.changeStepState} changeReadyBtn={this.changeReadyBtn} color={this.state.readyBtnColor}/>
-            </div>
-          </div>
-          <div id="suggestion-container">
-            <Switch>
-              <Route 
-                exact path={`${url}`} 
-                render={() => <Start
-                  tripURL={this.props.tripURL} 
-                  currentStep={this.state.currentStep} 
-                />} 
-              />
-              <Route 
-                path={`${url}/flights`} 
-                render={() => <Flight 
-                  tripId={this.props.tripId} 
-                  socket={this.props.socket} 
-                  tripURL={this.props.tripURL} 
-                  currentStep={this.state.currentStep}
-                  getSelectedItems={this.getSelectedItems}
-                  currentUser={this.props.currentUser}
-                />}
-              />
-              <Route 
-                path={`${url}/hotels`}  
-                render={() => <Hotel 
-                  socket={this.props.socket} 
-                  tripId={this.props.tripId} 
-                  tripURL={this.props.tripURL} 
-                  currentStep={this.state.currentStep}
-                  getSelectedItems={this.getSelectedItems}
-                  currentUser={this.props.currentUser}
-                />}
-              />
-              <Route 
-                exact path={`${url}/events`} 
-                render={() => <Event 
-                  url={url} 
-                  tripId={this.props.tripId} 
-                  tripURL={this.props.tripURL}
-                  socket={this.props.socket} 
-                  currentUser={this.props.currentUser}
-                  currentStep={this.state.currentStep}
-                  getSelectedItems={this.getSelectedItems}
-                />}
-              />
-              <Route 
-                path={`${url}/attractions`}  
-                render={() => <Attraction 
-                  url={url} 
-                  tripId={this.props.tripId} 
-                  tripURL={this.props.tripURL}
-                  socket={this.props.socket} 
-                  currentUser={this.props.currentUser}
-                  currentStep={this.state.currentStep}
-                  getSelectedItems={this.getSelectedItems}
-                />}
-              />
-            </Switch>
-          </div>
-        </main>
-      </Router>
+    if (this.state.currentStep === 'summary') {
+      return (<Redirect to={`${url}/summary`} />)
+    } else {
+      return (
 
-    );
+        <Router>
+          <main id="whiteboard" className="full-height">
+            <div id="trip-header">
+              <div id="trip-info">
+                <h1>Amazing trip</h1>
+                <h4>Location: Paris</h4>
+              </div>
+              <div id="ready-btn">
+                <Ready status={this.state.readyBtnStatus} currentStep={this.state.currentStep} changeStepState={this.changeStepState} changeReadyBtn={this.changeReadyBtn} color={this.state.readyBtnColor}/>
+              </div>
+            </div>
+            <div id="suggestion-container">
+              <Switch>
+                <Route 
+                  exact path={`${url}`} 
+                  render={() => <Start
+                    tripURL={this.props.tripURL} 
+                    currentStep={this.state.currentStep} 
+                  />} 
+                />
+                <Route 
+                  path={`${url}/flights`} 
+                  render={() => <Flight 
+                    tripId={this.props.tripId} 
+                    socket={this.props.socket} 
+                    tripURL={this.props.tripURL} 
+                    currentStep={this.state.currentStep}
+                    getSelectedItems={this.getSelectedItems}
+                    currentUser={this.props.currentUser}
+                  />}
+                />
+                <Route 
+                  path={`${url}/hotels`}  
+                  render={() => <Hotel 
+                    socket={this.props.socket} 
+                    tripId={this.props.tripId} 
+                    tripURL={this.props.tripURL} 
+                    currentStep={this.state.currentStep}
+                    getSelectedItems={this.getSelectedItems}
+                    currentUser={this.props.currentUser}
+                  />}
+                />
+                <Route 
+                  exact path={`${url}/events`} 
+                  render={() => <Event 
+                    url={url} 
+                    tripId={this.props.tripId} 
+                    tripURL={this.props.tripURL}
+                    socket={this.props.socket} 
+                    currentUser={this.props.currentUser}
+                    currentStep={this.state.currentStep}
+                    getSelectedItems={this.getSelectedItems}
+                  />}
+                />
+                <Route 
+                  path={`${url}/attractions`}  
+                  render={() => <Attraction 
+                    url={url} 
+                    tripId={this.props.tripId} 
+                    tripURL={this.props.tripURL}
+                    socket={this.props.socket} 
+                    currentUser={this.props.currentUser}
+                    currentStep={this.state.currentStep}
+                    getSelectedItems={this.getSelectedItems}
+                  />}
+                />
+              </Switch>
+            </div>
+          </main>
+        </Router>  
+      );
+    }
   }
 
   // Changes ready button color and text

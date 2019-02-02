@@ -9,6 +9,7 @@ import {
 import Login from './login/Login.jsx';
 import Planner from './planner/Planner.jsx';
 import Selection from './selection/Selection.jsx';
+import Summary from './summary/Summary.jsx';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
           <Route exact path='/' component={ Login } />
           <Route exact path='/trips/:trip_id' component={ Planner }/>
           <Route exact path='/trips' component={ Selection }/>
+          <Route exact path='/trips/:trip_id/summary' component={ Summary }/>
         </div>
       </Router>
       
