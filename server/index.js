@@ -150,7 +150,7 @@ io.on('connection', socket => {
 
 //***** COMMENTED OUT TO LIMIT API CALLS , TEST DATA IN PACKGAE JSON !!! *****//
   //socket to handle broadcasting data from attraction api
-  socket.on('attractions request', () => {
+  socket.on('attractions request', (tripId) => {
   console.log("attractions socket active")
   socket.attractionReady = true;
 
@@ -159,198 +159,20 @@ io.on('connection', socket => {
   // //getting info from the api and processing
 
     if (readyCounter('attractionReady')){
-      request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+point+of+interest&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-        const attractionResults = JSON.parse(body).results;
 
-        const attractionData = attractionResults.map(attraction => {
-          if(attraction.photos){
-            const attractionPhoto = getPhoto(attraction.photos[0].photo_reference)
-            return returnObject(attraction, "point_of_interest", attractionPhoto )
-          } else {
-            return OBJ2 = returnObject(attraction, "point_of_interest", attraction.icon )
-          }
-        })
+     FindAttractions('point_of_interest', city ,'attractions data')
+     FindAttractions('amusement_park', city,'attractions Data amusement')
+     FindAttractions('aquarium', city,'attractions Data aquarium')
+     FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+     FindAttractions('casino', city,'attractions Data Casino')
+     FindAttractions('museum', city,'attractions Data Museum')
+     FindAttractions('park', city,'attractions Data Parks')
+     FindAttractions('restaurant', city,'attractions Data Restaurant')
+     FindAttractions('stadium', city,'attractions Data Stadium')
+     FindAttractions('spa', city, 'attractions Data Spa')
+     FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+     FindAttractions('zoo', city, 'attractions Data Zoo')
 
-
-       io.emit('attractions data', attractionData, attractionData)
-      })
-
-      // api request for amusement parks
-       request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+amusement+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsAM = JSON.parse(body).results;
-
-            const attractionDataAM = attractionResultsAM.map(attractionAM => {
-              if(attractionAM.photos){
-                const attractionPhotoAM = getPhoto(attractionAM.photos[0].photo_reference)
-                return returnObject(attractionAM, "amusement_park", attractionPhotoAM )
-              } else {
-                return OBJ2 = returnObject(attractionAM, "amusement_park", attractionAM.icon )
-              }
-            })
-
-            io.emit('attractions Data amusement', attractionDataAM)
-        })
-
-       //api request for aquarium
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+aquarium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsAquarium = JSON.parse(body).results;
-
-            const attractionDataAquarium = attractionResultsAquarium.map(attractionAquarium => {
-              if(attractionAquarium.photos){
-                const attractionPhotoAquarium = getPhoto(attractionAquarium.photos[0].photo_reference)
-                return returnObject(attractionAquarium, "aquarium", attractionPhotoAquarium )
-              } else {
-                return OBJ2 = returnObject(attractionAquarium, "aquarium", attractionAquarium.icon )
-              }
-            })
-
-            io.emit('attractions Data aquarium', attractionDataAquarium)
-        })
-
-         //api request for art galleries
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+art+gallery&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsArtGallery = JSON.parse(body).results;
-
-            const attractionArtGallery = attractionResultsArtGallery.map(attractionArtGallery => {
-              if(attractionArtGallery.photos){
-                const attractionPhotoArtGallery = getPhoto(attractionArtGallery.photos[0].photo_reference)
-                return returnObject(attractionArtGallery, "art_gallery", attractionPhotoArtGallery )
-              } else {
-                return OBJ2 = returnObject(attractionArtGallery, "art_gallery", attractionArtGallery.icon )
-              }
-            })
-
-            io.emit('attractions Data ArtGallery', attractionArtGallery)
-        })
-
-         //api request for casino
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+casino&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsCasino = JSON.parse(body).results;
-
-            const attractionCasino= attractionResultsCasino.map(attractionCasino => {
-              if(attractionCasino.photos){
-                const attractionPhotoCasino = getPhoto(attractionCasino.photos[0].photo_reference)
-                return returnObject(attractionCasino, "casino", attractionPhotoCasino )
-              } else {
-                return OBJ2 = returnObject(attractionCasino, "casino", attractionCasino.icon )
-              }
-            })
-
-            io.emit('attractions Data Casino', attractionCasino)
-        })
-
-         //api request for museum
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+museum&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsMuseum = JSON.parse(body).results;
-
-            const attractionMuseum= attractionResultsMuseum.map(attractionMuseum => {
-              if(attractionMuseum.photos){
-                const attractionPhotoMuseum = getPhoto(attractionMuseum.photos[0].photo_reference)
-                return returnObject(attractionMuseum, "museum", attractionPhotoMuseum )
-              } else {
-                return OBJ2 = returnObject(attractionMuseum, "museum", attractionMuseum.icon )
-              }
-            })
-
-            io.emit('attractions Data Museum', attractionMuseum)
-        })
-
-              //api request for park
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+park&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsPark = JSON.parse(body).results;
-
-            const attractionPark= attractionResultsPark.map(attractionPark => {
-              if(attractionPark.photos){
-                const attractionPhotoPark = getPhoto(attractionPark.photos[0].photo_reference)
-                return returnObject(attractionPark, "park", attractionPhotoPark)
-              } else {
-                return returnObject(attractionPark, "park", attractionPark.icon )
-              }
-            })
-
-            io.emit('attractions Data Parks', attractionPark)
-        })
-
-                 //api request for restaurant
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+restaurant&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsRestaurant = JSON.parse(body).results;
-
-            const attractionRestaurants= attractionResultsRestaurant.map(attractionRestaurant => {
-              if(attractionRestaurant.photos){
-                const attractionPhotoRestaurant = getPhoto(attractionRestaurant.photos[0].photo_reference)
-                return returnObject(attractionRestaurant, "restaurant", attractionPhotoRestaurant)
-              } else {
-                return returnObject(attractionRestaurant, "restaurant", attractionRestaurant.icon )
-              }
-            })
-
-            io.emit('attractions Data Restaurant', attractionRestaurants)
-        })
-
-          //api request for stadium
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+stadium&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsStadium = JSON.parse(body).results;
-
-            const attractionStadiums= attractionResultsStadium.map(attractionStadium => {
-              if(attractionStadium.photos){
-                const attractionPhotoStadium = getPhoto(attractionStadium.photos[0].photo_reference)
-                return returnObject(attractionStadium, "stadium", attractionPhotoStadium)
-              } else {
-                return returnObject(attractionStadium, "stadium", attractionStadium.icon )
-              }
-            })
-
-            io.emit('attractions Data Stadium', attractionStadiums)
-        })
-
-              //api request for spa
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+spa&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsSpa = JSON.parse(body).results;
-
-            const attractionSpas= attractionResultsSpa.map(attractionSpa => {
-              if(attractionSpa.photos){
-                const attractionPhotoSpa = getPhoto(attractionSpa.photos[0].photo_reference)
-                return returnObject(attractionSpa, "spa", attractionPhotoSpa)
-              } else {
-                return returnObject(attractionSpa, "spa", attractionSpa.icon )
-              }
-            })
-
-            io.emit('attractions Data Spa', attractionSpas)
-        })
-
-
-              //api request for shopping mall
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+shopping+mall&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsShoppingMall = JSON.parse(body).results;
-
-            const attractionShoppingMalls= attractionResultsShoppingMall.map(attractionShoppingMall => {
-              if(attractionShoppingMall.photos){
-                const attractionPhotoShoppingMall = getPhoto(attractionShoppingMall.photos[0].photo_reference)
-                return returnObject(attractionShoppingMall, "shopping_mall", attractionPhotoShoppingMall)
-              } else {
-                return returnObject(attractionShoppingMall, "shopping_mall", attractionShoppingMall.icon )
-              }
-            })
-
-            io.emit('attractions Data ShoppingMall', attractionShoppingMalls)
-        })
-
-               //api request for zoo
-        request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${city}+zoo&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-            const attractionResultsZoo = JSON.parse(body).results;
-
-            const attractionZoos= attractionResultsZoo.map(attractionZoo => {
-              if(attractionZoo.photos){
-                const attractionPhotoZoo = getPhoto(attractionZoo.photos[0].photo_reference)
-                return returnObject(attractionZoo, "zoo", attractionPhotoZoo)
-              } else {
-                return returnObject(attractionZoo, "zoo", attractionZoo.icon )
-              }
-            })
-
-            io.emit('attractions Data Zoo', attractionZoos)
-        })
     }
   });
 
@@ -464,4 +286,25 @@ const getPhoto = (photo_reference_id) => {
           price:(Math.random()*(50-10)+10).toFixed(2),
           type: singleAttraction.types
         }
-      }
+  }
+
+  const FindAttractions = (type, city, socketEventName) => {
+
+    const formattedCityName = city.replace(/\s/g,"+")
+    const formattedType = type.replace(/[\W_]+/g,"+")
+
+    request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${formattedCityName}+${formattedType}&key=${GOOGLE_PLACE_KEY}`, function (error, response, body){
+      const attractionType = type
+      const APIresults = JSON.parse(body).results;
+      const APIdata = APIresults.map(result => {
+        if (result.photos){
+          const resultPhoto = getPhoto(result.photos[0].photo_reference)
+          return returnObject(result, type, resultPhoto)
+        } else {
+           return returnObject(result, type , result.icon )
+        }
+      })
+
+      io.emit(socketEventName, APIdata)
+    })
+  }

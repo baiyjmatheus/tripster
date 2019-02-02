@@ -8,12 +8,13 @@ class Attraction  extends Component {
     super();
     this.state = {
       redirect: false,
-      attractions: [],
+      attractions: attractionDataArray,  //change to [] and uncomment code below to use the API for data
       filteredAttractions: [],
       filterTypes: []
     }
   }
 
+//*** changed the attractions state back to use the saved JSON data instead of api **//
   addAmusementItem = (socketEventName, socket)=> {
 
    // const properSocketEmitData = JSON.parse(socketEmitData)
@@ -26,39 +27,25 @@ class Attraction  extends Component {
 
   componentWillMount() {
     console.log("request should be emitted")
-
+//*** COMMENTED OUT ON PURPOSE DO NOT DELETE !!! **//
     if (this.state.attractions.length === 0 ){
 
-      const socketVariable = this.props.socket
+      // const socketVariable = this.props.socket
 
+      // socketVariable.emit('attractions request', this.props.tripId)
 
-      socketVariable.emit('attractions request')
-
-
-      this.addAmusementItem('attractions data', socketVariable )
-
-      this.addAmusementItem('attractions Data amusement', socketVariable)
-
-      this.addAmusementItem('attractions Data aquarium', socketVariable)
-
-      this.addAmusementItem('attractions Data ArtGallery', socketVariable)
-
-      this.addAmusementItem('attraction Data Casino', socketVariable)
-
-      this.addAmusementItem('attractions Data Museum', socketVariable)
-
-      this.addAmusementItem('attractions Data Parks', socketVariable)
-
-      this.addAmusementItem('attractions Data Restaurant', socketVariable)
-
-      this.addAmusementItem('attractions Data Stadium', socketVariable)
-
-      this.addAmusementItem('attractions Data Spa', socketVariable)
-
-      this.addAmusementItem('attractions Data ShoppingMall', socketVariable)
-
-      this.addAmusementItem('attractions Data Zoo', socketVariable)
-
+      // this.addAmusementItem('attractions data', socketVariable )
+      // this.addAmusementItem('attractions Data amusement', socketVariable)
+      // this.addAmusementItem('attractions Data aquarium', socketVariable)
+      // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
+      // this.addAmusementItem('attraction Data Casino', socketVariable)
+      // this.addAmusementItem('attractions Data Museum', socketVariable)
+      // this.addAmusementItem('attractions Data Parks', socketVariable)
+      // this.addAmusementItem('attractions Data Restaurant', socketVariable)
+      // this.addAmusementItem('attractions Data Stadium', socketVariable)
+      // this.addAmusementItem('attractions Data Spa', socketVariable)
+      // this.addAmusementItem('attractions Data ShoppingMall', socketVariable)
+      // this.addAmusementItem('attractions Data Zoo', socketVariable)
 
     console.log("made api calls")
 
@@ -97,7 +84,7 @@ class Attraction  extends Component {
     e.preventDefault()
 
     this.setState({filteredAttractions : []})
-    // this.state.filteredAttractions
+
     const array = this.state.attractions
     const filterTypesArray = this.state.filterTypes
 
@@ -113,11 +100,9 @@ class Attraction  extends Component {
       var testFilter = array.filter(filterType)
 
 
-
       testFilter.forEach(function(item){
         filteredList.push(item)
-      })     // this.setState({filteredAttractions : [...filteredAttractions, ...testFilter]})
-
+      })
     })
 
     this.setState({filteredAttractions : filteredList })

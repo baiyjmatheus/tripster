@@ -61,7 +61,7 @@
   "name": "Casino1",
   "price": "27.63",
   "rating": 0,
-  "type": "casio"},
+  "type": "casino"},
   {"address": "427 Reservoir Rd, Prospect NSW 2148, Australia",
   "img": "https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=CmRaAAAAad_6K3ELIi0exxqAGXT_3a-6riSBo0szVyyYGRNmw_p4Hka-EL8tXEawLFhoM5CQ37cJ86-ewvwHmuVF_Sxtxd5t1HJTopxRA1QOYYnpHYzjuHL4GShAuEAXPca5N2_2EhAtyCsrKXfMispRvArZWjAyGhRjJPAVS9s1U_Q86EJlQZ6ixbc3bg&key=AIzaSyCM2YyfHEPGn78KdQ96GU1UjgZtkC7Vlts",
   "location": {"lat": -33.80697019999999, "lng": 150.910231},
