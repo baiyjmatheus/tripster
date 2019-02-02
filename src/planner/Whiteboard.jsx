@@ -30,7 +30,20 @@ class Whiteboard extends Component {
     }
   }
 
-  // Switches the step state when ready button is clicked
+  getSelectedItems = (items, type) => {
+    let selectedItems = [];
+    items.forEach(item => {
+      for (let user in item.socketIds) {
+        if (item.socketIds[user].selected) {
+          selectedItems.push(item);
+          break;
+        }
+      }
+    });
+    this.setState({[type + 'Selections']: selectedItems})
+  }
+
+// Switches the step state when ready button is clicked
   changeStepState = (key) => {
     this.setState({[key]: !this.state[key]});
     this.props.socket.emit(`${this.state.currentStep}`, this.state[key]);
@@ -39,8 +52,10 @@ class Whiteboard extends Component {
   // Reset the button to Ready when redirected and changes the currentStep state
   componentWillMount() {
     this.props.socket.on('next', (step) => {
+      // send data to server for db here
+      this.props.socket.emit(`${step[0]} final selections`, { tripId: this.props.tripId, data: this.state[`${step[0]}Selections`] })
+      this.setState({currentStep: step[1]});
       this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
-      this.setState({currentStep: step});
     });
   }
 
@@ -61,11 +76,59 @@ class Whiteboard extends Component {
           </div>
           <div id="suggestion-container">
             <Switch>
-              <Route exact path={`${url}`} render={() => (<Start tripURL={this.props.tripURL} currentStep={this.state.currentStep} />)} />
-              <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route path={`${url}/hotels`}  render={() => <Hotel socket={this.props.socket} tripId={this.props.tripId} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route path={`${url}/attractions`}  render={() => <Attraction url={`${url}/attractions`} socket={this.props.socket} tripId={this.props.tripId} currentStep={this.state.currentStep} tripURL={this.props.tripURL} />} />
+              <Route 
+                exact path={`${url}`} 
+                render={() => <Start
+                  tripURL={this.props.tripURL} 
+                  currentStep={this.state.currentStep} 
+                />} 
+              />
+              <Route 
+                path={`${url}/flights`} 
+                render={() => <Flight 
+                  tripId={this.props.tripId} 
+                  socket={this.props.socket} 
+                  tripURL={this.props.tripURL} 
+                  currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
+                  currentUser={this.props.currentUser}
+                />}
+              />
+              <Route 
+                path={`${url}/hotels`}  
+                render={() => <Hotel 
+                  socket={this.props.socket} 
+                  tripId={this.props.tripId} 
+                  tripURL={this.props.tripURL} 
+                  currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
+                  currentUser={this.props.currentUser}
+                />}
+              />
+              <Route 
+                exact path={`${url}/events`} 
+                render={() => <Event 
+                  url={url} 
+                  tripId={this.props.tripId} 
+                  tripURL={this.props.tripURL}
+                  socket={this.props.socket} 
+                  currentUser={this.props.currentUser}
+                  currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
+                />}
+              />
+              <Route 
+                path={`${url}/attractions`}  
+                render={() => <Event 
+                  url={url} 
+                  tripId={this.props.tripId} 
+                  tripURL={this.props.tripURL}
+                  socket={this.props.socket} 
+                  currentUser={this.props.currentUser}
+                  currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
+                />}
+              />
             </Switch>
           </div>
         </main>
