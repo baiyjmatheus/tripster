@@ -227,6 +227,14 @@ io.on('connection', socket => {
     }
   });
 
+  // Checks if redirecting to attractions
+  socket.on('events', (eventState) => {
+    socket.events = !eventState;
+    if (readyCounter('events')) {
+      io.emit('next', 'attractions');
+    }
+  });
+
   // Broadcast events
   socket.on('events request', (tripId) => {
     socket.eventReady = true;

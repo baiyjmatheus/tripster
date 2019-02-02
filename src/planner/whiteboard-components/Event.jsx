@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
+import { Redirect } from 'react-router-dom';
 
 class Event extends Component {
   constructor() {
@@ -19,7 +20,12 @@ class Event extends Component {
   }
 
   render () {
-    if (this.state.events) {
+    if (this.props.currentStep !== 'events') {
+      return (
+        <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
+      );
+    } else {
+      if (this.state.events) {
         const events = this.state.events.map(event => {
           return <Card 
             title={ event.name }
@@ -28,21 +34,20 @@ class Event extends Component {
             imgSrc={ event.img }
             price={ event.price }
           />
-        })
-      return (
-        <div id="events-container">
-          { events }
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <p>
-          Loading...
-          </p>
-        </div>
-      )
-    }
+        });
+        return (
+          <div id="events-container">
+            { events }
+          </div>
+        )
+      } else {
+        return (
+          <div>
+            <p>Loading...</p>
+          </div>
+        );
+      }
+    }  
   }
 }
 

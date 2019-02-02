@@ -25,7 +25,8 @@ class Whiteboard extends Component {
       start: false,
       flights: false,
       hotels: false,
-      events: false
+      events: false,
+      attractions: false
     }
   }
 
@@ -61,8 +62,8 @@ class Whiteboard extends Component {
               <Route exact path={`${url}`} render={() => (<Start tripURL={this.props.tripURL} currentStep={this.state.currentStep} />)} />
               <Route path={`${url}/flights`} render={() => <Flight tripId={this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
               <Route path={`${url}/hotels`}  render={() => <Hotel socket={this.props.socket} tripId={this.props.tripId} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
-              <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} />}/>
-              <Route path={`${url}/attraction`}  render={() => <Attraction url={`${url}/attraction`} socket={this.props.socket} tripId={this.props.tripId}/>}/>
+              <Route exact path={`${url}/events`} render={() => <Event url={url} tripId = {this.props.tripId} socket={this.props.socket} tripURL={this.props.tripURL} currentStep={this.state.currentStep} />}/>
+              <Route path={`${url}/attractions`}  render={() => <Attraction url={`${url}/attraction`} socket={this.props.socket} tripId={this.props.tripId}/>}/>
             </Switch>
           </div>
         </main>
