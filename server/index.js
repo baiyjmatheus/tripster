@@ -221,7 +221,7 @@ io.on('connection', socket => {
 
   // Checks if redirecting to events
   socket.on('hotels', (hotelState) => {
-    socket.hotels = hotelState;
+    socket.hotels = !hotelState;
     if (readyCounter('hotels')) {
       io.emit('next', 'events');
     }
