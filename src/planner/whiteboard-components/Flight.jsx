@@ -17,6 +17,7 @@ class Flight  extends Component {
     this.props.socket.on('flights', (flights) => {
       this.setState({flights});
     });
+
     this.props.socket.on('flight selection', flight => {
       this.props.getSelectedItems(this.state.flights, 'flights')
       let stateCopy = Object.assign({}, this.state);
@@ -54,12 +55,12 @@ class Flight  extends Component {
     let flight;
     this.state.flights.forEach((e) => {
       if (e.id == flightId) {
-        flight = e
+        flight = e;
       }
     })
-    flight.socketIds[this.props.currentUser.socketId].selected = !flight.socketIds[this.props.currentUser.socketId].selected
+    flight.socketIds[this.props.currentUser.socketId].selected = !flight.socketIds[this.props.currentUser.socketId].selected;
     flight.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
-    this.props.socket.emit('flight selection', flight)
+    this.props.socket.emit('flight selection', flight);
   }
 
   findFlightIndexById = (flights, id) => {

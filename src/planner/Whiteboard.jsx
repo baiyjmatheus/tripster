@@ -93,7 +93,9 @@ class Whiteboard extends Component {
                   socket={this.props.socket} 
                   tripId={this.props.tripId} 
                   tripURL={this.props.tripURL} 
-                  currentStep={this.state.currentStep} 
+                  currentStep={this.state.currentStep}
+                  getSelectedItems={this.getSelectedItems}
+                  currentUser={this.props.currentUser}
                 />}
               />
               <Route 
@@ -101,6 +103,7 @@ class Whiteboard extends Component {
                 render={() => <Event 
                   url={url} 
                   tripId={this.props.tripId} 
+                  tripURL={this.props.tripURL}
                   socket={this.props.socket} 
                   currentUser={this.props.currentUser}
                   getSelectedItems={this.getSelectedItems}

@@ -18,6 +18,13 @@ class Hotel  extends Component {
       console.log(hotelsData)
       this.setState({hotels: hotelsData})
     })
+
+    this.props.socket.on('hotel selection', hotel => {
+      this.props.getSelectedItems(this.state.hotels, 'hotels')
+      let stateCopy = Object.assign({}, this.state);
+      stateCopy.hotels[this.findHotelIndexById(this.state.hotels, hotel.id)] = hotel
+      this.setState({stateCopy})
+    })
   }
 
   render () {
@@ -30,8 +37,19 @@ class Hotel  extends Component {
 
       if (hotelArray) {
         const hotelItem = hotelArray.map( hotel => {
-        return <Card key={Math.random()} title={hotel.name} rating={hotel.rating} address={hotel.address} imgSrc={hotel.img} location={hotel.location} price={hotel.price}/>
-      })
+          return <Card 
+            key={Math.random()}
+            id={hotel.id} 
+            title={hotel.name} 
+            rating={hotel.rating} 
+            address={hotel.address} 
+            imgSrc={hotel.img} 
+            location={hotel.location} 
+            price={hotel.price}
+            addUserSelection={this.addUserSelection}
+            socketIds={hotel.socketIds}
+          />
+        })
         return (
           <div>
             <h1> this is the hotels page </h1>
@@ -48,6 +66,29 @@ class Hotel  extends Component {
         );
       }
     }
+  }
+
+  addUserSelection = (hotelId) => {
+    let hotel;
+    this.state.hotels.forEach((e) => {
+      if (e.id == hotelId) {
+        hotel = e
+      }
+    })
+    hotel.socketIds[this.props.currentUser.socketId].selected = !hotel.socketIds[this.props.currentUser.socketId].selected
+    hotel.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
+
+    this.props.socket.emit('hotel selection', hotel);
+  }
+
+  findHotelIndexById = (hotels, id) => {
+    let index;
+    hotels.forEach((e, i) => {
+      if (e.id === id) {
+        index = i
+      }
+    })
+    return index;
   }
 }
 

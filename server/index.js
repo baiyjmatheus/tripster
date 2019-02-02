@@ -10,7 +10,6 @@ const tripsRoutes = require('./routes/trips');
 const GOOGLE_PLACE_KEY= process.env.GOOGLE_PLACE_KEY
 
 
-
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
@@ -109,8 +108,7 @@ io.on('connection', socket => {
       socket.emit('new user', userData)
     })
   });
-
-  // emit to current user, broadcast to all others (broadcast does not send to current)
+  // broadcast chat messages
   socket.on('new message', msg => {
     io.emit('new message', msg);
   });
@@ -123,28 +121,65 @@ io.on('connection', socket => {
     }
   });
 
-//socket to handle broadcasting data from hotel api
+// socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
-    console.log("hotel socket active")
     socket.hotelReady = true;
   
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+        let count = 0;
         const hotelResults = JSON.parse(body).results;
         const hotelData = hotelResults.map(hotel => {
+          // obj for handling selection on a per socket basis
+          let socketIds = {}
+          Object.keys(io.sockets.sockets).forEach(id => {
+            socketIds[id] = { selected: false, color: null }
+          })          
+          count++
           return {
+            id: count,
             name: hotel.name,
             rating: hotel.rating,
             location: hotel.geometry.location,
             address: hotel.vicinity,
+            latt: hotel.geometry.location.lat,
+            long: hotel.geometry.location.lng,
             img: getPhoto(hotel.photos[0].photo_reference),
-            price:(Math.random()*(2000-200)+200).toFixed(2)
+            price:(Math.random()*(2000-200)+200).toFixed(2),
+            socketIds
           }
         })
         io.emit('hotel data', hotelData)
       })
     }
   });
+
+  socket.on('hotel selection', hotel => {
+    console.log(hotel)
+    io.emit('hotel selection', hotel)
+  });
+
+  socket.on('hotels final selections', data => {
+    knex('hotels')
+      .returning('*')
+      .where('trip_id', data.tripId)
+      .then( hotels => {
+        if (hotels.length === 0) {
+          data.data.forEach(hotel => {
+            knex('hotels')
+              .insert({
+                name: hotel.name,
+                rating: hotel.rating,
+                price: hotel.price,
+                trip_id: data.tripId,
+                latt: hotel.latt,
+                long: hotel.long
+              })
+              .then()
+          })
+        }
+      })
+  })
 
   // Socket disconnects
   socket.on('disconnect', () => {
@@ -219,7 +254,7 @@ io.on('connection', socket => {
   socket.on('flights', (flightState) => {
     socket.flights = flightState;
     if (readyCounter('flights')) {
-      io.emit('next', ['flights', 'events']);
+      io.emit('next', ['flights', 'hotels']);
     }
   });
 
@@ -227,7 +262,7 @@ io.on('connection', socket => {
   socket.on('hotels', (hotelState) => {
     socket.hotels = hotelState;
     if (readyCounter('hotels')) {
-      io.emit('next', ['events', 'hotels']);
+      io.emit('next', ['hotels', 'events']);
     }
   });
 
@@ -292,31 +327,30 @@ io.on('connection', socket => {
 
   socket.on('events final selections', data => {
     knex('events')
-      .returning('*')
-      .where('trip_id', data.tripId)
-      .then( events => {
-        if (events.length !== 0) {
-          data.data.forEach(event => {
-            event.venue = JSON.stringify(event.venue)
-            knex('events')
-              .insert({
-                name: event.name,
-                description: event.description,
-                start_time: event.start_time,
-                end_time: event.end_time,
-                url: event.url,
-                latt: event.latt,
-                long: event.long,
-                price: event.price,
-                trip_id: data.tripId,
-                venue: event.venue
-              })
-              .then()
+    .returning('*')
+    .where('trip_id', data.tripId)
+    .then( events => {
+      if (events.length === 0) {
+        data.data.forEach(event => {
+          event.venue = JSON.stringify(event.venue)
+          knex('events')
+          .insert({
+            name: event.name,
+            description: event.description,
+            start_time: event.start_time,
+            end_time: event.end_time,
+            url: event.url,
+            latt: event.latt,
+            long: event.long,
+            price: event.price,
+            trip_id: data.tripId,
+            venue: event.venue
           })
-        }
-      })
+          .then()
+        })
+      }
+    })
   })
-
 });
 
 // Check the counter of sockets ready
