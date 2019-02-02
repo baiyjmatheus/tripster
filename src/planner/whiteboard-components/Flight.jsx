@@ -19,10 +19,16 @@ class Flight  extends Component {
     });
 
     this.props.socket.on('flight selection', flight => {
-      this.props.getSelectedItems(this.state.flights, 'flights')
       let stateCopy = Object.assign({}, this.state);
+      let routeCopy = stateCopy.flights[this.findFlightIndexById(this.state.flights, flight.id)].route
+      let refinedRoute = routeCopy.map( step => {
+        return { aTime: step.aTime, dTime: step.dTime, cityFrom: step.cityFrom, cityTo: step.cityTo }
+      })
+      flight.route = refinedRoute
       stateCopy.flights[this.findFlightIndexById(this.state.flights, flight.id)] = flight
+      // stateCopy.flights[this.findFlightIndexById(this.state.flights, flight.id)].route = refinedRoute
       this.setState({stateCopy})
+      this.props.getSelectedItems(this.state.flights, 'flights')
     })
   }
 
@@ -30,7 +36,7 @@ class Flight  extends Component {
     const flightCards = this.state.flights.map((flight) => {
           return  <Card 
             id={flight.id}
-            title={`${flight.route.length - 1} stops`} 
+            title={`${flight.route ? (flight.route.length - 1) : (flight.refinedRoute.length - 1)} stops`} 
             rating={((flight.quality / 100) / 2).toPrecision(2)} 
             address={`From: ${flight.flyFrom} \t To: ${flight.flyTo}`} 
             price={flight.price} 

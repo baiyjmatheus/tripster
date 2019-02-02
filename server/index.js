@@ -205,6 +205,7 @@ io.on('connection', socket => {
                   socketIds[id] = { selected: false, color: null}
                 })
                 count++
+                console.log(flight.route)
                 return {
                   id: count,
                   route: flight.route,
