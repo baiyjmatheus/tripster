@@ -198,7 +198,7 @@ io.on('connection', socket => {
       .returning('*')
       .where('trip_id', data.tripId)
       .then( flights => {
-        if (flights.length !== 0) {
+        if (flights.length === 0) {
           data.data.forEach(flight => {
             flight.route = JSON.stringify(flight.route)
             knex('flights')
@@ -214,32 +214,6 @@ io.on('connection', socket => {
       })
   })
 
-  socket.on('events final selections', data => {
-    knex('events')
-      .returning('*')
-      .where('trip_id', data.tripId)
-      .then( events => {
-        if (events.length !== 0) {
-          data.data.forEach(event => {
-            event.venue = JSON.stringify(event.venue)
-            knex('events')
-              .insert({
-                name: event.name,
-                description: event.description,
-                start_time: event.start_time,
-                end_time: event.end_time,
-                url: event.url,
-                latt: event.latt,
-                long: event.long,
-                price: event.price,
-                trip_id: data.tripId,
-                venue: event.venue
-              })
-              .then()
-          })
-        }
-      })
-  })
 
   // Checks if redirecting to events
   socket.on('flights', (flightState) => {
@@ -289,7 +263,7 @@ io.on('connection', socket => {
                   start_time: event.start.local, 
                   end_time: event.end.local,
                   img: img,
-                  address: event.venue.address.address1,
+                  address: event.venue.address.address_1,
                   rating: rating,
                   price: price,
                   lat: event.venue.address.latitude,
@@ -306,6 +280,33 @@ io.on('connection', socket => {
   // recieves new selection and broadcasts it to all
   socket.on('event selection', event => {
     io.emit('event selection', event)
+  })
+
+  socket.on('events final selections', data => {
+    knex('events')
+      .returning('*')
+      .where('trip_id', data.tripId)
+      .then( events => {
+        if (events.length !== 0) {
+          data.data.forEach(event => {
+            event.venue = JSON.stringify(event.venue)
+            knex('events')
+              .insert({
+                name: event.name,
+                description: event.description,
+                start_time: event.start_time,
+                end_time: event.end_time,
+                url: event.url,
+                latt: event.latt,
+                long: event.long,
+                price: event.price,
+                trip_id: data.tripId,
+                venue: event.venue
+              })
+              .then()
+          })
+        }
+      })
   })
 
 });

@@ -95,6 +95,7 @@ class Whiteboard extends Component {
                   tripId={this.props.tripId} 
                   socket={this.props.socket} 
                   currentUser={this.props.currentUser}
+                  getSelectedItems={this.getSelectedItems}
                 />}
               />
               <Route 

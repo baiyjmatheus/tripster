@@ -19,6 +19,7 @@ class Event extends Component {
     })
     // recieves broadcast of new event selection and replaces that event obj
     this.props.socket.on('event selection', event => {
+      this.props.getSelectedItems(this.state.events, 'events')
       let stateCopy = Object.assign({}, this.state);
       stateCopy.events[this.findEventIndexById(this.state.events, event.id)] = event
       this.setState({stateCopy})
