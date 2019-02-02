@@ -108,7 +108,7 @@ io.on('connection', socket => {
       }
       socket.emit('new user', userData)
     })
-  })
+  });
 
   // emit to current user, broadcast to all others (broadcast does not send to current)
   socket.on('new message', msg => {
@@ -116,10 +116,10 @@ io.on('connection', socket => {
   });
 
   // broadcast flights whenever all participants are ready
-  socket.on('startReady', startReady => {
-    socket.startReady = socket.startReady ? !socket.startReady: startReady;
+  socket.on('start', startState => {
+    socket.startReady = !startState;
     if (readyCounter('startReady')) {
-      io.emit('next step', 'flights');
+      io.emit('next', 'flights');
     }
   });
 
@@ -129,6 +129,7 @@ io.on('connection', socket => {
   socket.hotelReady = true;
 
   //getting info from the api and processing
+
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         const hotelResults = JSON.parse(body).results;
@@ -146,7 +147,6 @@ io.on('connection', socket => {
       })
     }
   });
-
 
 //***** COMMENTED OUT TO LIMIT API CALLS , TEST DATA IN PACKGAE JSON !!! *****//
   //socket to handle broadcasting data from attraction api
@@ -176,10 +176,13 @@ io.on('connection', socket => {
     }
   });
 
+  // Socket disconnects
+
   socket.on('disconnect', () => {
     console.log('socket disconnected', socket.id);
   });
 
+  // Broadcast flight suggestions
   socket.on('flightReady', (tripId) => {
     socket.flightReady = true;
     if (readyCounter('flightReady')) {
@@ -209,37 +212,69 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('events request', () => {
+  // Checks if redirecting to hotels
+  socket.on('flights', (flightState) => {
+    socket.flights = flightState;
+    if (readyCounter('flights')) {
+      io.emit('next', 'hotels');
+    }
+  });
+
+  // Checks if redirecting to events
+  socket.on('hotels', (hotelState) => {
+    socket.hotels = hotelState;
+    if (readyCounter('hotels')) {
+      io.emit('next', 'events');
+    }
+  });
+
+  // Broadcast events
+  socket.on('events request', (tripId) => {
     socket.eventReady = true;
     if (readyCounter('eventReady')) {
-    request(
-      `https://www.eventbriteapi.com/v3/events/search?location.address=TORONTO&location.within=5km&expand=venue&token=${process.env.EVENTBRITE_API_TOKEN}`,
-      (error, response, body) => {
-        parsedBody = JSON.parse(body)
-        const eventsData = parsedBody.events.map(event => {
-          const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
-          const rating = Math.floor((Math.random() * 5) * 10) / 10
-          const price = Math.floor((Math.random() * 250) * 100) / 100
-          return {
-            name: event.name.text,
-            description: event.description.text,
-            start_time: event.start.local,
-            end_time: event.end.local,
-            img: img,
-            address: event.venue.address.address1,
-            rating: rating,
-            price: price
-          }
-        })
 
-        io.emit('events data', eventsData)
-      })
+      knex('trips')
+        .returning('trip')
+        .where('id', tripId)
+        .then(trip => {
+          // fetch events from eventbrite with trip data from DB
+          request(
+            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`,
+            (error, response, body) => {
+              if (error) {
+                return error
+              }
+              parsedBody = JSON.parse(body)
+              const eventsData = parsedBody.events.map(event => {
+                // if event does not have img, insert generic img
+                const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
+                // generate random price & rating
+                const rating = Math.floor((Math.random() * 5) * 10) / 10
+                const price = Math.floor((Math.random() * 250) * 100) / 100
+                //return event obj for each
+                return {
+                  name: event.name.text,
+                  description: event.description.text,
+                  start_time: event.start.local,
+                  end_time: event.end.local,
+                  img: img,
+                  address: event.venue.address.address1,
+                  rating: rating,
+                  price: price,
+                  lat: event.venue.address.latitude,
+                  long: event.venue.address.longitude
+                }
+              });
+              // broadcast arr of event objs
+              io.emit('events data', eventsData)
+          });
+      });
     }
-  })
-
+  });
 
 });
 
+// Check the counter of sockets ready
 const readyCounter = (step) => {
   const socketsId = Object.keys(io.sockets.sockets);
   let counter = 0;
@@ -252,11 +287,13 @@ const readyCounter = (step) => {
   return counter === socketsId.length;
 }
 
+// Give each user a color
 const setUserColor = (num) => {
   const colors = ['tomato', 'greenyellow', 'yellow'];
   return colors[num]
 }
 
+//
 const getPhoto = (photo_reference_id) => {
   const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${photo_reference_id}&key=${GOOGLE_PLACE_KEY}`
 
@@ -274,18 +311,6 @@ const getPhoto = (photo_reference_id) => {
           type: type
         }
     return OBJ
-  }
-
- const returnObjectURL = (singleAttraction,type, photo) =>{
-        return {
-          name: singleAttraction.name,
-          rating: singleAttraction.rating,
-          location: singleAttraction.geometry.location,
-          address: singleAttraction.formatted_address,
-          img: getPhoto(photo),
-          price:(Math.random()*(50-10)+10).toFixed(2),
-          type: singleAttraction.types
-        }
   }
 
   const FindAttractions = (type, city, socketEventName) => {
