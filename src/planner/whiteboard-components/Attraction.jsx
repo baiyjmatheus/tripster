@@ -8,6 +8,7 @@ class Attraction  extends Component {
   constructor() {
     super();
     this.state = {
+      counter: 0,
       redirect: false,
       attractions: attractionDataArray,  //change to [] and uncomment code below to use the API for data
       filteredAttractions: [],
@@ -58,11 +59,11 @@ class Attraction  extends Component {
   }
 
   render () {
-    if (this.props.currentStep !== 'attractions') {
-      return (
-        <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
-      );
-    }
+    // if (this.props.currentStep !== 'attractions') {
+    //   return (
+    //     <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
+    //   );
+    // }
 
   const checkBox = (e) => {
     const typeName = e.target.name

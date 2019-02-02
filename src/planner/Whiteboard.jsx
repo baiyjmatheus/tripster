@@ -119,7 +119,7 @@ class Whiteboard extends Component {
               />
               <Route 
                 path={`${url}/attractions`}  
-                render={() => <Event 
+                render={() => <Attraction 
                   url={url} 
                   tripId={this.props.tripId} 
                   tripURL={this.props.tripURL}
