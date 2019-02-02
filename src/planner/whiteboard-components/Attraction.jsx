@@ -8,102 +8,66 @@ class Attraction  extends Component {
     super();
     this.state = {
       redirect: false,
-      attractions: attractionDataArray,
+      attractions: [],
       filteredAttractions: [],
       filterTypes: []
     }
+  }
+
+  addAmusementItem = (socketEventName, socket)=> {
+
+   // const properSocketEmitData = JSON.parse(socketEmitData)
+     socket.on(socketEventName, socketEmitData => {
+        this.setState({attractions: [...this.state.attractions, ...socketEmitData]})
+      })
+
   }
 
 
   componentWillMount() {
     console.log("request should be emitted")
 
+    if (this.state.attractions.length === 0 ){
+
+      const socketVariable = this.props.socket
 
 
-    // ** COMMENTED OUT TO LIMIT API CALLS - TEST DATA IN JSON FILE ** //
-    this.props.socket.emit('attractions request')
-
-    // this.props.socket.on('attractions data', attractionData => {
-    //   console.log(attractionData)
-    //   this.setState({attractions: [...this.state.attractions, ...attractionData]});
-    // })
-
-    // this.props.socket.on('attractions Data amusement', attractionDataAM => {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionDataAM]});
-    //   console.log(attractionDataAM)
-    // })
-
-    // this.props.socket.on('attractions Data aquarium', attractionDataAquarium => {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionDataAquarium]});
-    //   console.log(attractionDataAquarium)
-    // })
-
-    // this.props.socket.on('attractions Data ArtGallery', attractionDataArtGallery => {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionDataArtGallery]});
-    //   console.log("atr", attractionDataArtGallery)
-    // })
-
-    // this.props.socket.on('attractions Data Casino', attractionCasino => {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionCasino]});
-    //   console.log("atr", attractionCasino)
-    // })
-
-    // this.props.socket.on('attractions Data Museum', attractionMuseum => {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionMuseum]});
-    //   console.log("mus", attractionMuseum)
-    // })
+      socketVariable.emit('attractions request')
 
 
-    // this.props.socket.on('attractions Data Parks', attractionPark=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionPark]});
-    //   console.log("park", attractionPark)
-    // })
+      this.addAmusementItem('attractions data', socketVariable )
 
-    // this.props.socket.on('attractions Data Restaurant', attractionRestaurants=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionRestaurants]});
-    //   console.log("res", attractionRestaurants)
-    // })
+      this.addAmusementItem('attractions Data amusement', socketVariable)
 
-    // this.props.socket.on('attractions Data Stadium', attractionStadiums=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionStadiums]});
-    //   console.log("stadium", attractionStadiums)
-    // })
+      this.addAmusementItem('attractions Data aquarium', socketVariable)
 
-    // this.props.socket.on('attractions Data Spa', attractionSpas=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionSpas]});
-    //   console.log("spa", attractionSpas)
-    // })
+      this.addAmusementItem('attractions Data ArtGallery', socketVariable)
 
+      this.addAmusementItem('attraction Data Casino', socketVariable)
 
-    // this.props.socket.on('attractions Data ShoppingMall', attractionShoppingMalls=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionShoppingMalls]});
-    //   console.log("ShoppingMall", attractionShoppingMalls)
-    // })
+      this.addAmusementItem('attractions Data Museum', socketVariable)
+
+      this.addAmusementItem('attractions Data Parks', socketVariable)
+
+      this.addAmusementItem('attractions Data Restaurant', socketVariable)
+
+      this.addAmusementItem('attractions Data Stadium', socketVariable)
+
+      this.addAmusementItem('attractions Data Spa', socketVariable)
+
+      this.addAmusementItem('attractions Data ShoppingMall', socketVariable)
+
+      this.addAmusementItem('attractions Data Zoo', socketVariable)
 
 
-    // this.props.socket.on('attractions Data Zoo', attractionZoos=> {
-    //   this.setState({attractions: [...this.state.attractions, ...attractionZoos]});
-    //   console.log("zoo", attractionZoos)
-    // })
+    console.log("made api calls")
 
+    } else {
 
-
-
-    // attempt at a function but the socketEmitData is not a string so getting "undefined" when passed as a variable
-    // function addAmusementItem(socketEventName, socketEmitData){
-    //   return (this.props.socket.on(socketEventName, socketEmitData => {
-    //     this.setState({attractions: [...this.state.attractions, ...socketEmitData]})
-    //   }))
-    // }
-
-    // addAmusementItem('attractions Data amusement', 'attractionDataAM')
-
-
+      console.log("already in state!")
+    }
 
   }
-
-
-            // messages: [...this.state.messages, msgJSON]
 
   render () {
 
@@ -113,41 +77,18 @@ class Attraction  extends Component {
 
     const i = typesArray.indexOf(typeName)
 
-    // console.log("this is the index of array, ", i)
 
     if ( i === -1) {
-    //   // const NewArray = typesArray.splice(i,1)
-      // console.log(NewArray)
-      // this.setState({filterTypes: typesArray.splice(i,1) })
       this.setState({filterTypes:[...typesArray, typeName]})
     } else {
       const x = typesArray.splice(i, 1)
-      // console.log("remove this", x)
-      // console.log("spliced array", typesArray)
       this.setState({filterTypes: typesArray})
     }
 
     console.log("checked box!", this.state.filterTypes)
   }
-  //check array:
 
-
-
-    // console.log ("this is the typename", typeName)
-
-    // var items = matchType(typeName)
-
-    // console.log("these are the new items", items)
-    // matchType(typeName)
-    // console.log("this is the box:", typeName)
-
-    // if(this.state.filteredAttractions.length > 0){
-    //   this.setState({filteredAttractions: [...this.state.filteredAttractions,...items]})
-    // } else{
-    //   this.setState({filteredAttractions: items})
-    // }
-
-    // console.log("the state", this.state.filteredAttractions)
+    console.log("the state", this.state.attractions)
 
 
 
@@ -180,26 +121,7 @@ class Attraction  extends Component {
     })
 
     this.setState({filteredAttractions : filteredList })
-    // console.log("this the final filtered list", filteredList)
 
-
-    // }
-    // function returnThis() {
-    //   for (category of filterCat)
-    //   {
-
-    //     function filterType(item){
-    //       if(item.type === category){
-    //         return true
-    //       }
-    //     }
-    //   }
-    // }
-
-
-    // return testFilter
-    // console.log(testFilter)
-    // this.setState({})
   }
 
 
@@ -219,7 +141,7 @@ class Attraction  extends Component {
 
             <div id="filter-boxes">
                 <form>
-                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
+                amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox}  />
                 aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
                 point of interest : <input type="checkbox" name="point_of_interest" onClick={checkBox} />
                 art gallery : <input type="checkbox" name="art_gallery" onClick={checkBox} />
@@ -278,7 +200,11 @@ class Attraction  extends Component {
     }
   }
 
+
+
 }
+
+
 
 export default Attraction;
 
