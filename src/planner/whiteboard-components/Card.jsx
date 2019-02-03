@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 class Card extends Component {
   render() {
     const cardStyle = {
-      color: 'white',
+      color: '#333',
       height: '320px',
       width: '300px',
-      border: '1px solid black',
+      border: '1px solid #ccc',
       margin: '20px 0 40px'
     }
     // for each user that selected this card, their color is pushed to an array for mapping to check icon

@@ -8,7 +8,11 @@ class Start extends Component {
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
       );
     } else {
-      return (<h2>Click ready and wait for all participants</h2>);
+      return (
+        <div id="start">
+          <h2>Click ready and wait for all participants</h2>
+        </div>
+      );
     }
   }
 }

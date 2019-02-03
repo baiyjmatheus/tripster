@@ -4,7 +4,7 @@ class Overview extends Component {
   render() {
     return (
       <aside id="summary" className="full-height">
-        <i className="fas fa-map-marker-alt"></i>
+        <i className="fas fa-map-marker-alt logo"></i>
 
         <div id="progress">
           <ul id="steps">

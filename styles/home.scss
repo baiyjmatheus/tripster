@@ -17,7 +17,11 @@ ul {
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  color: #fff;
+}
+
+button:focus,
+textarea:focus {
+  outline: none;
 }
 
 .full-height {
@@ -32,28 +36,36 @@ body {
 
 /* APP CONTAINER */
 div#app {
+  color:#555;
   display: flex;
 }
 
 /* SUMMARY */
 aside#summary {
+  color: #5078F2;
   padding-top: 15px;
-  background: #23272a;
   width: 5%;
   text-align: center;
+  background: #eee;
 
   div#progress {
     margin-top: 37px;
-    border-bottom: 3px solid white;
+  }
+
+  i.logo {
+    color: #dd4b39;
+    border-bottom: 1px solid #ccc;
+    padding-top: 21.5px;
+    padding-bottom: 36px;
+    width: 100%;
   }
 
   i.fas {
-    font-size: 3em;
+    font-size: 1.5em;
   }
 
   ul#steps li {
     padding: 20px 0;
-    border-top: 3px solid white;
     align-items: center;
   }
 }
@@ -80,20 +92,22 @@ hr {
 
 /* Whiteboard */
 main#whiteboard {
-  background:#2c2f33;
+  // background:#2c2f33;
   width: 72%;
-  color: white;
   text-align: center;
-  padding: 0 20px;
+  padding: 0;
   overflow-y: scroll;
+  border-left: 1px solid #ccc;
 
   div#trip-header {
     display: flex;
+    color: #5078F2;
+    background: #eee;
     justify-content: space-between;
     position: absolute;
-    background: #2c2f33;
-    width: calc(72% - 20px);
-    padding: 20px 0;
+    width: calc(72% - 1px);
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
   }
 
   h1, h4 {
@@ -107,14 +121,13 @@ div#plan-status {
 }
 
 div#suggestion-container {
-  padding-top: 77px;
+  padding: 100px 20px 0;
 }
 
 div#ready-btn {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 20px;
 
   button {
     padding: 0;
@@ -125,7 +138,8 @@ div#ready-btn {
 /* CHAT */
 aside#chat {
   width: 23%;
-  background: #23272a;
+  border-left: 1px solid #ccc;
+  background: #eee;
 }
 
 footer#chatbar {
@@ -142,11 +156,12 @@ footer#chatbar textarea {
   border-radius: 10px;
   resize: none;
   padding: 10px;
+  border: 1px solid #ccc;
 }
 
 footer#chatbar button {
-  margin-left: 5px;
   border-radius: 10px;
+  font-size: .5em;
 }
 
 footer#chatbar button i {
@@ -163,14 +178,14 @@ section#users {
   position: absolute;
   width: 23%;
   padding: 0 20px;
-  background: #23272a;
+  border-bottom: 1px solid #ccc;
   z-index: 1;
 }
 
 div#users-icons {
   display: flex;
   justify-content: space-around;
-  padding: 1.85em;
+  padding: 21.5px;
 }
 
 img.avatar {
