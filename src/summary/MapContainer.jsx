@@ -66,7 +66,7 @@ export class MapContainer extends Component {
             return  <Marker
                 onClick={this.onMarkerClick}
                 title={'Event'}
-                name={`${event.name} | ${event.quality} Stars | $${event.price}`}
+                name={`${event.name} | ${event.rating} Stars | $${event.price}`}
                 position={{lat: event.latt, lng: event.long}}
                 icon={{
                   url: 'https://png2.kisspng.com/sh/af9d75970c39b6e677fde6f41082bbf4/L0KzQYm3VMA1N6R4j5H0aYP2gLBuTfNwdaF6jNd7LXnmf7B6TgRqa5xqjJ9vb373PbLAhgNwdZYye95ycD3kgsW0lPlkc5Z5i58AYXO4QbW3hsBjOpQ9SJC6OEW5R4S5VcE2OmM9Tqk9N0GzRIaBTwBvbz==/kisspng-computer-icons-ticket-font-awesome-clip-art-tickets-5ac51d0f0b2c80.1856732515228674710458.png',
@@ -91,12 +91,6 @@ export class MapContainer extends Component {
               />
           })
         }
-
-
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Kenyatta International Convention Centre'}
-        />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
