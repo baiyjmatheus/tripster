@@ -7,7 +7,9 @@ class Ready extends Component {
       padding: '16px 0',
       borderRadius: '32px',
       background: this.props.color,
-      border: 0
+      border: 0,
+      fontWeight: '700',
+      fontSize: '1.1em'
     }
     return (
       <button onClick={this.handleClick} style={buttonStyle}>{this.props.status}</button>
