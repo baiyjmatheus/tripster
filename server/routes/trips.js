@@ -40,4 +40,15 @@ router.post('/join', (req, res) => {
 
 });
 
+router.get('/trips/:trip_id/summary', (req, res) => {
+  console.log(req.params)
+  const tripId = req.params.trip_id
+  knex('trips')
+    .returning('*')
+    .where('id', tripId)
+    .then(trip => {
+      res.send(data)
+    })
+})
+
 module.exports = router;
