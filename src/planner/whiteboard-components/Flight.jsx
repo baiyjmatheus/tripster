@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import Card from './Card.jsx';
 import { Redirect } from 'react-router-dom';
 
@@ -33,6 +34,12 @@ class Flight  extends Component {
   }
 
   render () {
+    const loadingStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingTop: '50px'
+    };
+
     const flightCards = this.state.flights.map((flight) => {
           return  <Card 
             id={flight.id}
@@ -49,12 +56,23 @@ class Flight  extends Component {
       return (
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
       );
+    } else {
+      if (this.state.flights.length !== 0) {
+        return (
+          <div id="flights-container">
+            { flightCards }
+          </div>
+        );
+      } else {
+        return (
+          <div id="flights-container" style={loadingStyle}>
+            <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
+          </div>
+          
+        );
+      }
     }
-    return (
-      <div id="flights-container">
-        { flightCards }
-      </div>
-    )
+    
   }
 
   addUserSelection = (flightId) => {
