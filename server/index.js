@@ -124,6 +124,8 @@ io.on('connection', socket => {
 // socket to handle broadcasting data from hotel api
   socket.on('hotels request', () => {
 
+    const formattedCityName = 'Sydney'
+
     socket.hotelReady = true;
 
     if (readyCounter('hotelReady')){
@@ -145,7 +147,7 @@ io.on('connection', socket => {
             address: hotel.vicinity,
             latt: hotel.geometry.location.lat,
             long: hotel.geometry.location.lng,
-            img: getPhoto(hotel.photos[0].photo_reference),
+            img: hotel.icon, // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
             price:(Math.random()*(2000-200)+200).toFixed(2),
             socketIds
           }
@@ -189,17 +191,17 @@ io.on('connection', socket => {
     if (readyCounter('attractionReady')){
 
      FindAttractions('point_of_interest', city ,'attractions data')
-     // FindAttractions('amusement_park', city,'attractions Data amusement')
-     // FindAttractions('aquarium', city,'attractions Data aquarium')
-     // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
-     // FindAttractions('casino', city,'attractions Data Casino')
-     // FindAttractions('museum', city,'attractions Data Museum')
-     // FindAttractions('park', city,'attractions Data Parks')
-     // FindAttractions('restaurant', city,'attractions Data Restaurant')
-     // FindAttractions('stadium', city,'attractions Data Stadium')
-     // FindAttractions('spa', city, 'attractions Data Spa')
-     // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
-     // FindAttractions('zoo', city, 'attractions Data Zoo')
+    //  FindAttractions('amusement_park', city,'attractions Data amusement')
+    //  FindAttractions('aquarium', city,'attractions Data aquarium')
+    //  FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+    //  FindAttractions('casino', city,'attractions Data Casino')
+    //  FindAttractions('museum', city,'attractions Data Museum')
+    //  FindAttractions('park', city,'attractions Data Parks')
+    //  FindAttractions('restaurant', city,'attractions Data Restaurant')
+    //  FindAttractions('stadium', city,'attractions Data Stadium')
+    //  FindAttractions('spa', city, 'attractions Data Spa')
+    //  FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+    //  FindAttractions('zoo', city, 'attractions Data Zoo')
 
     }
   });
@@ -470,7 +472,7 @@ const getPhoto = (photo_reference_id) => {
       const APIresults = JSON.parse(body).results;
       const APIdata = APIresults.map(result => {
         if (result.photos){
-          // const resultPhoto = getPhoto(result.photos[0].photo_reference) ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
+          // const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
           return returnObject(result, type, result.icon)
         } else {
            return returnObject(result, type , result.icon )

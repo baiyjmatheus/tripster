@@ -9,7 +9,7 @@ class Hotel  extends Component {
     super();
     this.state = {
       redirect: false,
-      hotels: hotelDataArray
+      hotels: []
     }
   }
 
