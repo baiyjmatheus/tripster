@@ -53,41 +53,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.get('/trips/:trip_id/summary', (req, res) => {
-  let data = {}
-  const tripId = req.params.trip_id
-  knex('trips')
-    .returning('*')
-    .where('id', tripId)
-    .then(trip => {
-      data.trip = trip;
-      knex('flights')
-        .returning('*')
-        .where('trip_id', tripId)
-        .then(flights => {
-          data.flights = flights;
-          knex('hotels')
-            .returning('*')
-            .where('trip_id', tripId)
-            .then(hotels => {
-              data.hotels = hotels;
-              knex('events')
-                .returning('*')
-                .where('trip_id', tripId)
-                .then(events => {
-                  data.events = events;
-                  knex('attractions')
-                    .returning('*')
-                    .where('trip_id', tripId)
-                    .then(attractions => {
-                      data.attractions = attractions;
-                      res.send(data)
-                    })
-                })
-            })
-        })
-    })
-})
 
 // on client connect/disconnect, socket is created/destroyed
 	// console.log('new socket established', io.nsps['/'].server);
