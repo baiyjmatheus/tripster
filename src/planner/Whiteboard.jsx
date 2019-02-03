@@ -6,6 +6,7 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
+import { AnimatedSwitch } from 'react-router-transition';
 
 import Ready from './whiteboard-components/Ready.jsx';
 import Start from './whiteboard-components/Start.jsx';

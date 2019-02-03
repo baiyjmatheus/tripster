@@ -14,8 +14,7 @@ class ChatHeader extends Component {
           <div>
             <img className="avatar" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png" alt=""/>
           </div>
-        </div>
-        <hr />  
+        </div> 
       </section>
     );
   }

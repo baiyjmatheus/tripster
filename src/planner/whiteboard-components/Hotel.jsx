@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import Card from './Card.jsx';
 import { Redirect } from 'react-router-dom';
 import hotelDataArray from './hotelData.json'
@@ -32,6 +33,12 @@ class Hotel  extends Component {
   }
 
   render () {
+    const loadingStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingTop: '50px'
+    };
+
     if (this.props.currentStep !== 'hotels') {
       return (
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
@@ -39,7 +46,7 @@ class Hotel  extends Component {
     } else {
       const hotelArray = this.state.hotels
 
-      if (hotelArray) {
+      if (hotelArray.length !== 0) {
         const hotelItem = hotelArray.map( hotel => {
           return <Card
             key={Math.random()}
@@ -56,7 +63,6 @@ class Hotel  extends Component {
         })
         return (
           <div>
-            <h1> this is the hotels page </h1>
             <div id="flights-container">
               {hotelItem}
             </div>
@@ -64,8 +70,8 @@ class Hotel  extends Component {
         )
       } else {
         return (
-          <div>
-            <h1> Selecting the best Hotels for you! </h1>
+          <div style={loadingStyle}>
+            <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
           </div>
         );
       }
