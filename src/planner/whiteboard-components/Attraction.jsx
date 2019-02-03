@@ -37,7 +37,7 @@ class Attraction  extends Component {
       socketVariable.emit('attractions request', this.props.tripId)
 
       this.addAmusementItem('attractions data', socketVariable )
-      // this.addAmusementItem('attractions Data amusement', socketVariable)
+      this.addAmusementItem('attractions Data amusement', socketVariable)
       // this.addAmusementItem('attractions Data aquarium', socketVariable)
       // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
       // this.addAmusementItem('attraction Data Casino', socketVariable)

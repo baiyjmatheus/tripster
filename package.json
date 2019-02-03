@@ -44,7 +44,6 @@
     "webpack-dev-server": "2.3.0"
   },
   "dependencies": {
-    "antd": "^3.13.0",
     "axios": "^0.18.0",
     "react": "15.4.2",
     "react-dom": "15.4.2",

@@ -15,8 +15,10 @@ class Hotel  extends Component {
 
   componentWillMount() {
 
+    console.log(this.props.tripId)
+
     if(!this.state.hotels.length){
-      this.props.socket.emit('hotels request')
+      this.props.socket.emit('hotels request', this.props.tripId)
       this.props.socket.on('hotel data', hotelsData => {
       console.log(hotelsData)
       this.setState({hotels: hotelsData})
@@ -34,6 +36,7 @@ class Hotel  extends Component {
 
   render () {
     if (this.props.currentStep !== 'hotels') {
+      // console.log(this.props.tripId)
       return (
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
       );
