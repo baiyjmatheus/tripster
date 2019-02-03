@@ -35,7 +35,7 @@ class Login extends Component {
                 <h1>We are Tripster</h1>
               </header>
               <section id="info-body">
-                <h3 class="catchphrase">Travel together is always better</h3>
+                <h3 className="catchphrase">Travel together is always better</h3>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias officia sequi optio laudantium minus ea dolores quisquam. Ut at officia enim commodi, molestiae repellendus facilis tempore aut, suscipit error debitis.</p>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, totam. Delectus odio natus qui nobis facere at, laudantium veritatis et ullam. Distinctio dignissimos minima sint provident voluptatem harum, sequi incidunt.</p>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, totam. Delectus odio natus qui nobis facere at, laudantium veritatis et ullam. Distinctio dignissimos minima sint provident voluptatem harum, sequi incidunt.</p>
