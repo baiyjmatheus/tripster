@@ -18,7 +18,7 @@ class Summary extends Component {
     axios.get(`http://localhost:8080/trips/${this.props.match.params.trip_id}/summary`)
       .then(res => {
         const data = res.data;
-        this.setState({ data })
+        this.setState({ data }
       })
 	}
 
