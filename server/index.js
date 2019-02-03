@@ -215,6 +215,7 @@ io.on('connection', socket => {
       .returning('*')
       .where('trip_id', data.tripId)
       .then( hotels => {
+        console.log(hotels)
         if (hotels.length === 0) {
           data.data.forEach(hotel => {
             knex('hotels')
@@ -378,7 +379,7 @@ io.on('connection', socket => {
                   address: event.venue.address.address_1,
                   rating: rating,
                   price: price,
-                  lat: event.venue.address.latitude,
+                  latt: event.venue.address.latitude,
                   long: event.venue.address.longitude,
                   socketIds
                 }
@@ -405,12 +406,12 @@ io.on('connection', socket => {
           knex('events')
           .insert({
             name: event.name,
-            description: event.description,
             start_time: event.start_time,
             end_time: event.end_time,
             url: event.url,
             latt: event.latt,
             long: event.long,
+            rating: event.rating,
             price: event.price,
             trip_id: data.tripId,
             venue: event.venue
