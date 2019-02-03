@@ -125,9 +125,9 @@ io.on('connection', socket => {
   socket.on('hotels request', () => {
 
     socket.hotelReady = true;
-  
+
     if (readyCounter('hotelReady')){
-      request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+      request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${formattedCityName}+lodging&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
         let count = 0;
         const hotelResults = JSON.parse(body).results;
         const hotelData = hotelResults.map(hotel => {
@@ -135,7 +135,7 @@ io.on('connection', socket => {
           let socketIds = {}
           Object.keys(io.sockets.sockets).forEach(id => {
             socketIds[id] = { selected: false, color: null }
-          })          
+          })
           count++
           return {
             id: count,
@@ -189,17 +189,17 @@ io.on('connection', socket => {
     if (readyCounter('attractionReady')){
 
      FindAttractions('point_of_interest', city ,'attractions data')
-     FindAttractions('amusement_park', city,'attractions Data amusement')
-     FindAttractions('aquarium', city,'attractions Data aquarium')
-     FindAttractions('art_gallery', city,'attractions Data ArtGallery')
-     FindAttractions('casino', city,'attractions Data Casino')
-     FindAttractions('museum', city,'attractions Data Museum')
-     FindAttractions('park', city,'attractions Data Parks')
-     FindAttractions('restaurant', city,'attractions Data Restaurant')
-     FindAttractions('stadium', city,'attractions Data Stadium')
-     FindAttractions('spa', city, 'attractions Data Spa')
-     FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
-     FindAttractions('zoo', city, 'attractions Data Zoo')
+     // FindAttractions('amusement_park', city,'attractions Data amusement')
+     // FindAttractions('aquarium', city,'attractions Data aquarium')
+     // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+     // FindAttractions('casino', city,'attractions Data Casino')
+     // FindAttractions('museum', city,'attractions Data Museum')
+     // FindAttractions('park', city,'attractions Data Parks')
+     // FindAttractions('restaurant', city,'attractions Data Restaurant')
+     // FindAttractions('stadium', city,'attractions Data Stadium')
+     // FindAttractions('spa', city, 'attractions Data Spa')
+     // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+     // FindAttractions('zoo', city, 'attractions Data Zoo')
 
     }
   });
@@ -356,7 +356,7 @@ io.on('connection', socket => {
                 const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
                 // generate random price & rating
                 const rating = Math.floor((Math.random() * 5) * 10) / 10
-                const price = Math.floor((Math.random() * 250) * 100) / 100 
+                const price = Math.floor((Math.random() * 250) * 100) / 100
                 // temp event id counter
                 count++
                 /* -each event contains data + selections obj in the form of socketIds
@@ -367,11 +367,11 @@ io.on('connection', socket => {
                   socketIds[id] = { selected: false, color: null}
                 })
                 //return event obj for each
-                return { 
-                  id: count,  
-                  name: event.name.text, 
-                  description: event.description.text, 
-                  start_time: event.start.local, 
+                return {
+                  id: count,
+                  name: event.name.text,
+                  description: event.description.text,
+                  start_time: event.start.local,
                   end_time: event.end.local,
                   img: img,
                   address: event.venue.address.address_1,
@@ -470,8 +470,8 @@ const getPhoto = (photo_reference_id) => {
       const APIresults = JSON.parse(body).results;
       const APIdata = APIresults.map(result => {
         if (result.photos){
-          const resultPhoto = getPhoto(result.photos[0].photo_reference)
-          return returnObject(result, type, resultPhoto)
+          // const resultPhoto = getPhoto(result.photos[0].photo_reference) ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
+          return returnObject(result, type, result.icon)
         } else {
            return returnObject(result, type , result.icon )
         }

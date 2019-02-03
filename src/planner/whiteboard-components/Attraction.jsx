@@ -32,11 +32,11 @@ class Attraction  extends Component {
 //*** COMMENTED OUT ON PURPOSE DO NOT DELETE !!! **//
     if (this.state.attractions.length === 0 ){
 
-      // const socketVariable = this.props.socket
+      const socketVariable = this.props.socket
 
-      // socketVariable.emit('attractions request', this.props.tripId)
+      socketVariable.emit('attractions request', this.props.tripId)
 
-      // this.addAmusementItem('attractions data', socketVariable )
+      this.addAmusementItem('attractions data', socketVariable )
       // this.addAmusementItem('attractions Data amusement', socketVariable)
       // this.addAmusementItem('attractions Data aquarium', socketVariable)
       // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
