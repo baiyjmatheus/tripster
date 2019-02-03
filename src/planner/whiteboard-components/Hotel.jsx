@@ -9,16 +9,19 @@ class Hotel  extends Component {
     super();
     this.state = {
       redirect: false,
-      hotels: hotelDataArray,
+      hotels: [], // replace [] with hotelDataArray to use JSON data,
     }
   }
 
   componentWillMount() {
-    this.props.socket.emit('hotels request')
-    this.props.socket.on('hotel data', hotelsData => {
-      console.log(hotelsData)
-      this.setState({hotels: hotelsData})
-    })
+
+    if(!this.state.hotels.length){  //conditional to ensure socket to request api call only emited if array is empty
+      this.props.socket.emit('hotels request')
+      this.props.socket.on('hotel data', hotelsData => {
+        console.log(hotelsData)
+        this.setState({hotels: hotelsData})
+      })
+    }
 
     this.props.socket.on('hotel selection', hotel => {
       this.props.getSelectedItems(this.state.hotels, 'hotels')
@@ -38,14 +41,14 @@ class Hotel  extends Component {
 
       if (hotelArray) {
         const hotelItem = hotelArray.map( hotel => {
-          return <Card 
+          return <Card
             key={Math.random()}
-            id={hotel.id} 
-            title={hotel.name} 
-            rating={hotel.rating} 
-            address={hotel.address} 
-            imgSrc={hotel.img} 
-            location={hotel.location} 
+            id={hotel.id}
+            title={hotel.name}
+            rating={hotel.rating}
+            address={hotel.address}
+            imgSrc={hotel.img}
+            location={hotel.location}
             price={hotel.price}
             addUserSelection={this.addUserSelection}
             socketIds={hotel.socketIds}
