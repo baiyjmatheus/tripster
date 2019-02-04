@@ -26,6 +26,29 @@ class Attraction  extends Component {
 
   }
 
+  addUserSelection = (cardId) => {
+    let attraction;
+    this.state.attractions.forEach((e) => {
+      if (e.id == cardId) {
+        attraction = e
+      }
+    })
+    console.log(attraction)
+    attraction.socketIds[this.props.currentUser.socketId].selected = !attraction.socketIds[this.props.currentUser.socketId].selected
+    attraction.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
+    this.props.socket.emit('attraction selection', attraction)
+  }
+  // takes in events array and ouputs index of event at given id
+  findAttractionIndexById = (attractions, id) => {
+    let index;
+    attractions.forEach((e, i) => {
+      if (e.id === id) {
+        index = i
+      }
+    })
+    return index;
+  }
+
 
   componentWillMount() {
     console.log("request should be emitted")
@@ -56,6 +79,16 @@ class Attraction  extends Component {
       console.log("already in state!")
     }
 
+  }
+
+  componentDidMount() {
+
+    this.props.socket.on('attraction selection', attraction => {
+      this.props.getSelectedItems(this.state.attractions, 'attractions')
+      let stateCopy = Object.assign({}, this.state);
+      stateCopy.attractions[this.findAttractionIndexById(this.state.attractions, attraction.id)] = attraction
+      this.setState({stateCopy})
+    })
   }
 
   render () {
@@ -114,10 +147,23 @@ class Attraction  extends Component {
     const attractionArray = this.state.attractions
     const filterAttractionsArray = this.state.filteredAttractions
 
-    if (filterAttractionsArray.length){
+    if (filterAttractionsArray.length) {
 
       const filterItem = filterAttractionsArray.map( filteredAttraction => {
-        return <Card key={Math.random()} title={filteredAttraction.name} rating={filteredAttraction.rating} address={filteredAttraction.address} imgSrc={filteredAttraction.img} location={filteredAttraction.location} price={filteredAttraction.price} type={filteredAttraction.type} />
+        return <Card 
+          id={filteredAttraction.id}
+          key={Math.random()} 
+          title={filteredAttraction.name} 
+          rating={filteredAttraction.rating} 
+          address={filteredAttraction.address} 
+          imgSrc={filteredAttraction.img} 
+          location={filteredAttraction.location} 
+          price={filteredAttraction.price} 
+          type={filteredAttraction.type} 
+          addUserSelection={this.addUserSelection}
+          currentUser={this.props.currentUser}
+          socketIds={filteredAttraction.socketIds}
+        />
       })
 
       return (
@@ -152,7 +198,20 @@ class Attraction  extends Component {
     } else {
 
       const attractionItem = attractionArray.map( attraction => {
-         return <Card key={Math.random()} title={attraction.name} rating={attraction.rating} address={attraction.address} imgSrc={attraction.img} location={attraction.location} price={attraction.price} type={attraction.type} />
+         return <Card 
+          id={attraction.id}
+          key={Math.random()} 
+          title={attraction.name} 
+          rating={attraction.rating} 
+          address={attraction.address} 
+          imgSrc={attraction.img} 
+          location={attraction.location} 
+          price={attraction.price} 
+          type={attraction.type}
+          addUserSelection={this.addUserSelection}
+          currentUser={this.props.currentUser}
+          socketIds={attraction.socketIds}
+         />
       })
 
       return (

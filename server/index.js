@@ -9,7 +9,7 @@ const tripsRoutes = require('./routes/trips');
 
 const GOOGLE_PLACE_KEY= process.env.GOOGLE_PLACE_KEY
 
-
+const uuidv4 = require('uuid/v4');
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
@@ -129,7 +129,6 @@ io.on('connection', socket => {
 
     if (readyCounter('hotelReady')){
       request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-        let count = 0;
         const hotelResults = JSON.parse(body).results;
         const hotelData = hotelResults.map(hotel => {
           // obj for handling selection on a per socket basis
@@ -137,9 +136,8 @@ io.on('connection', socket => {
           Object.keys(io.sockets.sockets).forEach(id => {
             socketIds[id] = { selected: false, color: null }
           })
-          count++
           return {
-            id: count,
+            id: uuidv4(),
             name: hotel.name,
             rating: hotel.rating,
             location: hotel.geometry.location,
@@ -206,7 +204,6 @@ io.on('connection', socket => {
   });
 
   socket.on('hotel selection', hotel => {
-    console.log(hotel)
     io.emit('hotel selection', hotel)
   });
 
@@ -247,7 +244,6 @@ io.on('connection', socket => {
       .where('id', tripId)
       .then((dbTrip) => {
         const [trip] = dbTrip;
-        let count = 0
         if (trip) {
         // Get flights from flight API
           request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
@@ -257,10 +253,9 @@ io.on('connection', socket => {
                 Object.keys(io.sockets.sockets).forEach(id => {
                   socketIds[id] = { selected: false, color: null}
                 })
-                count++
                 console.log(flight.route)
                 return {
-                  id: count,
+                  id: uuidv4(),
                   route: flight.route,
                   quality: flight.quality,
                   flyFrom: flight.flyFrom,
@@ -296,6 +291,32 @@ io.on('connection', socket => {
                 price: flight.price,
                 trip_id: data.tripId,
                 route: flight.route
+              })
+              .then()
+          })
+        }
+      })
+  })
+
+  socket.on('attraction selection', attraction => {
+    io.emit('attraction selection', attraction)
+  })
+
+
+  socket.on('attractions final selections', data => {
+    console.log(data)
+    knex('attractions')
+      .returning('*')
+      .where('trip_id', data.tripId)
+      .then( attractions => {
+        if (attractions.length === 0) {
+          data.data.forEach(attraction => {
+            knex('attractions')
+              .insert({
+                rating: attraction.rating,
+                price: attraction.price,
+                trip_id: data.tripId,
+                route: attraction.route
               })
               .then()
           })
@@ -352,15 +373,12 @@ io.on('connection', socket => {
                 return error
               }
               parsedBody = JSON.parse(body)
-              let count = 0
               const eventsData = parsedBody.events.map(event => {
                 // if event does not have img, insert generic img
                 const img = event.logo ? event.logo.url : 'http://www.eventelephant.com/wp-content/uploads/2019/01/What-Makes-Xsaga-Different.jpg'
                 // generate random price & rating
                 const rating = Math.floor((Math.random() * 5) * 10) / 10
                 const price = Math.floor((Math.random() * 250) * 100) / 100
-                // temp event id counter
-                count++
                 /* -each event contains data + selections obj in the form of socketIds
                    -socketIds contains an object for each connected socket
                    -each id obj contains that sockets selection status + their color(pulled from currentUser) */
@@ -370,7 +388,7 @@ io.on('connection', socket => {
                 })
                 //return event obj for each
                 return {
-                  id: count,
+                  id: uuidv4(),
                   name: event.name.text,
                   description: event.description.text,
                   start_time: event.start.local,
@@ -451,13 +469,15 @@ const getPhoto = (photo_reference_id) => {
 
  const returnObject = (singleAttraction,type, photo) =>{
   const OBJ = {
+          id: singleAttraction.id,
           name: singleAttraction.name,
           rating: singleAttraction.rating,
           location: singleAttraction.geometry.location,
           address: singleAttraction.formatted_address,
           img: photo,
           price:(Math.random()*(50-10)+10).toFixed(2),
-          type: type
+          type: type,
+          socketIds: singleAttraction.socketIds
         }
     return OBJ
   }
@@ -470,12 +490,18 @@ const getPhoto = (photo_reference_id) => {
     request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${formattedCityName}+${formattedType}&key=${GOOGLE_PLACE_KEY}`, function (error, response, body){
       const attractionType = type
       const APIresults = JSON.parse(body).results;
+      let socketIds = {}
+      Object.keys(io.sockets.sockets).forEach(id => {
+        socketIds[id] = { selected: false, color: null}
+      })
       const APIdata = APIresults.map(result => {
+        result.id = uuidv4();
+        result.socketIds = socketIds;
         if (result.photos){
           const resultPhoto = getPhoto(result.photos[0].photo_reference)
           return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
         } else {
-           return returnObject(result, type , result.icon )
+           return returnObject(result, type , result.icon)
         }
       })
 
