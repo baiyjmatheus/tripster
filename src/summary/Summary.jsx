@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import MapContainer from './MapContainer.jsx'
 import axios from 'axios';
+import ReactLoading from 'react-loading';
 // import cities from 'all-the-cities';
 // import cities from 'all-the-cities';
 // import fs from 'fs';
@@ -29,8 +30,8 @@ class Summary extends Component {
       );
     } else {
       return (
-        <p style={{color: 'darkgreen', textAlign: 'center'}}> Loading... </p>
-        )
+        <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
+      );
     }
   }
 

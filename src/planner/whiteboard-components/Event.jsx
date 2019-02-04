@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import Card from './Card.jsx';
 import { Redirect } from 'react-router-dom';
 
@@ -29,6 +30,12 @@ class Event extends Component {
   }
 
   render () {
+    const loadingStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingTop: '50px'
+    };
+
     if (this.props.currentStep !== 'events') {
       return (
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
@@ -54,8 +61,8 @@ class Event extends Component {
         )
       } else {
         return (
-          <div>
-            <p>Loading...</p>
+          <div style={loadingStyle}>
+            <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
           </div>
         );
       }

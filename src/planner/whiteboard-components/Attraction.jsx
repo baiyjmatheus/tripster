@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactLoading from 'react-loading';
 import Card from './Card.jsx';
 import attractionDataArray from './attractionData.json';
 import { Redirect } from 'react-router-dom';
@@ -10,7 +11,7 @@ class Attraction  extends Component {
     this.state = {
       counter: 0,
       redirect: false,
-      attractions: [],
+      attractions: [], //replace [] with attractionDataArray if you want to use JSON DATA data
       filteredAttractions: [],
       filterTypes: []
     }
@@ -92,6 +93,12 @@ class Attraction  extends Component {
   }
 
   render () {
+    const loadingStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      paddingTop: '50px'
+    };
+
   const checkBox = (e) => {
     const typeName = e.target.name
     const typesArray = this.state.filterTypes
@@ -147,7 +154,14 @@ class Attraction  extends Component {
     const attractionArray = this.state.attractions
     const filterAttractionsArray = this.state.filteredAttractions
 
-    if (filterAttractionsArray.length) {
+    if (this.state.attractions.length === 0) {
+      return (
+        <div style={loadingStyle}>
+          <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
+        </div>
+      );
+    }
+    if (filterAttractionsArray.length){
 
       const filterItem = filterAttractionsArray.map( filteredAttraction => {
         return <Card 
@@ -169,8 +183,6 @@ class Attraction  extends Component {
       return (
 
          <div>
-            <h1> this is the Attractions page </h1>
-
             <div id="filter-boxes">
                 <form>
                 amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox}  />
@@ -217,8 +229,6 @@ class Attraction  extends Component {
       return (
 
          <div>
-            <h1> this is the Attractions page </h1>
-
             <div id="filter-boxes">
               <form>
                 amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />

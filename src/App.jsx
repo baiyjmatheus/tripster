@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { AnimatedSwitch } from 'react-router-transition';
 
 import {
   BrowserRouter as Router,
@@ -16,13 +17,16 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <AnimatedSwitch atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+          className="switch-wrapper">
           <Route exact path='/' component={ Login } />
           <Route exact path='/trips/:trip_id' component={ Planner }/>
           <Route exact path='/trips' component={ Selection }/>
           <Route exact path='/trips/:trip_id/summary' component={ Summary }/>
-        </div>
-      </Router>
+        </AnimatedSwitch>
+      </Router>  
       
     );
   }
