@@ -80,7 +80,14 @@ class Whiteboard extends Component {
               </div>
             </div>
 
-            <Overview stepStatus = {this.props.match} />
+            <Overview
+              currentStep={this.state.currentStep}
+              startStep={this.state.start}
+              flightStatus={this.state.flights}
+              hotelStatus={this.state.hotels}
+              eventStatus={this.state.events}
+              attractionStatus={this.state.attractions}
+               />
 
             <div id="suggestion-container">
               <Switch>
