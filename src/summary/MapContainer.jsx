@@ -55,7 +55,8 @@ export class MapContainer extends Component {
                 name={attraction.name}
                 position={{lat: attraction.latt, lng: attraction.long}}
                 icon={{
-                  url: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Font_Awesome_5_solid_archway.svg',
+                  // url: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Font_Awesome_5_solid_archway.svg',
+                  url: 'http://localhost:8080/img/512px-Font_Awesome_5_solid_archway.png',
                   anchor: new google.maps.Point(32, 32),
                   scaledSize: new google.maps.Size(40, 40)
                 }}
@@ -70,7 +71,7 @@ export class MapContainer extends Component {
                 name={`${event.name} | ${event.rating} Stars | $${event.price}`}
                 position={{lat: event.latt, lng: event.long}}
                 icon={{
-                  url: 'https://png2.kisspng.com/sh/af9d75970c39b6e677fde6f41082bbf4/L0KzQYm3VMA1N6R4j5H0aYP2gLBuTfNwdaF6jNd7LXnmf7B6TgRqa5xqjJ9vb373PbLAhgNwdZYye95ycD3kgsW0lPlkc5Z5i58AYXO4QbW3hsBjOpQ9SJC6OEW5R4S5VcE2OmM9Tqk9N0GzRIaBTwBvbz==/kisspng-computer-icons-ticket-font-awesome-clip-art-tickets-5ac51d0f0b2c80.1856732515228674710458.png',
+                  url: 'http://localhost:8080/img/font-awesome_4-7-0_ticket_256_0_007dff_none.png',
                   anchor: new google.maps.Point(32, 32),
                   scaledSize: new google.maps.Size(40, 40)
                 }}
@@ -85,7 +86,7 @@ export class MapContainer extends Component {
                 name={`${hotel.name} | ${hotel.rating} Stars | $${hotel.price}`}
                 position={{lat: hotel.latt, lng: hotel.long}}
                 icon={{
-                  url: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Font_Awesome_5_solid_bed.svg',
+                  url: 'http://localhost:8080/img/font-awesome_4-7-0_bed_256_0_007dff_none.png',
                   anchor: new google.maps.Point(32, 32),
                   scaledSize: new google.maps.Size(35, 35)
                 }}
