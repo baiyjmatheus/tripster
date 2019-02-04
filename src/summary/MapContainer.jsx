@@ -48,15 +48,16 @@ export class MapContainer extends Component {
       >
         {
           this.props.trip.attractions.map(attraction => {
+            console.log(attraction)
             return  <Marker
                 onClick={this.onMarkerClick}
                 title={'Attraction'}
-                name={attraction.name}
+                name={`${attraction.name} | ${attraction.rating} Stars | $${attraction.price}`}
                 position={{lat: attraction.latt, lng: attraction.long}}
                 icon={{
                   url: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Font_Awesome_5_solid_archway.svg',
                   anchor: new google.maps.Point(32, 32),
-                  scaledSize: new google.maps.Size(40, 40)
+                  scaledSize: new google.maps.Size(32, 32)
                 }}
               />
           })

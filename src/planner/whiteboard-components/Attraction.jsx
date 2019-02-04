@@ -196,7 +196,7 @@ class Attraction  extends Component {
       )
 
     } else {
-
+      console.log(attractionArray[0])
       const attractionItem = attractionArray.map( attraction => {
          return <Card 
           id={attraction.id}
