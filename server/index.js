@@ -248,7 +248,7 @@ io.on('connection', socket => {
         let count = 0
         if (trip) {
         // Get flights from flight API
-          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin}&to=${trip.destination}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
+          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin.replace(/\s/g, '-')}&to=${trip.destination.replace(/\s/g, '-')}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
             if (!error && response.statusCode === 200) {
               console.log(body);
               const flights = JSON.parse(body).data.map((flight) => {
