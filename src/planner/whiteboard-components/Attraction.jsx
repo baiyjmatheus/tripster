@@ -11,7 +11,7 @@ class Attraction  extends Component {
     this.state = {
       counter: 0,
       redirect: false,
-      attractions: attractionDataArray,  //change to [] and uncomment code below to use the API for data
+      attractions: [], //replace [] with attractionDataArray if you want to use JSON DATA data
       filteredAttractions: [],
       filterTypes: []
     }
@@ -33,12 +33,12 @@ class Attraction  extends Component {
 //*** COMMENTED OUT ON PURPOSE DO NOT DELETE !!! **//
     if (this.state.attractions.length === 0 ){
 
-      // const socketVariable = this.props.socket
+      const socketVariable = this.props.socket
 
-      // socketVariable.emit('attractions request', this.props.tripId)
+      socketVariable.emit('attractions request', this.props.tripId)
 
-      // this.addAmusementItem('attractions data', socketVariable )
-      // this.addAmusementItem('attractions Data amusement', socketVariable)
+      this.addAmusementItem('attractions data', socketVariable )
+      this.addAmusementItem('attractions Data amusement', socketVariable)
       // this.addAmusementItem('attractions Data aquarium', socketVariable)
       // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
       // this.addAmusementItem('attraction Data Casino', socketVariable)

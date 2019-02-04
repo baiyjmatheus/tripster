@@ -38,7 +38,6 @@ class Planner extends Component {
   render() {
     return (
       <div id="app" className="full-height">
-        <Overview />
         <Whiteboard tripURL = {this.props.match.url}  tripId= {this.props.match.params.trip_id} socket={ this.state.socket } currentUser={ this.state.currentUser }/>
         <Chat socket={ this.state.socket } currentUser = { this.state.currentUser } />
       </div>

@@ -44,7 +44,8 @@ div#app {
 aside#summary {
   color: #5078F2;
   padding-top: 15px;
-  width: 5%;
+  background: #23272a;
+  width: 8%;
   text-align: center;
   background: #eee;
 
@@ -57,11 +58,19 @@ aside#summary {
   }
 
   i.logo {
-    font-size: 2em;
     color: #dd4b39;
     border-bottom: 1px solid #ccc;
     padding: 24.75px 0;
     width: 100%;
+    font-size: 2em;
+    margin: 0;
+  }
+
+  ul#steps {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50vh;
   }
 
   ul#steps li {
@@ -92,8 +101,9 @@ hr {
 
 /* Whiteboard */
 main#whiteboard {
-  // background:#2c2f33;
-  width: 72%;
+  display:flex;
+  width: 78%;
+  color: white;
   text-align: center;
   padding: 0;
   overflow-y: scroll;
@@ -105,9 +115,10 @@ main#whiteboard {
     background: #fff;
     justify-content: space-between;
     position: absolute;
-    width: calc(72% - 1px);
+    width: 71%;
     padding: 20px;
     border-bottom: 1px solid #ccc;
+    margin-left: 88.5px;
   }
 
   h1, h4 {
@@ -121,7 +132,9 @@ div#plan-status {
 }
 
 div#suggestion-container {
-  padding: 100px 20px 0;
+  padding: 100px 0;
+  width: 71%;
+  margin-left: 88.5px;
 }
 
 div#ready-btn {
