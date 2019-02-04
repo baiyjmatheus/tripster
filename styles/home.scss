@@ -42,10 +42,11 @@ div#app {
 
 /* SUMMARY */
 aside#summary {
+  position: fixed;
   color: #5078F2;
   padding-top: 15px;
   background: #23272a;
-  width: 8%;
+  width: 6.2%;
   text-align: center;
   background: #eee;
 
@@ -134,7 +135,7 @@ div#plan-status {
 div#suggestion-container {
   padding: 100px 0;
   width: 71%;
-  margin-left: 88.5px;
+  margin-left: 177px;
 }
 
 div#ready-btn {
