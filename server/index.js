@@ -277,7 +277,6 @@ io.on('connection', socket => {
   })
 
   socket.on('flights final selections', data => {
-    console.log(data)
     knex('flights')
       .returning('*')
       .where('trip_id', data.tripId)
@@ -304,7 +303,7 @@ io.on('connection', socket => {
 
 
   socket.on('attractions final selections', data => {
-    console.log(data)
+    console.log('helllllo', data.data.location)
     knex('attractions')
       .returning('*')
       .where('trip_id', data.tripId)
@@ -313,10 +312,13 @@ io.on('connection', socket => {
           data.data.forEach(attraction => {
             knex('attractions')
               .insert({
+                name: attraction.name,
                 rating: attraction.rating,
                 price: attraction.price,
                 trip_id: data.tripId,
-                route: attraction.route
+                price: attraction.route,
+                latt: attraction.location.lat,
+                long: attraction.location.lng
               })
               .then()
           })
