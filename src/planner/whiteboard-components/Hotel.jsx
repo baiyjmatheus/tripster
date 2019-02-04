@@ -9,7 +9,7 @@ class Hotel  extends Component {
     super();
     this.state = {
       redirect: false,
-      hotels: []
+      hotels: [], // replace [] with hotelDataArray to use JSON data,
     }
   }
 
@@ -17,14 +17,13 @@ class Hotel  extends Component {
 
     console.log(this.props.tripId)
 
-    if(!this.state.hotels.length){
+    if(!this.state.hotels.length){ //conditional to ensure socket to request api call only emited if array is empty
       this.props.socket.emit('hotels request', this.props.tripId)
       this.props.socket.on('hotel data', hotelsData => {
       console.log(hotelsData)
       this.setState({hotels: hotelsData})
       })
     }
-
 
     this.props.socket.on('hotel selection', hotel => {
       this.props.getSelectedItems(this.state.hotels, 'hotels')

@@ -53,6 +53,7 @@ app.post('/login', (req, res) => {
     });
 });
 
+
 // on client connect/disconnect, socket is created/destroyed
 	// console.log('new socket established', io.nsps['/'].server);
 // on client connect/disconnect, socket is created/destroyed
@@ -131,6 +132,7 @@ io.on('connection', socket => {
     socket.hotelReady = true;
 
     if (readyCounter('hotelReady')){
+
        knex('trips')
         .returning('trip')
         .where('id', tripId)
@@ -169,6 +171,7 @@ io.on('connection', socket => {
             io.emit('hotel data', hotelData)
           })
         });
+
     }
   });
 
@@ -205,10 +208,25 @@ io.on('connection', socket => {
 
     if (readyCounter('attractionReady')){
 
+<<<<<<< HEAD
       knex('trips')
         .returning('trip')
         .where('id', tripId)
         .then(trip => {
+=======
+     FindAttractions('point_of_interest', city ,'attractions data')
+     FindAttractions('amusement_park', city,'attractions Data amusement')
+     // FindAttractions('aquarium', city,'attractions Data aquarium')
+     // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+     // FindAttractions('casino', city,'attractions Data Casino')
+     // FindAttractions('museum', city,'attractions Data Museum')
+     // FindAttractions('park', city,'attractions Data Parks')
+     // FindAttractions('restaurant', city,'attractions Data Restaurant')
+     // FindAttractions('stadium', city,'attractions Data Stadium')
+     // FindAttractions('spa', city, 'attractions Data Spa')
+     // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+     // FindAttractions('zoo', city, 'attractions Data Zoo')
+>>>>>>> 92ae9a00dcb2f0c276259527fd776da4a7aadcc6
 
           const city = trip[0].destination
           console.log('this is the city :', city)
@@ -239,6 +257,7 @@ io.on('connection', socket => {
       .returning('*')
       .where('trip_id', data.tripId)
       .then( hotels => {
+        console.log(hotels)
         if (hotels.length === 0) {
           data.data.forEach(hotel => {
             knex('hotels')
@@ -402,7 +421,7 @@ io.on('connection', socket => {
                   address: event.venue.address.address_1,
                   rating: rating,
                   price: price,
-                  lat: event.venue.address.latitude,
+                  latt: event.venue.address.latitude,
                   long: event.venue.address.longitude,
                   socketIds
                 }
@@ -429,12 +448,12 @@ io.on('connection', socket => {
           knex('events')
           .insert({
             name: event.name,
-            description: event.description,
             start_time: event.start_time,
             end_time: event.end_time,
             url: event.url,
             latt: event.latt,
             long: event.long,
+            rating: event.rating,
             price: event.price,
             trip_id: data.tripId,
             venue: event.venue
@@ -495,8 +514,13 @@ const getPhoto = (photo_reference_id) => {
       const APIresults = JSON.parse(body).results;
       const APIdata = APIresults.map(result => {
         if (result.photos){
+<<<<<<< HEAD
           // const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
           return returnObject(result, type, result.icon)
+=======
+          const resultPhoto = getPhoto(result.photos[0].photo_reference)
+          return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
+>>>>>>> 92ae9a00dcb2f0c276259527fd776da4a7aadcc6
         } else {
            return returnObject(result, type , result.icon )
         }
