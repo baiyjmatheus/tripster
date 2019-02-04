@@ -303,7 +303,6 @@ io.on('connection', socket => {
 
 
   socket.on('attractions final selections', data => {
-    console.log('helllllo', data.data.location)
     knex('attractions')
       .returning('*')
       .where('trip_id', data.tripId)
