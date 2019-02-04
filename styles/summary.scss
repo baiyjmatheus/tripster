@@ -1,10 +1,23 @@
-#map {
-	height: 100%;
-	color: tomato;
+#summary-container{
+  display:flex;
+  flex-direction: row;
 }
 
+ section #summary-details {
+    height:100%;
+    width:25%;
+    border: solid;
+  }
+
+  div #summary-container #map {
+    height: 100%;
+    width:75%;
+    color: tomato;
+  }
+
+
 body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
