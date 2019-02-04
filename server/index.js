@@ -208,25 +208,11 @@ io.on('connection', socket => {
 
     if (readyCounter('attractionReady')){
 
-<<<<<<< HEAD
+
       knex('trips')
         .returning('trip')
         .where('id', tripId)
         .then(trip => {
-=======
-     FindAttractions('point_of_interest', city ,'attractions data')
-     FindAttractions('amusement_park', city,'attractions Data amusement')
-     // FindAttractions('aquarium', city,'attractions Data aquarium')
-     // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
-     // FindAttractions('casino', city,'attractions Data Casino')
-     // FindAttractions('museum', city,'attractions Data Museum')
-     // FindAttractions('park', city,'attractions Data Parks')
-     // FindAttractions('restaurant', city,'attractions Data Restaurant')
-     // FindAttractions('stadium', city,'attractions Data Stadium')
-     // FindAttractions('spa', city, 'attractions Data Spa')
-     // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
-     // FindAttractions('zoo', city, 'attractions Data Zoo')
->>>>>>> 92ae9a00dcb2f0c276259527fd776da4a7aadcc6
 
           const city = trip[0].destination
           console.log('this is the city :', city)
@@ -514,13 +500,9 @@ const getPhoto = (photo_reference_id) => {
       const APIresults = JSON.parse(body).results;
       const APIdata = APIresults.map(result => {
         if (result.photos){
-<<<<<<< HEAD
+
           // const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
-          return returnObject(result, type, result.icon)
-=======
-          const resultPhoto = getPhoto(result.photos[0].photo_reference)
-          return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
->>>>>>> 92ae9a00dcb2f0c276259527fd776da4a7aadcc6
+           return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
         } else {
            return returnObject(result, type , result.icon )
         }
