@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
+import { ProductCard } from 'react-ui-cards';
 
 class Card extends Component {
   render() {
-    const cardStyle = {
-      color: '#333',
-      height: '320px',
-      width: '300px',
-      border: '1px solid #ccc',
-      margin: '20px 0 40px'
-    }
+
     // for each user that selected this card, their color is pushed to an array for mapping to check icon
     let colors = []
     for (let user in this.props.socketIds) {
@@ -16,24 +11,22 @@ class Card extends Component {
         colors.push(this.props.socketIds[user].color)
       }
     }
+
+    let checks = '';
+    for (let i = 0; i < colors.length; i++) {
+      checks += '✔';
+    }
+
+
+    let stars = '';
+    for (let i = 0; i < Math.floor(this.props.rating); i++) {
+      stars += '☆';
+    }
+    
+
     return (
-      <div className="card" style={cardStyle} onClick={() => this.props.addUserSelection(this.props.id)}>
-        <div className="card-header">
-          <h4>{this.props.title}</h4>
-          <p><span>{this.props.rating}</span> stars</p>
-          {
-            colors.map(color => {return <i className="fas fa-check" style={{color: color}}></i>})
-          }
-        </div>
-        <div className="card-body">
-          <img src={this.props.imgSrc} />
-          <p className="address">{this.props.address}</p>
-          
-        </div>
-        <div className="card-footer">
-          <p>$<span className="price">{this.props.price}</span></p>
-          
-        </div>
+      <div onClick={() => this.props.addUserSelection(this.props.id)}>
+        <ProductCard productName={this.props.title} photos={[this.props.imgSrc]} price={`$${this.props.price} - ${stars} - ${checks}`} description={this.props.address} />
       </div>
     );
   }
