@@ -123,36 +123,55 @@ io.on('connection', socket => {
   });
 
 // socket to handle broadcasting data from hotel api
-  socket.on('hotels request', () => {
+  socket.on('hotels request', (tripId) => {
+
+    console.log(tripId)
+
+
 
     socket.hotelReady = true;
 
     if (readyCounter('hotelReady')){
-      request(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=25000&type=lodging&keyword=hotel&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
-        let count = 0;
-        const hotelResults = JSON.parse(body).results;
-        const hotelData = hotelResults.map(hotel => {
-          // obj for handling selection on a per socket basis
-          let socketIds = {}
-          Object.keys(io.sockets.sockets).forEach(id => {
-            socketIds[id] = { selected: false, color: null }
+
+       knex('trips')
+        .returning('trip')
+        .where('id', tripId)
+        .then(trip => {
+
+          console.log("this is the trip from the DB", trip)
+
+          const city = trip[0].destination;
+          const formattedCityName = city.replace(/\s/g,"+");
+
+          console.log("this is the formattedCityName: ", formattedCityName)
+
+          request(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${formattedCityName}+lodging&key=${GOOGLE_PLACE_KEY}`, function (error, response, body) {
+            let count = 0;
+            const hotelResults = JSON.parse(body).results;
+            const hotelData = hotelResults.map(hotel => {
+              // obj for handling selection on a per socket basis
+              let socketIds = {}
+              Object.keys(io.sockets.sockets).forEach(id => {
+                socketIds[id] = { selected: false, color: null }
+              })
+              count++
+              return {
+                id: count,
+                name: hotel.name,
+                rating: hotel.rating,
+                location: hotel.geometry.location,
+                address: hotel.vicinity,
+                latt: hotel.geometry.location.lat,
+                long: hotel.geometry.location.lng,
+                img: hotel.icon, // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
+                price:(Math.random()*(2000-200)+200).toFixed(2),
+                socketIds
+              }
+            })
+            io.emit('hotel data', hotelData)
           })
-          count++
-          return {
-            id: count,
-            name: hotel.name,
-            rating: hotel.rating,
-            location: hotel.geometry.location,
-            address: hotel.vicinity,
-            latt: hotel.geometry.location.lat,
-            long: hotel.geometry.location.lng,
-            img: hotel.icon, // use getPhoto(hotel.photos[0].photo_reference) for actual api picture,
-            price:(Math.random()*(2000-200)+200).toFixed(2),
-            socketIds
-          }
-        })
-        io.emit('hotel data', hotelData)
-      })
+        });
+
     }
   });
 
@@ -189,19 +208,28 @@ io.on('connection', socket => {
 
     if (readyCounter('attractionReady')){
 
-     FindAttractions('point_of_interest', city ,'attractions data')
-     FindAttractions('amusement_park', city,'attractions Data amusement')
-     // FindAttractions('aquarium', city,'attractions Data aquarium')
-     // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
-     // FindAttractions('casino', city,'attractions Data Casino')
-     // FindAttractions('museum', city,'attractions Data Museum')
-     // FindAttractions('park', city,'attractions Data Parks')
-     // FindAttractions('restaurant', city,'attractions Data Restaurant')
-     // FindAttractions('stadium', city,'attractions Data Stadium')
-     // FindAttractions('spa', city, 'attractions Data Spa')
-     // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
-     // FindAttractions('zoo', city, 'attractions Data Zoo')
 
+      knex('trips')
+        .returning('trip')
+        .where('id', tripId)
+        .then(trip => {
+
+          const city = trip[0].destination
+          console.log('this is the city :', city)
+
+          FindAttractions('point_of_interest', city ,'attractions data')
+          FindAttractions('amusement_park', city,'attractions Data amusement')
+          // FindAttractions('aquarium', city,'attractions Data aquarium')
+          // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+          // FindAttractions('casino', city,'attractions Data Casino')
+          // FindAttractions('museum', city,'attractions Data Museum')
+          // FindAttractions('park', city,'attractions Data Parks')
+          // FindAttractions('restaurant', city,'attractions Data Restaurant')
+          // FindAttractions('stadium', city,'attractions Data Stadium')
+          // FindAttractions('spa', city, 'attractions Data Spa')
+          // FindAttractions('shopping_mall', city,'attractions Data ShoppingMall')
+          // FindAttractions('zoo', city, 'attractions Data Zoo')
+        })
     }
   });
 
@@ -472,8 +500,9 @@ const getPhoto = (photo_reference_id) => {
       const APIresults = JSON.parse(body).results;
       const APIdata = APIresults.map(result => {
         if (result.photos){
-          const resultPhoto = getPhoto(result.photos[0].photo_reference)
-          return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
+
+          // const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
+           return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
         } else {
            return returnObject(result, type , result.icon )
         }

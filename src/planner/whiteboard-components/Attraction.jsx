@@ -10,7 +10,7 @@ class Attraction  extends Component {
     this.state = {
       counter: 0,
       redirect: false,
-      attractions: [],
+      attractions: [], //replace [] with attractionDataArray if you want to use JSON DATA data
       filteredAttractions: [],
       filterTypes: []
     }

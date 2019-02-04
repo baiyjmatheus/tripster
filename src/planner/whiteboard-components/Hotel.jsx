@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from './Card.jsx';
 import { Redirect } from 'react-router-dom';
-import hotelDataArray from './hotelData.json'
+import hotelDataArray from './hotelData.json';
 
 class Hotel  extends Component {
 
@@ -15,11 +15,13 @@ class Hotel  extends Component {
 
   componentWillMount() {
 
-    if(!this.state.hotels.length){  //conditional to ensure socket to request api call only emited if array is empty
-      this.props.socket.emit('hotels request')
+    console.log(this.props.tripId)
+
+    if(!this.state.hotels.length){ //conditional to ensure socket to request api call only emited if array is empty
+      this.props.socket.emit('hotels request', this.props.tripId)
       this.props.socket.on('hotel data', hotelsData => {
-        console.log(hotelsData)
-        this.setState({hotels: hotelsData})
+      console.log(hotelsData)
+      this.setState({hotels: hotelsData})
       })
     }
 
@@ -33,6 +35,7 @@ class Hotel  extends Component {
 
   render () {
     if (this.props.currentStep !== 'hotels') {
+      // console.log(this.props.tripId)
       return (
         <Redirect to={`${this.props.tripURL}/${this.props.currentStep}`} />
       );

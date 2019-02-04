@@ -38,8 +38,9 @@ div#app {
 /* SUMMARY */
 aside#summary {
   padding-top: 15px;
+  padding-right: 5px;
   background: #23272a;
-  width: 5%;
+  width: 8%;
   text-align: center;
 
   div#progress {
@@ -49,6 +50,8 @@ aside#summary {
 
   i.fas {
     font-size: 3em;
+    padding-bottom: 1em;
+
   }
 
   ul#steps li {
@@ -80,8 +83,9 @@ hr {
 
 /* Whiteboard */
 main#whiteboard {
+  display:flex;
   background:#2c2f33;
-  width: 72%;
+  width: 78%;
   color: white;
   text-align: center;
   padding: 0 20px;
