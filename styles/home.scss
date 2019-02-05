@@ -120,6 +120,7 @@ main#whiteboard {
     padding: 20px;
     border-bottom: 1px solid #ccc;
     margin-left: 88.5px;
+    z-index: 3;
   }
 
   h1, h4 {
@@ -134,8 +135,8 @@ div#plan-status {
 
 div#suggestion-container {
   padding: 100px 0;
-  width: 71%;
-  margin-left: 177px;
+  width: 80%;
+  margin-left: 150px;
 }
 
 div#ready-btn {
@@ -207,4 +208,14 @@ img.avatar {
   width: 50px;
   border-radius: 10px;
   background: #71b1df;
+}
+
+// CARDS
+
+div.card {
+  width: 360px;
+}
+
+div.product-card-name {
+  font-size: .8em;
 }

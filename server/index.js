@@ -97,6 +97,7 @@ app.post('/trips/join', (req, res) => {
 
 // on client connect/disconnect, socket is created/destroyed
 io.on('connection', socket => {
+
 	// console.log('new socket established', io.nsps['/'].server);
   socket.on('new user', userId => {
     knex('users').returning('*').where('id', userId).then(user => {
@@ -105,8 +106,13 @@ io.on('connection', socket => {
         name: user[0].name,
         color: setUserColor(socket.conn.server.clientsCount % 3),
         socketId: socket.id
-      }
-      socket.emit('new user', userData)
+      };
+      // const connectedUsers = [];
+      socket.emit('new user', userData);
+      io.emit('connected notification', {name: 'TripsterBot' ,content: `${userData.name} has joined the trip`});
+
+      io.emit('connected user', Object.keys(io.sockets.sockets));
+
     })
   });
   // broadcast chat messages
@@ -262,8 +268,10 @@ io.on('connection', socket => {
 
   // Socket disconnects
 
-  socket.on('disconnect', () => {
+  socket.on('disconnect', userId => {
     console.log('socket disconnected', socket.id);
+    
+      io.emit('disconnected user', Object.keys(io.sockets.sockets));
   });
 
   // Broadcast flight suggestions
@@ -292,7 +300,10 @@ io.on('connection', socket => {
                   flyFrom: flight.flyFrom,
                   flyTo: flight.flyTo,
                   price: flight.price,
-                  socketIds
+                  duration: flight.fly_duration,
+                  socketIds,
+                  departure: `${new Date(flight.dTime * 1000).getHours()}:${new Date(flight.dTime * 1000).getMinutes()}h`,
+                  arrival: `${new Date(flight.aTime * 1000).getHours()}:${new Date(flight.aTime * 1000).getMinutes()}h`
                 }
               });
               io.emit('flights', flights);
