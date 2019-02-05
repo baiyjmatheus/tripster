@@ -50,7 +50,7 @@ export class MapContainer extends Component {
       >
         {
           this.props.trip.attractions.map(attraction => {
-            console.log(attraction)
+            console.log('attrac', attraction)
             return  <Marker
                 onClick={this.onMarkerClick}
                 title={'Attraction'}
@@ -58,7 +58,7 @@ export class MapContainer extends Component {
                 position={{lat: attraction.latt, lng: attraction.long}}
                 icon={{
                   // url: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Font_Awesome_5_solid_archway.svg',
-                  url: 'http://localhost:8080/img/512px-Font_Awesome_5_solid_archway.png',
+                  url: 'http://localhost:8080/img/step0002.png',
                   anchor: new google.maps.Point(32, 32),
                   scaledSize: new google.maps.Size(32, 32)
                 }}

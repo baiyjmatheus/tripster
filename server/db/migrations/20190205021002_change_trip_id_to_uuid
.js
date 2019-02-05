@@ -111,7 +111,7 @@ exports.up = function(knex, Promise) {
       table.float('latt');
       table.float('long');
       table.float('rating');
-      table.float('price')
+      table.float('price');
       table.uuid('trip_id').references('id').inTable('trips');
     });
   }

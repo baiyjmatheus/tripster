@@ -350,13 +350,14 @@ io.on('connection', socket => {
       .then( attractions => {
         if (attractions.length === 0) {
           data.data.forEach(attraction => {
+            console.log('ATTRACTION', attraction, 'float', parseFloat(attraction.price))
+            let floatPrice = parseFloat(attraction.price)
             knex('attractions')
               .insert({
                 name: attraction.name,
                 rating: attraction.rating,
-                price: attraction.price,
+                price: floatPrice,
                 trip_id: data.tripId,
-                price: attraction.route,
                 latt: attraction.location.lat,
                 long: attraction.location.lng
               })
