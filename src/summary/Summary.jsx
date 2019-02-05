@@ -60,9 +60,7 @@ class Summary extends Component {
               const routeList = flight.route.map(layover => {
                 return(<li>{layover.cityFrom} - {layover.cityTo} </li>)
               })
-              return  (<ul> <li>flight id# {flight.id}: {(flight.route.length - 1)} stops - ${flight.price} </li>
-                {routeList}
-                </ul>)
+              return  (<li>flight id# {flight.id}: {(flight.route.length - 1)} stops - ${flight.price} </li>)
 
           })
 
@@ -89,24 +87,26 @@ class Summary extends Component {
            </div>
 
            <div  className='step-details'>
-             <h3> Flight options </h3>
-             <ul> {flightsList} </ul>
-             <li> Our reccommended flight: {bestFlightOption.id} - ${bestFlightOption.price} </li>
+             <h3> Flights: </h3>
+             <ul>{flightsList} </ul>
+             <br></br>
+             <div>  Reccommended Flight: <br></br> id#:{bestFlightOption.id} - ${bestFlightOption.price} </div>
           </div>
 
           <div className='step-details'>
-               <h3> Hotel options </h3>
-             <ul> {hotelsList} </ul>
-              <li> Our reccommended hotel: {bestHotelOption.name} - ${bestHotelOption.price}/night </li>
+              <h3> Hotels: </h3>
+              <ul> {hotelsList} </ul>
+              <br></br>
+              <div> Reccommended Hotel: <br></br>{bestHotelOption.name} <br></br> ${bestHotelOption.price}/night </div>
           </div>
 
           <div className='step-details'>
-            <h3> Chosen Events:  </h3>
+            <h3> Events:  </h3>
               <ul> {eventsList}</ul>
           </div>
 
           <div className='step-details'>
-          <h3> Chosen Attractions: </h3>
+          <h3> Attractions: </h3>
            <ul> {attractionsList}</ul>
            </div>
 
