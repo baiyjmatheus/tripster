@@ -7,7 +7,8 @@ class Chat extends Component {
 	 constructor() {
     super()
     this.state = {
-      messages: []
+      messages: [],
+      users: []
     }
   }
   
@@ -16,14 +17,35 @@ class Chat extends Component {
       this.setState({ messages: [...this.state.messages, msg] }, () => {
         console.log('from sendNewMessage', this.state.messages)
       })
-    })
+    });
+
+    this.props.socket.on('connected notification', notification => {
+      this.setState({messages: [...this.state.messages, notification]});
+    });
+
+    this.props.socket.on('disconnected notification', notification => {
+      this.setState({messages: [...this.state.messages, notification]});
+    });
+
+    this.props.socket.on('connected user', users => {
+      const usersColors = [];
+      const colors = ['greenyellow', 'yellow', 'tomato'];
+      users.forEach(user => {
+        usersColors.push(colors[usersColors.length % colors.length]);
+      });
+      this.setState({users: usersColors});
+    });
+
+    this.props.socket.on('disconnected user', users => {
+      this.setState({users: users});
+    });
   }
 
 
   render() {
     return (
       <aside id="chat">
-        <ChatHeader />
+        <ChatHeader users={this.state.users} />
         <MessageList messages = { this.state.messages } />
         <ChatBar sendNewMessage = { this.sendNewMessage } currentUser = { this.props.currentUser }/>
       </aside>

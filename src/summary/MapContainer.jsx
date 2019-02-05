@@ -5,7 +5,7 @@ require('dotenv').config()
 const mapStyles = {
   width: '100%',
   height: '100%',
-  color: 'green'
+  color: 'green',
 };
 
 export class MapContainer extends Component {
@@ -38,6 +38,7 @@ export class MapContainer extends Component {
   render() {
     console.log(process.env);
     return (
+
       <Map
         google={this.props.google}
         zoom={12.5}
@@ -104,6 +105,7 @@ export class MapContainer extends Component {
           </div>
         </InfoWindow>
       </Map>
+
     );
   }
 }
