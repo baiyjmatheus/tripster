@@ -9,28 +9,52 @@
     height:100%;
     width: 25%;
     border-radius: 10px;
-    background-color: white;
+    background-color: grey;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
    /* box-shadow: 8px 3px 3px grey;*/
+/*
+   h3{
+    background-color: #aadaff ;
+   }*/
 
 
     div#title{
       display: flex;
       justify-content: center;
       font-size: 400;
-    }
+    };
 
     div#trip-details{
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
+      color: black;
+      background-color: white;
+      width: 98%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 2px;
+      padding-left: 10px; ;
+
+      h4{
+        margin:0, 2px, 0, 2px;
+      };
     }
 
+
+    div.step-details{
+      color: black;
+      background-color: white;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding-left: 15px;
+      padding-bottom: 10px;
+      padding-right:5px;
+
+    }
+
+
   }
-
-
 
   MapContainer#map {
     position: fixed;
