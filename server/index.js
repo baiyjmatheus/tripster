@@ -223,10 +223,10 @@ io.on('connection', socket => {
           const city = trip[0].destination
           console.log('this is the city :', city)
 
-          FindAttractions('point_of_interest', city ,'attractions data')
+          // FindAttractions('point_of_interest', city ,'attractions data')
           FindAttractions('amusement_park', city,'attractions Data amusement')
           // FindAttractions('aquarium', city,'attractions Data aquarium')
-          // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
+          FindAttractions('art_gallery', city,'attractions Data ArtGallery')
           // FindAttractions('casino', city,'attractions Data Casino')
           // FindAttractions('museum', city,'attractions Data Museum')
           // FindAttractions('park', city,'attractions Data Parks')
@@ -342,6 +342,10 @@ io.on('connection', socket => {
 
   socket.on('attraction selection', attraction => {
     io.emit('attraction selection', attraction)
+  })
+
+  socket.on('attraction-filter selection', attraction => {
+    io.emit('attraction-filter selection', attraction)
   })
 
 

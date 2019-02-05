@@ -39,6 +39,19 @@ class Attraction  extends Component {
     attraction.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
     this.props.socket.emit('attraction selection', attraction)
   }
+
+    addFilteredUserSelection = (cardId) => {
+    let attraction;
+    this.state.attractions.forEach((e) => {
+      if (e.id == cardId) {
+        attraction = e
+      }
+    })
+    console.log("this is from filtered function", attraction)
+    attraction.socketIds[this.props.currentUser.socketId].selected = !attraction.socketIds[this.props.currentUser.socketId].selected
+    attraction.socketIds[this.props.currentUser.socketId].color = this.props.currentUser.color;
+    this.props.socket.emit('attraction-filter selection', attraction)
+  }
   // takes in events array and ouputs index of event at given id
   findAttractionIndexById = (attractions, id) => {
     let index;
@@ -60,10 +73,10 @@ class Attraction  extends Component {
 
       socketVariable.emit('attractions request', this.props.tripId)
 
-      this.addAmusementItem('attractions data', socketVariable )
+      // this.addAmusementItem('attractions data', socketVariable )
       this.addAmusementItem('attractions Data amusement', socketVariable)
       // this.addAmusementItem('attractions Data aquarium', socketVariable)
-      // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
+      this.addAmusementItem('attractions Data ArtGallery', socketVariable)
       // this.addAmusementItem('attraction Data Casino', socketVariable)
       // this.addAmusementItem('attractions Data Museum', socketVariable)
       // this.addAmusementItem('attractions Data Parks', socketVariable)
@@ -90,6 +103,15 @@ class Attraction  extends Component {
       stateCopy.attractions[this.findAttractionIndexById(this.state.attractions, attraction.id)] = attraction
       this.setState({stateCopy})
     })
+
+    if(this.state.filteredAttractions.length){
+      this.props.socket.on('attraction-filter selection', attraction => {
+        this.props.getSelectedItems(this.state.filterAttractions, 'attractions')
+        let stateCopy = Object.assign({}, this.state);
+        stateCopy.attractions[this.findAttractionIndexById(this.state.filteredAttractions, attraction.id)] = attraction
+        this.setState({stateCopy})
+      })
+    }
   }
 
   render () {
@@ -164,16 +186,16 @@ class Attraction  extends Component {
     if (filterAttractionsArray.length){
 
       const filterItem = filterAttractionsArray.map( filteredAttraction => {
-        return <Card 
+        return <Card
           id={filteredAttraction.id}
-          key={Math.random()} 
-          title={filteredAttraction.name} 
-          rating={filteredAttraction.rating} 
-          address={filteredAttraction.address} 
-          imgSrc={filteredAttraction.img} 
-          location={filteredAttraction.location} 
-          price={filteredAttraction.price} 
-          type={filteredAttraction.type} 
+          key={Math.random()}
+          title={filteredAttraction.name}
+          rating={filteredAttraction.rating}
+          address={filteredAttraction.address}
+          imgSrc={filteredAttraction.img}
+          location={filteredAttraction.location}
+          price={filteredAttraction.price}
+          type={filteredAttraction.type}
           addUserSelection={this.addUserSelection}
           currentUser={this.props.currentUser}
           socketIds={filteredAttraction.socketIds}
@@ -210,15 +232,15 @@ class Attraction  extends Component {
     } else {
       console.log(attractionArray[0])
       const attractionItem = attractionArray.map( attraction => {
-         return <Card 
+         return <Card
           id={attraction.id}
-          key={Math.random()} 
-          title={attraction.name} 
-          rating={attraction.rating} 
-          address={attraction.address} 
-          imgSrc={attraction.img} 
-          location={attraction.location} 
-          price={attraction.price} 
+          key={Math.random()}
+          title={attraction.name}
+          rating={attraction.rating}
+          address={attraction.address}
+          imgSrc={attraction.img}
+          location={attraction.location}
+          price={attraction.price}
           type={attraction.type}
           addUserSelection={this.addUserSelection}
           currentUser={this.props.currentUser}
