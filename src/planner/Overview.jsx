@@ -5,11 +5,13 @@ class Overview extends Component {
   render() {
 
    const completed = {
-      color: 'green'
+      color: 'rgb(60, 186, 84)',
+      borderLeft: '8px solid rgb(60, 186, 84)'
     }
 
     const ongoing = {
-      color : 'yellow',
+      color : 'rgb(244, 194, 13)',
+      borderLeft: '8px solid rgb(244, 194, 13)'
     }
 
     function styleThis(props, step){

@@ -284,16 +284,15 @@ io.on('connection', socket => {
       .then((dbTrip) => {
         const [trip] = dbTrip;
         if (trip) {
+          const days = moment(trip.end_date).diff(trip.start_date, 'days');
         // Get flights from flight API
-          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin.replace(/\s/g, '-')}&to=${trip.destination.replace(/\s/g, '-')}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
+          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin.replace(/\s/g, '-')}&to=${trip.destination.replace(/\s/g, '-')}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&nights_in_dst_from=0&nights_in_dst_to=${days}&typeFlight=round&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-              console.log(body);
               const flights = JSON.parse(body).data.map((flight) => {
                 let socketIds = {}
                 Object.keys(io.sockets.sockets).forEach(id => {
                   socketIds[id] = { selected: false, color: null}
                 })
-                console.log(flight.route)
                 return {
                   id: uuidv4(),
                   route: flight.route,
@@ -352,13 +351,14 @@ io.on('connection', socket => {
       .then( attractions => {
         if (attractions.length === 0) {
           data.data.forEach(attraction => {
+            console.log('ATTRACTION', attraction, 'float', parseFloat(attraction.price))
+            let floatPrice = parseFloat(attraction.price)
             knex('attractions')
               .insert({
                 name: attraction.name,
                 rating: attraction.rating,
-                price: attraction.price,
+                price: floatPrice,
                 trip_id: data.tripId,
-                price: attraction.route,
                 latt: attraction.location.lat,
                 long: attraction.location.lng
               })
@@ -412,7 +412,7 @@ io.on('connection', socket => {
         .then(trip => {
           // fetch events from eventbrite with trip data from DB
           request(
-            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`, (error, response, body) => {
+            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination.replace(/\s/g, '-')}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`, (error, response, body) => {
               if (error) {
                 return error
               }
@@ -500,7 +500,7 @@ const readyCounter = (step) => {
 
 // Give each user a color
 const setUserColor = (num) => {
-  const colors = ['tomato', 'greenyellow', 'yellow'];
+  const colors = ['#dd4b39', 'rgb(60, 186, 84)', 'rgb(244, 194, 13)'];
   return colors[num]
 }
 

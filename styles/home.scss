@@ -43,7 +43,6 @@ div#app {
 /* SUMMARY */
 aside#summary {
   position: fixed;
-  color: #5078F2;
   padding-top: 15px;
   background: #23272a;
   width: 6.2%;
@@ -104,7 +103,6 @@ hr {
 main#whiteboard {
   display:flex;
   width: 78%;
-  color: white;
   text-align: center;
   padding: 0;
   overflow-y: scroll;
@@ -112,14 +110,13 @@ main#whiteboard {
 
   div#trip-header {
     display: flex;
-    color: #5078F2;
     background: #fff;
     justify-content: space-between;
     position: absolute;
-    width: 71%;
+    width: 70.9%;
     padding: 20px;
     border-bottom: 1px solid #ccc;
-    margin-left: 88.5px;
+    margin-left: 6.2%;
     z-index: 3;
   }
 
@@ -218,4 +215,22 @@ div.card {
 
 div.product-card-name {
   font-size: .8em;
+}
+
+a.buy-button {
+  background: rgb(60, 186, 84);
+}
+
+a.buy-button:hover {
+  background: rgb(51, 160, 71);
+}
+
+div.product-card-description-box,
+p.product-card-description {
+  font-size: 16px;
+}
+
+// MAP
+div.map>div {
+  width: 75% !important;
 }
