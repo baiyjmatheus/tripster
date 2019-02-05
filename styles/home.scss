@@ -43,7 +43,6 @@ div#app {
 /* SUMMARY */
 aside#summary {
   position: fixed;
-  color: #5078F2;
   padding-top: 15px;
   background: #23272a;
   width: 6.2%;
@@ -56,6 +55,7 @@ aside#summary {
 
   i.fas {
     font-size: 1.5em;
+    padding: 10px 10px 0 0;
   }
 
   i.logo {
@@ -104,7 +104,6 @@ hr {
 main#whiteboard {
   display:flex;
   width: 78%;
-  color: white;
   text-align: center;
   padding: 0;
   overflow-y: scroll;
@@ -112,7 +111,6 @@ main#whiteboard {
 
   div#trip-header {
     display: flex;
-    color: #5078F2;
     background: #fff;
     justify-content: space-between;
     position: absolute;

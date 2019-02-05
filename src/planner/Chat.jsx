@@ -29,7 +29,7 @@ class Chat extends Component {
 
     this.props.socket.on('connected user', users => {
       const usersColors = [];
-      const colors = ['greenyellow', 'yellow', 'tomato'];
+      const colors = ['rgb(60, 186, 84)', 'rgb(244, 194, 13)', '#dd4b39'];
       users.forEach(user => {
         usersColors.push(colors[usersColors.length % colors.length]);
       });

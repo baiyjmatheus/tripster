@@ -499,7 +499,7 @@ const readyCounter = (step) => {
 
 // Give each user a color
 const setUserColor = (num) => {
-  const colors = ['tomato', 'greenyellow', 'yellow'];
+  const colors = ['#dd4b39', 'rgb(60, 186, 84)', 'rgb(244, 194, 13)'];
   return colors[num]
 }
 
