@@ -283,16 +283,15 @@ io.on('connection', socket => {
       .then((dbTrip) => {
         const [trip] = dbTrip;
         if (trip) {
+          const days = moment(trip.end_date).diff(trip.start_date, 'days');
         // Get flights from flight API
-          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin.replace(/\s/g, '-')}&to=${trip.destination.replace(/\s/g, '-')}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
+          request(`https://api.skypicker.com/flights?flyFrom=${trip.origin.replace(/\s/g, '-')}&to=${trip.destination.replace(/\s/g, '-')}&dateFrom=${moment(trip.start_date).format('L')}&dateTo=${moment(trip.end_date).format('L')}&nights_in_dst_from=0&nights_in_dst_to=${days}&typeFlight=round&curr=CAD&limit=9&partner=picky`, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-              console.log(body);
               const flights = JSON.parse(body).data.map((flight) => {
                 let socketIds = {}
                 Object.keys(io.sockets.sockets).forEach(id => {
                   socketIds[id] = { selected: false, color: null}
                 })
-                console.log(flight.route)
                 return {
                   id: uuidv4(),
                   route: flight.route,

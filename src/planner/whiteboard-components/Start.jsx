@@ -11,13 +11,16 @@ class Start extends Component {
       );
     } else {
       return (
-        <div id="start" style={{color: '#5078f2'}}>
+        <div id="start">
           <h2>Invite your friends!</h2>
-          <div style={{display: 'flex', justifyContent: 'space-between', width: '280px', margin: '0 auto'}}>
-            <span> Trip code:&nbsp;</span>
-            <input readOnly value={`${this.props.tripId}`} style={{border: 'none', color: '#5078f2'}} id="copy" />
-            <button onClick={this.copyToClipboard}><i style={{color: '#5078f2'}} className="fas fa-copy"></i></button>
+
+          <div style={{margin: '0 auto'}}>
+            <p style={{fontWeight: 'bold'}}>Trip code:</p> 
+
+            <input readOnly value={`${this.props.tripId}`} style={{border: 'none', width: '320px', fontSize: '16px'}} id="copy" />
+            <button style={{fontSize: '16px'}} onClick={this.copyToClipboard}><i className="fas fa-copy"></i></button>
           </div>
+
           <h2>Click ready and wait for all participants</h2>
         </div>
       );

@@ -43,8 +43,8 @@ class Flight  extends Component {
     const flightCards = this.state.flights.map((flight) => {
           return  <Card 
             id={flight.id}
-            title={`${flight.route ? (flight.route.length - 1) : (flight.refinedRoute.length - 1)} stops`} 
-            rating={((flight.quality / 100) / 2).toPrecision(2)} 
+            title={`${flight.route ? Math.floor(((flight.route.length - 1) / 2)) : Math.floor((flight.refinedRoute.length - 1) / 2)} stops (round)`} 
+            rating={((flight.quality / 400)).toPrecision(2)} 
             address={`From: ${flight.flyFrom} \t To: ${flight.flyTo} Departure: ${flight.departure} Arrival: ${flight.arrival} Duration: ${flight.duration}`} 
             price={flight.price} 
             imgSrc={'https://images.pexels.com/photos/674783/pexels-photo-674783.jpeg?cs=srgb&dl=aerial-air-air-traffic-674783.jpg&fm=jpg'}
