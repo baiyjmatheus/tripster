@@ -410,7 +410,7 @@ io.on('connection', socket => {
         .then(trip => {
           // fetch events from eventbrite with trip data from DB
           request(
-            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`, (error, response, body) => {
+            `https://www.eventbriteapi.com/v3/events/search?location.address=${trip[0].destination.replace(/\s/g, '-')}&location.within=10km&expand=venue&start_date.range_start=${moment(trip[0].start_date).format('YYYY-MM-DDTHH:mm:ss')}Z&start_date.range_end=${moment(trip[0].end_date).format('YYYY-MM-DDTHH:mm:ss')}Z&token=${process.env.EVENTBRITE_API_TOKEN}`, (error, response, body) => {
               if (error) {
                 return error
               }
