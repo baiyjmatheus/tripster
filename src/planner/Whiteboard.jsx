@@ -78,6 +78,7 @@ class Whiteboard extends Component {
     if (this.state.currentStep === 'summary') {
       return (<Redirect to={`${url}/summary`} />)
     } else {
+      console.log('from whiteboard', this.props)
       return (
 
          <Router>
@@ -108,6 +109,7 @@ class Whiteboard extends Component {
                   render={() => <Start
                     tripURL={this.props.tripURL}
                     currentStep={this.state.currentStep}
+                    tripId={this.props.tripId}
                   />}
                 />
                 <Route
