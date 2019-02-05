@@ -292,7 +292,10 @@ io.on('connection', socket => {
                   flyFrom: flight.flyFrom,
                   flyTo: flight.flyTo,
                   price: flight.price,
-                  socketIds
+                  duration: flight.fly_duration,
+                  socketIds,
+                  departure: `${new Date(flight.dTime * 1000).getHours()}:${new Date(flight.dTime * 1000).getMinutes()}h`,
+                  arrival: `${new Date(flight.aTime * 1000).getHours()}:${new Date(flight.aTime * 1000).getMinutes()}h`
                 }
               });
               io.emit('flights', flights);
