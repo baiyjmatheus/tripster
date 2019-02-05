@@ -166,10 +166,10 @@ io.on('connection', socket => {
                 name: hotel.name,
                 rating: hotel.rating,
                 location: hotel.geometry.location,
-                address: hotel.vicinity,
+                address: hotel.formatted_address,
                 latt: hotel.geometry.location.lat,
                 long: hotel.geometry.location.lng,
-                img: hotel.icon, // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
+                img: hotel.icon,//getPhoto(hotel.photos[0].photo_reference), // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
                 price:(Math.random()*(2000-200)+200).toFixed(2),
                 socketIds
               }
@@ -255,6 +255,7 @@ io.on('connection', socket => {
               .insert({
                 name: hotel.name,
                 rating: hotel.rating,
+                address: hotel.address,
                 price: hotel.price,
                 trip_id: data.tripId,
                 latt: hotel.latt,
@@ -270,7 +271,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', userId => {
     console.log('socket disconnected', socket.id);
-    
+
       io.emit('disconnected user', Object.keys(io.sockets.sockets));
   });
 
@@ -542,7 +543,7 @@ const getPhoto = (photo_reference_id) => {
         result.socketIds = socketIds;
         if (result.photos){
 
-          // const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
+          const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
            return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
         } else {
            return returnObject(result, type , result.icon)
