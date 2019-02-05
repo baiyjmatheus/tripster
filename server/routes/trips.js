@@ -15,7 +15,7 @@ router.post('/create', (req, res) => {
     .returning('id')
     .insert({
       id: uuidv4(),
-      name: 'Amazing Trip',
+      name: newTrip.title,
       origin: newTrip.origin,
       destination: newTrip.destination,
       start_date: newTrip.start_date,
@@ -42,6 +42,23 @@ router.post('/join', (req, res) => {
     })
 
 });
+
+router.get('/:trip_id', (req, res) => {
+
+  const tripCode = req.params.trip_id
+ 
+   knex('trips')
+    .returning(['name', 'destination'])
+    .where('id', tripCode)
+    .then((response) =>{
+      if(response.length){
+        res.send(response);
+      } else {
+        res.send({exists:false})
+      }
+    });
+ 
+ });
 
 router.get('/:trip_id/summary', (req, res) => {
   let data = {}

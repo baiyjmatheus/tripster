@@ -34,14 +34,15 @@ class Selection extends Component {
       <main id="selection-container" style={backgroundStyle('https://images.unsplash.com/photo-1484544808355-8ec84e534d75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1966&q=80')}>
         <aside id="selection-create" style={{backgroundColor: 'transparent'}}>
           <form action="/trips/create" method="POST" onSubmit={this.createTrip}>
+            <input type='text' name='title' placeholder='Title' />
+
+            <input type="text" name="origin" placeholder='Origin'/>
+            <input type="text" name="destination" placeholder='Destination'/>
 
             <div id="date-selection">
               <input type="date" name="start" placeholder='Start Date'/>
               <input type="date" name="end" placeholder='End Date'/>
             </div>
-
-            <input type="text" name="origin" placeholder='Origin'/>
-            <input type="text" name="destination" placeholder='Destination'/>
             <button>Create</button>
           </form>
         </aside>
@@ -61,6 +62,7 @@ class Selection extends Component {
   createTrip = (evt) => {
     evt.preventDefault();
     const newTrip = {
+      title: evt.target.title.value,
       start_date: evt.target.start.value,
       end_date: evt.target.end.value,
       origin: evt.target.origin.value,
