@@ -55,7 +55,6 @@ aside#summary {
 
   i.fas {
     font-size: 1.5em;
-    padding: 10px 10px 0 0;
   }
 
   i.logo {
@@ -216,4 +215,17 @@ div.card {
 
 div.product-card-name {
   font-size: .8em;
+}
+
+a.buy-button {
+  background: rgb(60, 186, 84);
+}
+
+a.buy-button:hover {
+  background: rgb(51, 160, 71);
+}
+
+div.product-card-description-box,
+p.product-card-description {
+  font-size: 16px;
 }
