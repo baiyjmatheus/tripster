@@ -3,17 +3,43 @@
   flex-direction: row;
   height: 100%;
   width:100%;
-}
+  background-color: grey;
 
- section #summary-details {
+ section#summary-details {
     height:100%;
+    width: 25%;
+    border-radius: 10px;
+    background-color: white;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+   /* box-shadow: 8px 3px 3px grey;*/
+
+
+    div#title{
+      display: flex;
+      justify-content: center;
+      font-size: 400;
+    }
+
+    div#trip-details{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+    }
+
   }
 
-  div #summary-container #map {
-    height: 100%;
+
+
+  MapContainer#map {
+    position: fixed;
+    height: 100vh;
     width: 100%;
     color: tomato;
   }
+
+}
 
 
 body {

@@ -77,7 +77,9 @@ class Summary extends Component {
       <div id='summary-container'>
         <section id='summary-details'>
 
-           <h1> trip summary </h1>
+          <div id='title'>
+           <h1> Trip Summary </h1>
+          </div>
 
           <div id='trip-details'>
              <h3> Trip Name : {this.state.data.trip[0].name} </h3>
@@ -86,19 +88,25 @@ class Summary extends Component {
              <h4> Destination: {this.state.data.trip[0].destination}</h4>
            </div>
 
-           <div>
+           <div  class='step-details'>
              <h3> Flight options </h3>
              <ul> {flightsList} </ul>
              <li> Our reccommended flight: {bestFlightOption.id} - ${bestFlightOption.price} </li>
+          </div>
 
+          <div class='step-details'>
                <h3> Hotel options </h3>
              <ul> {hotelsList} </ul>
               <li> Our reccommended hotel: {bestHotelOption.name} - ${bestHotelOption.price}/night </li>
+          </div>
 
+          <div class='step-details'>
             <h3> Chosen Events:  </h3>
               <ul> {eventsList}</ul>
+          </div>
 
-           <h3> Chosen Attractions: </h3>
+          <div class='step-details'>
+          <h3> Chosen Attractions: </h3>
            <ul> {attractionsList}</ul>
            </div>
 
