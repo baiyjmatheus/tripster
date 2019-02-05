@@ -21,13 +21,101 @@ class Summary extends Component {
         const data = res.data;
         this.setState({ data })
       })
-	}
+
+  }
 
   render() {
-    if (this.state.data) {    
+
+    const formattedDate = (date) => {
+      const year = date.slice(0,4)
+      const month= date.slice(5,7)
+      const day= date.slice(8,10)
+
+      return `${day}-${month}-${year}`
+    }
+
+    const returnBestOption = (array)=> {
+      const sortedArray = array.sort(function (a, b) {
+        return a.price - b.price;
+      });
+
+      return sortedArray[0]
+    }
+
+    console.log("this is the date from query: ", this.state.data)
+
+    if (this.state.data) {
+
+          const attractionsList = this.state.data.attractions.map(attraction => {
+            console.log('attraction from map:', attraction.name)
+               return  (<li> {attraction.name} </li>)
+           })
+
+          const eventsList = this.state.data.events.map(event => {
+            console.log('attraction from map:', event.name)
+               return  (<li> {event.name} </li>)
+          })
+
+          const flightsList = this.state.data.flights.map(flight => {
+              const routeList = flight.route.map(layover => {
+                return(<li>{layover.cityFrom} - {layover.cityTo} </li>)
+              })
+              return  (<li>flight id# {flight.id}: {(flight.route.length - 1)} stops - ${flight.price} </li>)
+
+          })
+
+          const hotelsList = this.state.data.hotels.map(hotel => {
+                return  (<li> {hotel.name} - ${hotel.price}/night </li>)
+           })
+
+          const bestFlightOption = returnBestOption(this.state.data.flights)
+          const bestHotelOption = returnBestOption(this.state.data.hotels)
+
       return (
-        <MapContainer trip={this.state.data}/>
-      );
+      <div id='summary-container'>
+        <section id='summary-details'>
+
+          <div id='title'>
+           <h1> Trip Summary </h1>
+          </div>
+
+          <div id='trip-details'>
+             <h3> Trip Name :  {this.state.data.trip[0].name} </h3>
+             <h4> {formattedDate(this.state.data.trip[0].start_date)} to {formattedDate(this.state.data.trip[0].end_date)} </h4>
+             <h4> Origin: {this.state.data.trip[0].origin}</h4>
+             <h4> Destination: {this.state.data.trip[0].destination}</h4>
+           </div>
+
+           <div  className='step-details'>
+             <h3> Flights: </h3>
+             <ul>{flightsList} </ul>
+             <br></br>
+             <div>  Reccommended Flight: <br></br> id#:{bestFlightOption.id} - ${bestFlightOption.price} </div>
+          </div>
+
+          <div className='step-details'>
+              <h3> Hotels: </h3>
+              <ul> {hotelsList} </ul>
+              <br></br>
+              <div> Reccommended Hotel: <br></br>{bestHotelOption.name} <br></br> ${bestHotelOption.price}/night </div>
+          </div>
+
+          <div className='step-details'>
+            <h3> Events:  </h3>
+              <ul> {eventsList}</ul>
+          </div>
+
+          <div className='step-details'>
+          <h3> Attractions: </h3>
+           <ul> {attractionsList}</ul>
+           </div>
+
+        </section>
+
+
+          <MapContainer trip={this.state.data} />
+        </div>
+        );
     } else {
       return (
         <ReactLoading type={'spin'} color={'#5078F2'} height={64} width={64}/>
@@ -43,3 +131,5 @@ class Summary extends Component {
 }
 
 export default Summary;
+
+

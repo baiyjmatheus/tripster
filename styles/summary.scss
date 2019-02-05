@@ -1,10 +1,90 @@
-#map {
-	height: 100%;
-	color: tomato;
+#summary-container{
+  display:flex;
+  flex-direction: row;
+  height: 100vh;
+  width:100%;
+
+ section#summary-details {
+    height:100%;
+    width: 25%;
+    border-radius: 10px;
+    background-color: grey;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
+
+    div#title{
+      color: white;
+      background-color: #aadb67;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    div#trip-details{
+      color: black;
+      background-color: white;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 2px;
+      padding-left: 20px;
+
+      h4{
+        margin:0, 2px, 0, 2px;
+      };
+    }
+
+    div.step-details{
+      color: black;
+      background-color: white;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 2px;
+      padding-left: 10px;
+      padding-right: 5px;
+      padding-bottom: 10px;
+
+      li{
+        margin-top: 0px 3px 0px 3px;
+      }
+
+      ul li{
+         margin-left: 8px;
+         list-style-position: outside;
+         list-style-type: circle;
+      }
+
+      div{
+        text-align: center;
+        font-weight: italic;
+        margin: 0px 1px 0px 2px;
+      }
+
+    }
+
+
+
+
+  }
+
+  MapContainer#map {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    color: tomato;
+  }
+
 }
 
+
 body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: grey;
 }
