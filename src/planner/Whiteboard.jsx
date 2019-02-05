@@ -15,12 +15,15 @@ import Hotel from './whiteboard-components/Hotel.jsx';
 import Event from './whiteboard-components/Event.jsx';
 import Attraction from './whiteboard-components/Attraction.jsx';
 import Overview from './Overview.jsx'
+import axios from 'axios';
 
 class Whiteboard extends Component {
   constructor() {
     super();
 
     this.state = {
+      tripTitle: '',
+      destination: '',
       readyBtnStatus: 'Ready',
       readyBtnColor: 'rgb(60, 186, 84)',
       currentStep: 'start',
@@ -59,6 +62,14 @@ class Whiteboard extends Component {
       this.setState({currentStep: step[1]});
       this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
     });
+
+    axios.get(`http://localhost:8080/trips/${this.props.tripId}`)
+      .then((res) => {
+        this.setState({
+          destination: res.data[0].destination.substr(0,1).toUpperCase() + res.data[0].destination.substr(1).toLowerCase(),
+          tripTitle: res.data[0].name
+        });
+      });
   }
 
   render() {
@@ -73,8 +84,8 @@ class Whiteboard extends Component {
           <main id="whiteboard" className="full-height">
             <div id="trip-header">
               <div id="trip-info">
-                <h1>Amazing trip</h1>
-                <h4>Location: Paris</h4>
+                <h1>{this.state.tripTitle}</h1>
+                <h4>Location: {this.state.destination}</h4>
               </div>
               <div id="ready-btn">
                 <Ready status={this.state.readyBtnStatus} currentStep={this.state.currentStep} changeStepState={this.changeStepState} changeReadyBtn={this.changeReadyBtn} color={this.state.readyBtnColor}/>

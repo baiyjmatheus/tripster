@@ -41,6 +41,23 @@ router.post('/join', (req, res) => {
 
 });
 
+router.get('/:trip_id', (req, res) => {
+
+  const tripCode = req.params.trip_id
+ 
+   knex('trips')
+    .returning(['name', 'destination'])
+    .where('id', tripCode)
+    .then((response) =>{
+      if(response.length){
+        res.send(response);
+      } else {
+        res.send({exists:false})
+      }
+    });
+ 
+ });
+
 router.get('/:trip_id/summary', (req, res) => {
   let data = {}
   const tripId = req.params.trip_id
