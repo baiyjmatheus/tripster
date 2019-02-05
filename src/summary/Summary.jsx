@@ -72,38 +72,41 @@ class Summary extends Component {
 
           const bestFlightOption = returnBestOption(this.state.data.flights)
           const bestHotelOption = returnBestOption(this.state.data.hotels)
+
       return (
       <div id='summary-container'>
         <section id='summary-details'>
 
-          <h1> trip summary </h1>
-         <div id='trip-details'>
-            <h3> Trip Name : {this.state.data.trip[0].name} </h3>
-            <h4> From {formattedDate(this.state.data.trip[0].start_date)} until {formattedDate(this.state.data.trip[0].end_date)} </h4>
-            <h4> Origin: {this.state.data.trip[0].origin}</h4>
-            <h4> Destination: {this.state.data.trip[0].destination}</h4>
-          </div>
+           <h1> trip summary </h1>
 
-          <div>
-            <h3> Flight options </h3>
-            <ul> {flightsList} </ul>
-            <li> Our reccommended flight: {bestFlightOption.id} - ${bestFlightOption.price} </li>
+          <div id='trip-details'>
+             <h3> Trip Name : {this.state.data.trip[0].name} </h3>
+             <h4> From {formattedDate(this.state.data.trip[0].start_date)} until {formattedDate(this.state.data.trip[0].end_date)} </h4>
+             <h4> Origin: {this.state.data.trip[0].origin}</h4>
+             <h4> Destination: {this.state.data.trip[0].destination}</h4>
+           </div>
 
-              <h3> Hotel options </h3>
-            <ul> {hotelsList} </ul>
-             <li> Our reccommended hotel: {bestHotelOption.name} - ${bestHotelOption.price}/night </li>
+           <div>
+             <h3> Flight options </h3>
+             <ul> {flightsList} </ul>
+             <li> Our reccommended flight: {bestFlightOption.id} - ${bestFlightOption.price} </li>
 
-           <h3> Chosen Events:  </h3>
-             <ul> {eventsList}</ul>
+               <h3> Hotel options </h3>
+             <ul> {hotelsList} </ul>
+              <li> Our reccommended hotel: {bestHotelOption.name} - ${bestHotelOption.price}/night </li>
 
-          <h3> Chosen Attractions: </h3>
-          <ul> {attractionsList}</ul>
-          </div>
+            <h3> Chosen Events:  </h3>
+              <ul> {eventsList}</ul>
 
+           <h3> Chosen Attractions: </h3>
+           <ul> {attractionsList}</ul>
+           </div>
 
         </section>
-        <MapContainer trip={this.state.data}/>
-       </div>
+
+
+          <MapContainer trip={this.state.data} />
+        </div>
         );
     } else {
       return (
@@ -120,3 +123,5 @@ class Summary extends Component {
 }
 
 export default Summary;
+
+
