@@ -7,8 +7,9 @@
  section#summary-details {
     height:100%;
     width: 25%;
-    border-radius: 10px;
-    background-color: grey;
+    border-radius-bottom-right:10px;
+    border-radius-bottom-left:10px;
+    background-color: #aadb67;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
@@ -19,7 +20,8 @@
       background-color: #aadb67;
       width: 100%;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius-bottom-right:10px;
+      border-radius-bottom-left:10px;
       text-align: center;
     }
 
