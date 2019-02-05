@@ -13,7 +13,7 @@ router.post('/create', (req, res) => {
   knex('trips')
     .returning('id')
     .insert({
-      name: 'Amazing Trip',
+      name: newTrip.title,
       origin: newTrip.origin,
       destination: newTrip.destination,
       start_date: newTrip.start_date,
