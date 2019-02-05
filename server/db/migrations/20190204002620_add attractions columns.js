@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
 
   function addAttractionsColumns() {
   	return knex.schema.table('attractions', table => {
-		table.float('price')
+		  table.float('price')
   	})
   }
 };

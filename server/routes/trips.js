@@ -4,6 +4,7 @@ const ENV = process.env.ENV || 'development';
 const knexConfig = require('../knexfile');
 const knex = require('knex')(knexConfig[ENV]);
 const request = require('request');
+const uuidv4 = require('uuid/v4')
 
 
 // Create new trip (adds trip to DB)
@@ -13,6 +14,7 @@ router.post('/create', (req, res) => {
   knex('trips')
     .returning('id')
     .insert({
+      id: uuidv4(),
       name: 'Amazing Trip',
       origin: newTrip.origin,
       destination: newTrip.destination,
