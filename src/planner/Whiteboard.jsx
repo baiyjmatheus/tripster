@@ -63,7 +63,7 @@ class Whiteboard extends Component {
       this.changeReadyBtn('rgb(60, 186, 84)', 'Ready');
     });
 
-    axios.get(`http://localhost:8080/trips/${this.props.tripId}`)
+    axios.get(`http://172.46.0.100:8080/trips/${this.props.tripId}`)
       .then((res) => {
         this.setState({
           destination: res.data[0].destination.substr(0,1).toUpperCase() + res.data[0].destination.substr(1).toLowerCase(),

@@ -65,7 +65,7 @@ class Login extends Component {
       name: e.target.name.value,
       email: e.target.email.value
     }
-    axios.post('172.46.0.100/login', user)
+    axios.post('http://172.46.0.100:8080/login', user)
       .then((res) => {
         const cookies = new Cookies();
         cookies.set('user_id', res.data.id);
