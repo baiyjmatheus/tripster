@@ -69,7 +69,7 @@ class Selection extends Component {
       destination: evt.target.destination.value
     }
 
-    axios.post('http://172.46.0.100:8080/trips/create', newTrip)
+    axios.post('http://localhost:8080/trips/create', newTrip)
     .then((res) => {
       // window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`)
       this.setState({ redirect: true, id: res.data.id });;

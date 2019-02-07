@@ -15,7 +15,7 @@ class Planner extends Component {
     const cookies = new Cookies()
     const userId = cookies.get('user_id')
     // connect new websocket
-    const socket = io('http://172.46.0.100:8080');
+    const socket = io('http://localhost:8080');
     // send userId from cookie to server
     socket.emit('new user', userId)
     // recieves currentUser obj from server and concats to state
