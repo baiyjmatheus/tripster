@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
+
 class ChatHeader extends Component {
   render() {
-    const users = this.props.users.map((userColor) => {
+    const users = this.props.users.map((userColor, index) => {
       return (
         <div>
-          <img className="avatar" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png" alt="" style={{backgroundColor: userColor}} />
+          <img className="avatar" src={this.rotateIcons(index)} alt="" />
         </div>
       );
     });
@@ -16,6 +17,18 @@ class ChatHeader extends Component {
         </div> 
       </section>
     );
+  }
+
+  rotateIcons = (num) => {
+    if (num > 2) {
+      num = num % 3;
+    }
+    const icons = [ 
+    'http://localhost:8080/img/final-img-0.png', 
+    'http://localhost:8080/img/final-icon-2.png', 
+    'http://localhost:8080/img/final-icon-1.png'
+    ]
+    return icons[num]
   }
 }
 
