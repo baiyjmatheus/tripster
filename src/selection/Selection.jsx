@@ -81,7 +81,7 @@ class Selection extends Component {
     evt.preventDefault();
     const tripCode = {trip_id: evt.target.code.value} ;
 
-     axios.post(`http://172.46.0.100:8080/trips/join`, tripCode ) //should only redirect if trip exists
+     axios.post(`http://192.168.30.198:8080/trips/join`, tripCode ) //should only redirect if trip exists
       .then((res) => {
         if(res.data.exists){
           // window.location.replace(`http://localhost:3000/#/trips/${tripCode.trip_id}`);
