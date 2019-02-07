@@ -21,6 +21,9 @@ class ChatHeader extends Component {
   }
 
   rotateIcons = (num) => {
+    if (num > 2) {
+      num = num % 3;
+    }
     const icons = [ 
     'http://localhost:8080/img/final-img-0.png', 
     'http://localhost:8080/img/final-icon-2.png', 
