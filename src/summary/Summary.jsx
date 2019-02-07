@@ -60,7 +60,7 @@ class Summary extends Component {
               const routeList = flight.route.map(layover => {
                 return(<li>{layover.cityFrom} - {layover.cityTo} </li>)
               })
-              return  (<li>flight id# {flight.id}: {Math.floor((flight.route.length) / 2)} stops - ${flight.price} </li>)
+              return  (<li>flight id# {flight.id}: {Math.floor((flight.route.length - 1) / 2)} stops - ${flight.price} </li>)
 
           })
 
