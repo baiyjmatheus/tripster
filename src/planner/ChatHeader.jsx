@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 
 class ChatHeader extends Component {
   render() {
-    let count = 0;
     const users = this.props.users.map((userColor, index) => {
       return (
         <div>
