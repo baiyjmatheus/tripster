@@ -60,13 +60,13 @@ class Summary extends Component {
               const routeList = flight.route.map(layover => {
                 return(<li>{layover.cityFrom} - {layover.cityTo} </li>)
               })
-              return  (<li>flight id# {flight.id}: {(flight.route.length - 1)} stops - ${flight.price} </li>)
+              return  (<li>flight id# {flight.id}: {Math.floor((flight.route.length - 1) / 2)} stops - ${flight.price} </li>)
 
           })
 
           const hotelsList = this.state.data.hotels.map(hotel => {
                 return  (<li> {hotel.name} - ${hotel.price}/night </li>)
-           })
+           });
 
           const bestFlightOption = returnBestOption(this.state.data.flights)
           const bestHotelOption = returnBestOption(this.state.data.hotels)

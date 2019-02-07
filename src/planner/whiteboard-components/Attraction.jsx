@@ -61,17 +61,17 @@ class Attraction  extends Component {
       socketVariable.emit('attractions request', this.props.tripId)
 
       this.addAmusementItem('attractions data', socketVariable )
-      this.addAmusementItem('attractions Data amusement', socketVariable)
-      this.addAmusementItem('attractions Data aquarium', socketVariable)
-      this.addAmusementItem('attractions Data ArtGallery', socketVariable)
-      this.addAmusementItem('attraction Data Casino', socketVariable)
-      this.addAmusementItem('attractions Data Museum', socketVariable)
-      this.addAmusementItem('attractions Data Parks', socketVariable)
-      this.addAmusementItem('attractions Data Restaurant', socketVariable)
-      this.addAmusementItem('attractions Data Stadium', socketVariable)
-      this.addAmusementItem('attractions Data Spa', socketVariable)
-      this.addAmusementItem('attractions Data ShoppingMall', socketVariable)
-      this.addAmusementItem('attractions Data Zoo', socketVariable)
+      // this.addAmusementItem('attractions Data amusement', socketVariable)
+      // this.addAmusementItem('attractions Data aquarium', socketVariable)
+      // this.addAmusementItem('attractions Data ArtGallery', socketVariable)
+      // this.addAmusementItem('attraction Data Casino', socketVariable)
+      // this.addAmusementItem('attractions Data Museum', socketVariable)
+      // this.addAmusementItem('attractions Data Parks', socketVariable)
+      // this.addAmusementItem('attractions Data Restaurant', socketVariable)
+      // this.addAmusementItem('attractions Data Stadium', socketVariable)
+      // this.addAmusementItem('attractions Data Spa', socketVariable)
+      // this.addAmusementItem('attractions Data ShoppingMall', socketVariable)
+      // this.addAmusementItem('attractions Data Zoo', socketVariable)
 
     console.log("made api calls")
 
@@ -183,7 +183,7 @@ class Attraction  extends Component {
       return (
 
          <div>
-            <div id="filter-boxes">
+            {/* <div id="filter-boxes">
                 <form>
                 amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox}  />
                 aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
@@ -199,7 +199,7 @@ class Attraction  extends Component {
                 shopping mall: <input type="checkbox" name="shopping_mall" onClick={checkBox} />
                 <button onClick = {matchType}> Filter Now </button>
               </form>
-            </div>
+            </div> */}
 
             <div id="flights-container">
                 {filterItem}
@@ -229,7 +229,7 @@ class Attraction  extends Component {
       return (
 
          <div>
-            <div id="filter-boxes">
+            {/* <div id="filter-boxes">
               <form>
                 amusement park : <input type="checkbox" name="amusement_park" onClick={checkBox} />
                 aquarium : <input type="checkbox" name="aquarium" onClick={checkBox} />
@@ -245,7 +245,7 @@ class Attraction  extends Component {
                 shopping mall: <input type="checkbox" name="shopping_mall" onClick={checkBox} />
                 <button onClick = {matchType}> Filter Now </button>
               </form>
-            </div>
+            </div> */}
 
             <div id="flights-container">
                 {attractionItem}
