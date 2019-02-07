@@ -58,7 +58,7 @@ export class MapContainer extends Component {
                   position={{lat: attraction.latt, lng: attraction.long}}
                   icon={{
                     // url: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Font_Awesome_5_solid_archway.svg',
-                    url: 'http://172.46.0.100:8080/img/step0002.png',
+                    url: 'http://192.168.30.198:8080/img/step0002.png',
                     anchor: new google.maps.Point(32, 32),
                     scaledSize: new google.maps.Size(32, 32)
                   }}
@@ -73,7 +73,7 @@ export class MapContainer extends Component {
                   name={`${event.name} | ${event.rating} Stars | $${event.price}`}
                   position={{lat: event.latt, lng: event.long}}
                   icon={{
-                    url: 'http://172.46.0.100:8080/img/font-awesome_4-7-0_ticket_256_0_007dff_none.png',
+                    url: 'http://192.168.30.198:8080/img/font-awesome_4-7-0_ticket_256_0_007dff_none.png',
                     anchor: new google.maps.Point(32, 32),
                     scaledSize: new google.maps.Size(40, 40)
                   }}
@@ -88,7 +88,7 @@ export class MapContainer extends Component {
                   name={`${hotel.name} | ${hotel.rating} Stars | $${hotel.price}`}
                   position={{lat: hotel.latt, lng: hotel.long}}
                   icon={{
-                    url: 'http://172.46.0.100:8080/img/font-awesome_4-7-0_bed_256_0_007dff_none.png',
+                    url: 'http://192.168.30.198:8080/img/font-awesome_4-7-0_bed_256_0_007dff_none.png',
                     anchor: new google.maps.Point(32, 32),
                     scaledSize: new google.maps.Size(35, 35)
                   }}
