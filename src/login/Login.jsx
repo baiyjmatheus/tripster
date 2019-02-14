@@ -39,7 +39,7 @@ class Login extends Component {
               </header>
               <section id="info-body">
                 <br/>
-                
+
                 <br/>
                 <p>Welcome to Tripster, your one destination for all of your trip planning needs. Finding flights, lodging, attractions and more has never been easier.</p>
                 <p>Here's how to get started:</p>
@@ -52,7 +52,7 @@ class Login extends Component {
                 <h3 className="catchphrase">Travelling together is always better</h3>
               </section>
             </div>
-            
+
             </aside>
 
           </main>
@@ -65,7 +65,7 @@ class Login extends Component {
       name: e.target.name.value,
       email: e.target.email.value
     }
-    axios.post('http://192.168.30.198:8080/login', user)
+    axios.post('http://localhost:8080/login', user)
       .then((res) => {
         const cookies = new Cookies();
         cookies.set('user_id', res.data.id);

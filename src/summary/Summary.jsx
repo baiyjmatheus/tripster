@@ -16,7 +16,7 @@ class Summary extends Component {
   }
 
   componentWillMount() {
-    axios.get(`http://192.168.30.198:8080/trips/${this.props.match.params.trip_id}/summary`)
+    axios.get(`http://localhost:8080/trips/${this.props.match.params.trip_id}/summary`)
       .then(res => {
         const data = res.data;
         this.setState({ data })

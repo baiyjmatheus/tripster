@@ -542,8 +542,7 @@ const getPhoto = (photo_reference_id) => {
         result.id = uuidv4();
         result.socketIds = socketIds;
         if (result.photos){
-
-          const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
+          const resultPhoto = getPhoto(result.photos[0].photo_reference)
            return returnObject(result, type, resultPhoto) //replace result.icon with resultPhoto to get imgs from api
         } else {
            return returnObject(result, type , result.icon)
