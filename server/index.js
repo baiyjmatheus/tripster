@@ -169,7 +169,7 @@ io.on('connection', socket => {
                 address: hotel.formatted_address,
                 latt: hotel.geometry.location.lat,
                 long: hotel.geometry.location.lng,
-                img: hotel.icon,//getPhoto(hotel.photos[0].photo_reference), // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
+                img:getPhoto(hotel.photos[0].photo_reference), // *UNCOMMENT the following and replace hotel.icon with it TO GET PHOTO FROM API  ** *  getPhoto(hotel.photos[0].photo_reference),
                 price:(Math.random()*(2000-200)+200).toFixed(2),
                 socketIds
               }
@@ -224,7 +224,7 @@ io.on('connection', socket => {
           console.log('this is the city :', city)
 
           FindAttractions('point_of_interest', city ,'attractions data')
-          FindAttractions('amusement_park', city,'attractions Data amusement')
+          // FindAttractions('amusement_park', city,'attractions Data amusement')
           // FindAttractions('aquarium', city,'attractions Data aquarium')
           // FindAttractions('art_gallery', city,'attractions Data ArtGallery')
           // FindAttractions('casino', city,'attractions Data Casino')
@@ -544,7 +544,7 @@ const getPhoto = (photo_reference_id) => {
         if (result.photos){
 
           const resultPhoto = getPhoto(result.photos[0].photo_reference)// ***UNCOMMENT THIS OUT TO USE API PHOTO AND CHANGE IN RETURN OBJECT to resultPhoto
-           return returnObject(result, type, result.icon) //replace result.icon with resultPhoto to get imgs from api
+           return returnObject(result, type, resultPhoto) //replace result.icon with resultPhoto to get imgs from api
         } else {
            return returnObject(result, type , result.icon)
         }

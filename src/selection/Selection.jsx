@@ -69,7 +69,7 @@ class Selection extends Component {
       destination: evt.target.destination.value
     }
 
-    axios.post('http://localhost:8080/trips/create', newTrip)
+    axios.post('http://192.168.30.198:8080/trips/create', newTrip)
     .then((res) => {
       // window.location.replace(`http://localhost:3000/#/trips/${res.data.id}`)
       this.setState({ redirect: true, id: res.data.id });;
@@ -81,7 +81,7 @@ class Selection extends Component {
     evt.preventDefault();
     const tripCode = {trip_id: evt.target.code.value} ;
 
-     axios.post(`http://localhost:8080/trips/join`, tripCode ) //should only redirect if trip exists
+     axios.post(`http://192.168.30.198:8080/trips/join`, tripCode ) //should only redirect if trip exists
       .then((res) => {
         if(res.data.exists){
           // window.location.replace(`http://localhost:3000/#/trips/${tripCode.trip_id}`);
