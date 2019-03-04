@@ -26,10 +26,13 @@ Register for the necessary API keys:
 - [Google Maps key](https://cloud.google.com/maps-platform/maps/)
 
 Create a .env within the root folder and add the following:
-`GOOGLE_MAPS_KEY=<your google maps api key>`
+```
+GOOGLE_MAPS_KEY=<your google maps api key>
+```
 
 Create a .env file within `<server>` and add the following:
-`DB_HOST=localhost
+```
+DB_HOST=localhost
 DB_USER=<user>
 DB_PASS=<password>
 DB_NAME=<db name>
@@ -38,7 +41,7 @@ DB_PORT=5432
 GOOGLE_PLACE_KEY=<your google places api key>
 EVENTBRITE_API_TOKEN=<your eventbright api key>
 GEOCODE_KEY=<your geocode key>
-`
+```
 
 Run servers:
 -run `npm start` from root folder
