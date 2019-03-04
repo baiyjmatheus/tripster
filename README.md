@@ -5,6 +5,15 @@ A collaberative, trip planning application which allows you to select flights, h
 
 Uses PostgreSQL, Express, React, NodeJS, Socket.io to create a stress-free trip planning experience with multiple API returning customized options for your selected location and dates.
 
+!["Screenshot of Login page"](https://github.com/baiyjmatheus/tripster/blob/master/Screenshots/loginPage.png)
+
+!["Screenshot of Create/Join trip page"](https://github.com/baiyjmatheus/tripster/blob/master/Screenshots/createTrip.png)
+
+!["Screenshot of Start Page"](https://github.com/baiyjmatheus/tripster/blob/master/Screenshots/start.png)
+
+!["Screenshot of Attractions Selection page"](https://github.com/baiyjmatheus/tripster/blob/master/Screenshots/selections.png)
+
+!["Screenshot of summary page"](https://github.com/baiyjmatheus/tripster/blob/master/Screenshots/summary.png)
 
 ### Getting Started
 
