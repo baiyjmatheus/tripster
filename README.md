@@ -53,6 +53,7 @@ GEOCODE_KEY=<your geocode key>
 ```
 
 Run servers:
+
 -run `npm start` from root folder
 -run `npm start` from server folder
 -open browser and go to localhost:3000
